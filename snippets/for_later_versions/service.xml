@@ -1,0 +1,27 @@
+<entity name="Polygon" local-service="true" remote-service="true">
+		<column name="polygonId" type="long" primary="true" />
+		<column name="color" type="String" />
+		<column name="lineWidth" type="long" />
+		<column name="isFilled" type="int" />
+		
+		<!--references-->
+		<column name="pointId" type="long" />
+		<column name="mapObjectId" type="long" />
+		
+		<finder name="mapObjectId" return-type="Polygon">
+			<finder-column name="groupId" />
+		</finder> 
+	</entity>
+	
+	<entity name="Circle" local-service="true" remote-service="true">
+		<column name="circleId" type="long" primary="true" />
+		<column name="color" type="String" />
+		<column name="radius" type="long" />
+		<!--references-->
+		<column name="pointId" type="long" />
+		<column name="mapObjectId" type="long" />
+		
+		<finder name="mapObjectId" return-type="Circle">
+			<finder-column name="groupId" />
+		</finder> 
+	</entity>

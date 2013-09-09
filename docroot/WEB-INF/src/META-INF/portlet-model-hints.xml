@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="org.politaktiv.map.infrastructure.model.Background">
+		<field name="backgroundId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="userId" type="long" />
+		<field name="name" type="String" />
+		<field name="fileEntryUuid" type="String" />
+	</model>
+	<model name="org.politaktiv.map.infrastructure.model.Marker">
+		<field name="markerId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="userId" type="long" />
+		<field name="name" type="String" />
+		<field name="description" type="String" />
+		<field name="referenceUrl" type="String" />
+		<field name="backgroundId" type="long" />
+		<field name="longitude" type="double" />
+		<field name="latitude" type="double" />
+	</model>
+	<model name="org.politaktiv.map.infrastructure.model.Picture">
+		<field name="pictureId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="userId" type="long" />
+		<field name="name" type="String" />
+		<field name="description" type="String" />
+		<field name="referenceUrl" type="String" />
+		<field name="backgroundId" type="long" />
+		<field name="rotation" type="long" />
+		<field name="width" type="double" />
+		<field name="height" type="double" />
+		<field name="resolution" type="double" />
+		<field name="ocupacy" type="double" />
+		<field name="longitude" type="double" />
+		<field name="latitude" type="double" />
+		<field name="fileEntryUuid" type="String" />
+	</model>
+</model-hints>
