@@ -1,0 +1,3 @@
+dependencies {
+	compile ("politaktiv:politaktiv-infrastructure:0.1")
+}

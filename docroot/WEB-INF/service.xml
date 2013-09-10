@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.1.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_0_0.dtd">
+<service-builder package-path="org.politaktiv.map.infrastructure">
+	<author>eichi</author>
+	<namespace>politaktivmap</namespace>
+
+	<entity name="Background" local-service="true" remote-service="true">
+		<column name="backgroundId" type="long" primary="true" />
+		<column name="companyId" type="long" />	
+		<column name="groupId" type="long" />
+		<column name="userId" type="long" />
+		<column name="name" type="String" />
+
+		
+		<!--references-->
+		<column name="fileEntryUuid" type="String" />
+		
+		<finder name="companyIdAndGroupId" return-type="Collection">
+			<finder-column name="companyId" />
+			<finder-column name="groupId" />
+		</finder> 
+	</entity>
+	
+	<entity name="Marker" local-service="true" remote-service="true">
+		<!-- fields -->
+		<column name="markerId" type="long" primary="true" />
+		<column name="companyId" type="long" />	
+		<column name="groupId" type="long" />
+		<column name="userId" type="long" />
+		<column name="name" type="String" />
+		<column name="description" type="String" />
+		<column name="referenceUrl" type="String" />
+		<column name="backgroundId" type="long" />
+		<column name="longitude" type="double" />
+		<column name="latitude" type="double" />
+		
+		<finder name="backgroundId" return-type="Collection">
+			<finder-column name="backgroundId" />
+		</finder>
+	</entity>
+	
+	<entity name="Picture" local-service="true" remote-service="true">
+		<column name="pictureId" type="long" primary="true" />
+		<column name="companyId" type="long" />	
+		<column name="groupId" type="long" />
+		<column name="userId" type="long" />
+		<column name="name" type="String" />
+		<column name="description" type="String" />
+		<column name="referenceUrl" type="String" />
+		<column name="backgroundId" type="long" />
+		<column name="rotation" type="long" />
+		<column name="width" type="double" />
+		<column name="height" type="double" />
+		<column name="resolution" type="double" />
+		<column name="ocupacy" type="double" />
+		<column name="longitude" type="double" />
+		<column name="latitude" type="double" />
+		
+		<!--references-->
+		<column name="fileEntryUuid" type="String" />
+		
+		<finder name="backgroundId" return-type="Collection">
+			<finder-column name="backgroundId" />
+		</finder>
+		<finder name="name" return-type="Collection">
+			<finder-column name="name" />
+		</finder>
+	</entity>
+</service-builder>

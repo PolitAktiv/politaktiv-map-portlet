@@ -1,0 +1,24 @@
+<% if(permission_for_one_marker_action){ %>	
+	<liferay-ui:toggle-area hideMessage="Hinzufügen/Bearbeiten ausblenden" showMessage="Marker hinzufügen/bearbeiten" defaultShowContent="false" align="buttom">
+			
+		<aui:form name="fm" action="<%= eventHandlerURL %>" method="post">
+			<aui:input type="hidden" id="lon_field" readonly="readonly" name="lonFormInput" label="longitude"/>
+			<aui:input type="hidden" id="lat_field" readonly="readonly" name="latFormInput" label="latidude"/>
+			<aui:input type="hidden" id="markerId" readonly="readonly" name="markerIdFormInput" label="markerId"/>			
+			<aui:fieldset>
+				<aui:column>
+					<aui:input type="text" id="marker_titel" name="markerTitleFormInput" label="Markertitel*"/>
+					<aui:input type="text" id="marker_link" name="markerLinkFormInput" label="Markerlink" value="http://"/> 
+				</aui:column>
+				<aui:column>
+					<aui:input type="text" id="marker_description" name="markerDesciptionFormInput" label="Markerbeschreibung*"/>
+					<aui:select name="markerModiFormInput" title="Markermodus" label="Markeraktion">
+						<aui:option label="neu setzen" style="color:green" first="true" value="set"/>
+						<aui:option label="löschen" style="color:red" last="true" value="remove"/>
+					</aui:select>		
+				</aui:column>
+			</aui:fieldset>
+			<aui:button type="submit" id="save_marker" value="Anwenden"/>
+		</aui:form>
+		</liferay-ui:toggle-area>		
+<% } %>
