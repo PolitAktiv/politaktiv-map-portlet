@@ -1,21 +1,19 @@
-<%
-/**
- * Copyright (c) 2000-2010 Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- **/
-%>
+<%--
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ --%>
 
 <%@ include file="jsp/editInit.jsp" %>
-
+<%@page pageEncoding="UTF-8" %>
 
  <aui:button name="button_show_picture_folder" value="Zeige Bilderordner"/> 
  <aui:script use="aui-dialog,liferay-portlet-url"> 
@@ -54,7 +52,7 @@
 	initMap('<portlet:namespace />', 'edit');
 </aui:script>
 
-1. Neuen Bild für Hintergründe hochladen:
+1. Neuen Bild fÃ¼r HintergrÃ¼nde hochladen:
 <portlet:actionURL name="fileUpload" var="fileUploadURL" />
 <%
    	String fileUploadURLString = fileUploadURL.toString();
@@ -79,7 +77,7 @@
  	<% } %>
  </aui:select>
 	
- Name für Hintergrund: <aui:input type="text" name="background_name" id="background_name" label=""/>
+ Name fÃ¼r Hintergrund: <aui:input type="text" name="background_name" id="background_name" label=""/>
  <aui:button name="button_add_background" value="Hintergrund hinzuf&uuml;gen"/> <br />
 	
 <aui:script use="aui-oi-request">
@@ -105,7 +103,7 @@
 	
 </aui:script>
 			
-3. Hintergrund auswählen und eingestellten Kartenausschnitt speichern:
+3. Hintergrund auswÃ¤hlen und eingestellten Kartenausschnitt speichern:
 <aui:select name="background_id" label="" onchange="javascript:setBackground(backgroundIdToPictureUrlMap[this.value]);">
 	<% for(Background background: backgroundList){ %>
 		<aui:option value='<%=background.getBackgroundId() %>' selected='<%= Long.toString(background.getBackgroundId()).equals(portletPreferences.getValue("background_id", "map"))%>'>
@@ -139,7 +137,7 @@
 	
 </aui:script>
 <br />
-Hintergrund löschen:
+Hintergrund lÃ¶schen:
 <aui:select name="background_id_delete" label="" onchange="javascript:setBackground(backgroundIdToPictureUrlMap[this.value]);">
 	<% for(Background background: backgroundList){ %>
 		<aui:option value='<%=background.getBackgroundId() %>' selected='<%= Long.toString(background.getBackgroundId()).equals(portletPreferences.getValue("background_id", "map"))%>'>
