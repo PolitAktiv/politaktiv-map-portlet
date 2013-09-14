@@ -1,7 +1,0 @@
-
-syntax: glob
-build/*
-gradle/*
-classes/*
-lib/*
-.gradle

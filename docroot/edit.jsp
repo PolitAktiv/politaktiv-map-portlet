@@ -1,4 +1,4 @@
-<%--
+﻿<%--
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
@@ -13,7 +13,6 @@
  --%>
 
 <%@ include file="jsp/editInit.jsp" %>
-<%@page pageEncoding="UTF-8" %>
 
  <aui:button name="button_show_picture_folder" value="Zeige Bilderordner"/> 
  <aui:script use="aui-dialog,liferay-portlet-url"> 
