@@ -16,43 +16,36 @@ package org.politaktiv.map.domain;
 
 import javax.portlet.ValidatorException;
 
-import org.politaktiv.map.infrastructure.service.BackgroundLocalServiceUtil;
-import org.politaktiv.map.infrastructure.service.BackgroundServiceUtil;
-import org.politaktiv.map.infrastructure.service.persistence.BackgroundUtil;
-
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-
+import com.liferay.portal.kernel.util.Validator;
 
 public class MapViewPreferences {
 
 	double lon;
 	double lat;
 	int zoom;
-	long backgroundId;
+	String background;
 	
-	public MapViewPreferences(double lon, double lat, int zoom, long backgroundId){
+	public MapViewPreferences(double lon, double lat, int zoom, String background){
 		
 		this.lon = lon;
 		this.lat = lat;
 		this.zoom = zoom;
-		this.backgroundId = backgroundId;
+		this.background = background;
 		
 	}
 	
-	public void valide() throws ValidatorException, SystemException {
+	public void valide() throws ValidatorException {
 		this.validateLat();
 		this.valideLon();
 		this.validateZoom();
-		this.validateBackgroundId();
+		this.validateBackground();
 	}
 	
-	private void validateBackgroundId() throws ValidatorException {
+	private void validateBackground() throws ValidatorException {
 		
-		try {
-			BackgroundLocalServiceUtil.fetchBackground(this.backgroundId);
-		} catch (SystemException e) {
-			throw new ValidatorException("background-does-not-exist", null);
+		if(!(this.background == "map" ||
+				Validator.isUrl(this.background))){
+			throw new ValidatorException("wrongBackground", null);
 		}
 	}
 	
@@ -97,8 +90,8 @@ public class MapViewPreferences {
 	public int getZoom() {
 		return this.zoom;
 	}
-	public long getBackgroundId(){
-		return this.backgroundId;
+	public String getBackground(){
+		return this.background;
 	}
 	
 	

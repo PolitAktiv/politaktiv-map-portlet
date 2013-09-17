@@ -7,8 +7,9 @@
 		<icon>/icon.png</icon>
 		<instanceable>true</instanceable>
 		<header-portlet-css>/css/main.css</header-portlet-css>
-		<header-portlet-javascript>/js/OpenLayers-2-12.js</header-portlet-javascript>
+		<header-portlet-javascript>http://www.openlayers.org/api/OpenLayers.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/map.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/editViewMap.js</header-portlet-javascript>
 		<css-class-wrapper>politaktiv-map-portlet</css-class-wrapper>
 	</portlet>
 	<role-mapper>

@@ -1,15 +1,17 @@
 <%--
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+/**
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *        
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
  --%>
 
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
@@ -28,9 +30,9 @@
 <aui:form>
 	<aui:input name="form_input_lon" type="hidden" value='<%= HtmlUtil.escape(request.getParameter("lon")) %>' />
 	<aui:input name="form_input_lat" type="hidden" value='<%= HtmlUtil.escape(request.getParameter("lat")) %>' />
-	<aui:input name="form_input_name" type="text" label="Markertitel*" style="width: 100px" />	
-	<aui:input name="form_input_description" type="text" label="Beschreibung*" style="width: 450px" />
-	<aui:input name="form_input_link" type="text" label="Link*" value="http://" style="width: 450px" />
+	<aui:input name="form_input_name" type="text" label="Markertitel*"/>
+	<aui:input name="form_input_description" type="text" label="Beschreibung*"/>
+	<aui:input name="form_input_link" type="text" label="Link*" value="http://" />
 	<aui:button name="button_add_marker" type="button" value="Speichern" />
 </aui:form>
 
@@ -47,7 +49,8 @@
 						method: 'POST',
                         dataType: 'json',
                         data: {
-                        		action: 'addMarker',
+                        		action: 'add',
+                        		type: 'marker',
                             	lon : input_lon,
                             	lat : input_lat,
                             	name : input_name,
@@ -63,29 +66,23 @@
                             			A.DialogMask.hide();
                             			A.one('#<portlet:namespace />dialog_add_marker').hide();
                             			
-										var html = 'Von ' + '<%= user.getFullName() %>:' + '<br />'
-													+ '<h2>' + input_name + '</h2>' + input_description + '<br />'
-													+ '<a href="' + input_link + '" target="_blank">Link</a>';
-		
 <!--                             								result == markerId -->
                             			addMarkerToDatabaseLayer(result,
 											input_lon,
 											input_lat,
 											'<%= user.getFullName() %>',
 											true,
-											html,
+											input_name,
+											input_description,
+											input_link,
 											'<portlet:namespace />');
-											
-										hideAllActionControls();
-										setButton("button_fix_marker", "disable", namespace);
-										A.one('#<portlet:namespace />button-do-marker').show();
-										A.one('#<portlet:namespace />button-do-image').show();
-										addMarkersView.setVisibility(false);
                             		}
                             	}
                         }
                     });
      });
+     
+     A.one('#<portlet:namespace />button_add_marker');
 </aui:script>
 
 
