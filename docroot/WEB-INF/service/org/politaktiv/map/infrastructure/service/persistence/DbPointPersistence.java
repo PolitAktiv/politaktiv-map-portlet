@@ -14,8 +14,13 @@
 
 package org.politaktiv.map.infrastructure.service.persistence;
 
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.service.persistence.BasePersistence;
 
+import org.politaktiv.map.infrastructure.NoSuchDbPointException;
 import org.politaktiv.map.infrastructure.model.DbPoint;
 
 /**
@@ -43,7 +48,7 @@ public interface DbPointPersistence extends BasePersistence<DbPoint> {
 	* @param dbPoint the db point
 	*/
 	public void cacheResult(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint);
+		DbPoint dbPoint);
 
 	/**
 	* Caches the db points in the entity cache if it is enabled.
@@ -51,7 +56,7 @@ public interface DbPointPersistence extends BasePersistence<DbPoint> {
 	* @param dbPoints the db points
 	*/
 	public void cacheResult(
-		java.util.List<org.politaktiv.map.infrastructure.model.DbPoint> dbPoints);
+		List<DbPoint> dbPoints);
 
 	/**
 	* Creates a new db point with the primary key. Does not add the db point to the database.
@@ -59,36 +64,36 @@ public interface DbPointPersistence extends BasePersistence<DbPoint> {
 	* @param pointId the primary key for the new db point
 	* @return the new db point
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint create(long pointId);
+	public DbPoint create(long pointId);
 
 	/**
 	* Removes the db point with the primary key from the database. Also notifies the appropriate model listeners.
 	*
 	* @param pointId the primary key of the db point
 	* @return the db point that was removed
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbPointException if a db point with the primary key could not be found
+	* @throws NoSuchDbPointException if a db point with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint remove(long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbPointException;
+	public DbPoint remove(long pointId)
+		throws SystemException,
+			NoSuchDbPointException;
 
-	public org.politaktiv.map.infrastructure.model.DbPoint updateImpl(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint, boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public DbPoint updateImpl(
+		DbPoint dbPoint, boolean merge)
+		throws SystemException;
 
 	/**
-	* Returns the db point with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchDbPointException} if it could not be found.
+	* Returns the db point with the primary key or throws a {@link NoSuchDbPointException} if it could not be found.
 	*
 	* @param pointId the primary key of the db point
 	* @return the db point
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbPointException if a db point with the primary key could not be found
+	* @throws NoSuchDbPointException if a db point with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint findByPrimaryKey(
+	public DbPoint findByPrimaryKey(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbPointException;
+		throws SystemException,
+			NoSuchDbPointException;
 
 	/**
 	* Returns the db point with the primary key or returns <code>null</code> if it could not be found.
@@ -97,22 +102,22 @@ public interface DbPointPersistence extends BasePersistence<DbPoint> {
 	* @return the db point, or <code>null</code> if a db point with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint fetchByPrimaryKey(
+	public DbPoint fetchByPrimaryKey(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
-	* Returns the db point where pointId = &#63; or throws a {@link org.politaktiv.map.infrastructure.NoSuchDbPointException} if it could not be found.
+	* Returns the db point where pointId = &#63; or throws a {@link NoSuchDbPointException} if it could not be found.
 	*
 	* @param pointId the point ID
 	* @return the matching db point
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbPointException if a matching db point could not be found
+	* @throws NoSuchDbPointException if a matching db point could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint findBypointId(
+	public DbPoint findBypointId(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbPointException;
+		throws SystemException,
+			NoSuchDbPointException;
 
 	/**
 	* Returns the db point where pointId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
@@ -121,9 +126,9 @@ public interface DbPointPersistence extends BasePersistence<DbPoint> {
 	* @return the matching db point, or <code>null</code> if a matching db point could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint fetchBypointId(
+	public DbPoint fetchBypointId(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the db point where pointId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
@@ -133,9 +138,9 @@ public interface DbPointPersistence extends BasePersistence<DbPoint> {
 	* @return the matching db point, or <code>null</code> if a matching db point could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint fetchBypointId(
+	public DbPoint fetchBypointId(
 		long pointId, boolean retrieveFromCache)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns all the db points.
@@ -143,8 +148,8 @@ public interface DbPointPersistence extends BasePersistence<DbPoint> {
 	* @return the db points
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbPoint> findAll()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public List<DbPoint> findAll()
+		throws SystemException;
 
 	/**
 	* Returns a range of all the db points.
@@ -158,9 +163,9 @@ public interface DbPointPersistence extends BasePersistence<DbPoint> {
 	* @return the range of db points
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbPoint> findAll(
+	public List<DbPoint> findAll(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns an ordered range of all the db points.
@@ -175,10 +180,10 @@ public interface DbPointPersistence extends BasePersistence<DbPoint> {
 	* @return the ordered range of db points
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbPoint> findAll(
+	public List<DbPoint> findAll(
 		int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		OrderByComparator orderByComparator)
+		throws SystemException;
 
 	/**
 	* Removes the db point where pointId = &#63; from the database.
@@ -187,8 +192,8 @@ public interface DbPointPersistence extends BasePersistence<DbPoint> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public void removeBypointId(long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbPointException;
+		throws SystemException,
+			NoSuchDbPointException;
 
 	/**
 	* Removes all the db points from the database.
@@ -196,7 +201,7 @@ public interface DbPointPersistence extends BasePersistence<DbPoint> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public void removeAll()
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the number of db points where pointId = &#63;.
@@ -206,7 +211,7 @@ public interface DbPointPersistence extends BasePersistence<DbPoint> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public int countBypointId(long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the number of db points.
@@ -215,5 +220,5 @@ public interface DbPointPersistence extends BasePersistence<DbPoint> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public int countAll()
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 }

@@ -14,6 +14,11 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import java.util.List;
+
+import org.politaktiv.map.infrastructure.model.DbMapObject;
+
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.service.ServiceWrapper;
 
 /**
@@ -31,9 +36,9 @@ public class DbMapObjectServiceWrapper implements DbMapObjectService,
 		_dbMapObjectService = dbMapObjectService;
 	}
 
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> getAllDbMapObjectsFromCompanyIdAndGroupId(
+	public List<DbMapObject> getAllDbMapObjectsFromCompanyIdAndGroupId(
 		long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return _dbMapObjectService.getAllDbMapObjectsFromCompanyIdAndGroupId(companyId,
 			groupId);
 	}

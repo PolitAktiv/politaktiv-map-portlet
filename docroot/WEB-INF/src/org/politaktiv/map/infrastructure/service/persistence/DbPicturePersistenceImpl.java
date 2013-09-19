@@ -41,6 +41,7 @@ import com.liferay.portal.service.persistence.BatchSessionUtil;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.util.service.ServiceProps;
 
 import org.politaktiv.map.infrastructure.NoSuchDbPictureException;
 import org.politaktiv.map.infrastructure.model.DbPicture;
@@ -279,9 +280,8 @@ public class DbPicturePersistenceImpl extends BasePersistenceImpl<DbPicture>
 	}
 
 	@Override
-	public DbPicture updateImpl(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture,
-		boolean merge) throws SystemException {
+	public DbPicture updateImpl(DbPicture dbPicture,boolean merge) 
+		throws SystemException {
 		dbPicture = toUnwrappedModel(dbPicture);
 
 		boolean isNew = dbPicture.isNew();
@@ -820,7 +820,7 @@ public class DbPicturePersistenceImpl extends BasePersistenceImpl<DbPicture>
 	 */
 	public void afterPropertiesSet() {
 		String[] listenerClassNames = StringUtil.split(GetterUtil.getString(
-					com.liferay.util.service.ServiceProps.get(
+					ServiceProps.get(
 						"value.object.listener.org.politaktiv.map.infrastructure.model.DbPicture")));
 
 		if (listenerClassNames.length > 0) {

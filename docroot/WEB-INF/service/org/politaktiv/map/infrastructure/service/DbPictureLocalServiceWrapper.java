@@ -14,6 +14,16 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import java.io.Serializable;
+import java.util.List;
+
+import org.politaktiv.map.infrastructure.model.DbPicture;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.model.PersistedModel;
 import com.liferay.portal.service.ServiceWrapper;
 
 /**
@@ -39,9 +49,9 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	* @return the db picture that was added
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPicture addDbPicture(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbPicture addDbPicture(
+		DbPicture dbPicture)
+		throws SystemException {
 		return _dbPictureLocalService.addDbPicture(dbPicture);
 	}
 
@@ -51,7 +61,7 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	* @param pictureId the primary key for the new db picture
 	* @return the new db picture
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPicture createDbPicture(
+	public DbPicture createDbPicture(
 		long pictureId) {
 		return _dbPictureLocalService.createDbPicture(pictureId);
 	}
@@ -64,8 +74,8 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteDbPicture(long pictureId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		_dbPictureLocalService.deleteDbPicture(pictureId);
 	}
 
@@ -76,8 +86,8 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteDbPicture(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		DbPicture dbPicture)
+		throws SystemException {
 		_dbPictureLocalService.deleteDbPicture(dbPicture);
 	}
 
@@ -89,9 +99,9 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery)
+		throws SystemException {
 		return _dbPictureLocalService.dynamicQuery(dynamicQuery);
 	}
 
@@ -109,9 +119,9 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
+		int end) throws SystemException {
 		return _dbPictureLocalService.dynamicQuery(dynamicQuery, start, end);
 	}
 
@@ -130,11 +140,11 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
 		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		OrderByComparator orderByComparator)
+		throws SystemException {
 		return _dbPictureLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
 	}
@@ -147,14 +157,14 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		DynamicQuery dynamicQuery)
+		throws SystemException {
 		return _dbPictureLocalService.dynamicQueryCount(dynamicQuery);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPicture fetchDbPicture(
+	public DbPicture fetchDbPicture(
 		long pictureId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return _dbPictureLocalService.fetchDbPicture(pictureId);
 	}
 
@@ -166,17 +176,17 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	* @throws PortalException if a db picture with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPicture getDbPicture(
+	public DbPicture getDbPicture(
 		long pictureId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		return _dbPictureLocalService.getDbPicture(pictureId);
 	}
 
-	public com.liferay.portal.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+	public PersistedModel getPersistedModel(
+		Serializable primaryKeyObj)
+		throws PortalException,
+			SystemException {
 		return _dbPictureLocalService.getPersistedModel(primaryKeyObj);
 	}
 
@@ -192,9 +202,9 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	* @return the range of db pictures
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbPicture> getDbPictures(
+	public List<DbPicture> getDbPictures(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return _dbPictureLocalService.getDbPictures(start, end);
 	}
 
@@ -205,7 +215,7 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	public int getDbPicturesCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return _dbPictureLocalService.getDbPicturesCount();
 	}
 
@@ -216,9 +226,9 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	* @return the db picture that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPicture updateDbPicture(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbPicture updateDbPicture(
+		DbPicture dbPicture)
+		throws SystemException {
 		return _dbPictureLocalService.updateDbPicture(dbPicture);
 	}
 
@@ -230,10 +240,10 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	* @return the db picture that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPicture updateDbPicture(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture,
+	public DbPicture updateDbPicture(
+		DbPicture dbPicture,
 		boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return _dbPictureLocalService.updateDbPicture(dbPicture, merge);
 	}
 
@@ -242,7 +252,7 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	*
 	* @return the Spring bean ID for this bean
 	*/
-	public java.lang.String getBeanIdentifier() {
+	public String getBeanIdentifier() {
 		return _dbPictureLocalService.getBeanIdentifier();
 	}
 
@@ -251,7 +261,7 @@ public class DbPictureLocalServiceWrapper implements DbPictureLocalService,
 	*
 	* @param beanIdentifier the Spring bean ID for this bean
 	*/
-	public void setBeanIdentifier(java.lang.String beanIdentifier) {
+	public void setBeanIdentifier(String beanIdentifier) {
 		_dbPictureLocalService.setBeanIdentifier(beanIdentifier);
 	}
 

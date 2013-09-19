@@ -21,7 +21,9 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
 import com.liferay.portal.service.ServiceContext;
 
+import org.politaktiv.map.infrastructure.NoSuchDbMarkerException;
 import org.politaktiv.map.infrastructure.model.DbMarker;
+import org.politaktiv.map.infrastructure.service.ClpSerializer;
 
 import java.util.List;
 
@@ -116,7 +118,7 @@ public class DbMarkerUtil {
 	* @param dbMarker the db marker
 	*/
 	public static void cacheResult(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker) {
+		DbMarker dbMarker) {
 		getPersistence().cacheResult(dbMarker);
 	}
 
@@ -126,7 +128,7 @@ public class DbMarkerUtil {
 	* @param dbMarkers the db markers
 	*/
 	public static void cacheResult(
-		java.util.List<org.politaktiv.map.infrastructure.model.DbMarker> dbMarkers) {
+		List<DbMarker> dbMarkers) {
 		getPersistence().cacheResult(dbMarkers);
 	}
 
@@ -136,7 +138,7 @@ public class DbMarkerUtil {
 	* @param markerId the primary key for the new db marker
 	* @return the new db marker
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMarker create(
+	public static DbMarker create(
 		long markerId) {
 		return getPersistence().create(markerId);
 	}
@@ -149,16 +151,16 @@ public class DbMarkerUtil {
 	* @throws org.politaktiv.map.infrastructure.NoSuchDbMarkerException if a db marker with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMarker remove(
+	public static DbMarker remove(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMarkerException {
+		throws SystemException,
+			NoSuchDbMarkerException {
 		return getPersistence().remove(markerId);
 	}
 
-	public static org.politaktiv.map.infrastructure.model.DbMarker updateImpl(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker, boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static DbMarker updateImpl(
+		DbMarker dbMarker, boolean merge)
+		throws SystemException {
 		return getPersistence().updateImpl(dbMarker, merge);
 	}
 
@@ -170,10 +172,10 @@ public class DbMarkerUtil {
 	* @throws org.politaktiv.map.infrastructure.NoSuchDbMarkerException if a db marker with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMarker findByPrimaryKey(
+	public static DbMarker findByPrimaryKey(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMarkerException {
+		throws SystemException,
+			NoSuchDbMarkerException {
 		return getPersistence().findByPrimaryKey(markerId);
 	}
 
@@ -184,9 +186,9 @@ public class DbMarkerUtil {
 	* @return the db marker, or <code>null</code> if a db marker with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMarker fetchByPrimaryKey(
+	public static DbMarker fetchByPrimaryKey(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().fetchByPrimaryKey(markerId);
 	}
 
@@ -198,10 +200,10 @@ public class DbMarkerUtil {
 	* @throws org.politaktiv.map.infrastructure.NoSuchDbMarkerException if a matching db marker could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMarker findBymarkerId(
+	public static DbMarker findBymarkerId(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMarkerException {
+		throws SystemException,
+			NoSuchDbMarkerException {
 		return getPersistence().findBymarkerId(markerId);
 	}
 
@@ -212,9 +214,9 @@ public class DbMarkerUtil {
 	* @return the matching db marker, or <code>null</code> if a matching db marker could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMarker fetchBymarkerId(
+	public static DbMarker fetchBymarkerId(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().fetchBymarkerId(markerId);
 	}
 
@@ -226,9 +228,9 @@ public class DbMarkerUtil {
 	* @return the matching db marker, or <code>null</code> if a matching db marker could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMarker fetchBymarkerId(
+	public static DbMarker fetchBymarkerId(
 		long markerId, boolean retrieveFromCache)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().fetchBymarkerId(markerId, retrieveFromCache);
 	}
 
@@ -238,8 +240,8 @@ public class DbMarkerUtil {
 	* @return the db markers
 	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<org.politaktiv.map.infrastructure.model.DbMarker> findAll()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<DbMarker> findAll()
+		throws SystemException {
 		return getPersistence().findAll();
 	}
 
@@ -255,9 +257,9 @@ public class DbMarkerUtil {
 	* @return the range of db markers
 	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<org.politaktiv.map.infrastructure.model.DbMarker> findAll(
+	public static List<DbMarker> findAll(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().findAll(start, end);
 	}
 
@@ -274,10 +276,10 @@ public class DbMarkerUtil {
 	* @return the ordered range of db markers
 	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<org.politaktiv.map.infrastructure.model.DbMarker> findAll(
+	public static List<DbMarker> findAll(
 		int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		OrderByComparator orderByComparator)
+		throws SystemException {
 		return getPersistence().findAll(start, end, orderByComparator);
 	}
 
@@ -288,8 +290,8 @@ public class DbMarkerUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeBymarkerId(long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMarkerException {
+		throws SystemException,
+			NoSuchDbMarkerException {
 		getPersistence().removeBymarkerId(markerId);
 	}
 
@@ -299,7 +301,7 @@ public class DbMarkerUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeAll()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		getPersistence().removeAll();
 	}
 
@@ -311,7 +313,7 @@ public class DbMarkerUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static int countBymarkerId(long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().countBymarkerId(markerId);
 	}
 
@@ -322,13 +324,13 @@ public class DbMarkerUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static int countAll()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().countAll();
 	}
 
 	public static DbMarkerPersistence getPersistence() {
 		if (_persistence == null) {
-			_persistence = (DbMarkerPersistence)PortletBeanLocatorUtil.locate(org.politaktiv.map.infrastructure.service.ClpSerializer.getServletContextName(),
+			_persistence = (DbMarkerPersistence)PortletBeanLocatorUtil.locate(ClpSerializer.getServletContextName(),
 					DbMarkerPersistence.class.getName());
 
 			ReferenceRegistry.registerReference(DbMarkerUtil.class,

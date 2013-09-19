@@ -14,9 +14,21 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import java.io.Serializable;
+import java.util.List;
+
+import org.politaktiv.map.infrastructure.model.DbPicture;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.ClassLoaderProxy;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.model.PersistedModel;
+
+
 
 /**
  * @author eichi
@@ -27,7 +39,7 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 
 		_addDbPictureMethodKey0 = new MethodKey(_classLoaderProxy.getClassName(),
 				"addDbPicture",
-				org.politaktiv.map.infrastructure.model.DbPicture.class);
+				DbPicture.class);
 
 		_createDbPictureMethodKey1 = new MethodKey(_classLoaderProxy.getClassName(),
 				"createDbPicture", long.class);
@@ -37,26 +49,26 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 
 		_deleteDbPictureMethodKey3 = new MethodKey(_classLoaderProxy.getClassName(),
 				"deleteDbPicture",
-				org.politaktiv.map.infrastructure.model.DbPicture.class);
+				DbPicture.class);
 
 		_dynamicQueryMethodKey4 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQuery",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class);
+				DynamicQuery.class);
 
 		_dynamicQueryMethodKey5 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQuery",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class,
+				DynamicQuery.class,
 				int.class, int.class);
 
 		_dynamicQueryMethodKey6 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQuery",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class,
+				DynamicQuery.class,
 				int.class, int.class,
-				com.liferay.portal.kernel.util.OrderByComparator.class);
+				OrderByComparator.class);
 
 		_dynamicQueryCountMethodKey7 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQueryCount",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class);
+				DynamicQuery.class);
 
 		_fetchDbPictureMethodKey8 = new MethodKey(_classLoaderProxy.getClassName(),
 				"fetchDbPicture", long.class);
@@ -65,7 +77,7 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 				"getDbPicture", long.class);
 
 		_getPersistedModelMethodKey10 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getPersistedModel", java.io.Serializable.class);
+				"getPersistedModel", Serializable.class);
 
 		_getDbPicturesMethodKey11 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getDbPictures", int.class, int.class);
@@ -75,23 +87,23 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 
 		_updateDbPictureMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateDbPicture",
-				org.politaktiv.map.infrastructure.model.DbPicture.class);
+				DbPicture.class);
 
 		_updateDbPictureMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateDbPicture",
-				org.politaktiv.map.infrastructure.model.DbPicture.class,
+				DbPicture.class,
 				boolean.class);
 
 		_getBeanIdentifierMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getBeanIdentifier");
 
 		_setBeanIdentifierMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
-				"setBeanIdentifier", java.lang.String.class);
+				"setBeanIdentifier", String.class);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPicture addDbPicture(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbPicture addDbPicture(
+		DbPicture dbPicture)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_addDbPictureMethodKey0,
@@ -101,8 +113,8 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -114,10 +126,10 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbPicture)ClpSerializer.translateOutput(returnObj);
+		return (DbPicture)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPicture createDbPicture(
+	public DbPicture createDbPicture(
 		long pictureId) {
 		Object returnObj = null;
 
@@ -137,12 +149,12 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbPicture)ClpSerializer.translateOutput(returnObj);
+		return (DbPicture)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public void deleteDbPicture(long pictureId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		MethodHandler methodHandler = new MethodHandler(_deleteDbPictureMethodKey2,
 				pictureId);
 
@@ -150,12 +162,12 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			_classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
-				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			if (t instanceof PortalException) {
+				throw (PortalException)t;
 			}
 
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -169,8 +181,8 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 	}
 
 	public void deleteDbPicture(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		DbPicture dbPicture)
+		throws SystemException {
 		MethodHandler methodHandler = new MethodHandler(_deleteDbPictureMethodKey3,
 				ClpSerializer.translateInput(dbPicture));
 
@@ -178,8 +190,8 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			_classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -193,9 +205,9 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryMethodKey4,
@@ -205,8 +217,8 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -218,13 +230,13 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (List)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
+		int end) throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryMethodKey5,
@@ -234,8 +246,8 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -247,15 +259,15 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (List)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
 		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		OrderByComparator orderByComparator)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryMethodKey6,
@@ -266,8 +278,8 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -279,12 +291,12 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (List)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		DynamicQuery dynamicQuery)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryCountMethodKey7,
@@ -294,8 +306,8 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -310,9 +322,9 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 		return ((Long)returnObj).longValue();
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPicture fetchDbPicture(
+	public DbPicture fetchDbPicture(
 		long pictureId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_fetchDbPictureMethodKey8,
@@ -322,8 +334,8 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -335,13 +347,13 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbPicture)ClpSerializer.translateOutput(returnObj);
+		return (DbPicture)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPicture getDbPicture(
+	public DbPicture getDbPicture(
 		long pictureId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getDbPictureMethodKey9,
@@ -351,12 +363,12 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
-				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			if (t instanceof PortalException) {
+				throw (PortalException)t;
 			}
 
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -368,13 +380,13 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbPicture)ClpSerializer.translateOutput(returnObj);
+		return (DbPicture)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public com.liferay.portal.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+	public PersistedModel getPersistedModel(
+		Serializable primaryKeyObj)
+		throws PortalException,
+			SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getPersistedModelMethodKey10,
@@ -384,12 +396,12 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
-				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			if (t instanceof PortalException) {
+				throw (PortalException)t;
 			}
 
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -401,12 +413,12 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			}
 		}
 
-		return (com.liferay.portal.model.PersistedModel)ClpSerializer.translateOutput(returnObj);
+		return (PersistedModel)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbPicture> getDbPictures(
+	public List<DbPicture> getDbPictures(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getDbPicturesMethodKey11,
@@ -416,8 +428,8 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -429,11 +441,11 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			}
 		}
 
-		return (java.util.List<org.politaktiv.map.infrastructure.model.DbPicture>)ClpSerializer.translateOutput(returnObj);
+		return (List<DbPicture>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public int getDbPicturesCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getDbPicturesCountMethodKey12);
@@ -442,8 +454,8 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -458,9 +470,9 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 		return ((Integer)returnObj).intValue();
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPicture updateDbPicture(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbPicture updateDbPicture(
+		DbPicture dbPicture)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_updateDbPictureMethodKey13,
@@ -470,8 +482,8 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -483,13 +495,13 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbPicture)ClpSerializer.translateOutput(returnObj);
+		return (DbPicture)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPicture updateDbPicture(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture,
+	public DbPicture updateDbPicture(
+		DbPicture dbPicture,
 		boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_updateDbPictureMethodKey14,
@@ -499,8 +511,8 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -512,10 +524,10 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbPicture)ClpSerializer.translateOutput(returnObj);
+		return (DbPicture)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public java.lang.String getBeanIdentifier() {
+	public String getBeanIdentifier() {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getBeanIdentifierMethodKey15);
@@ -533,10 +545,10 @@ public class DbPictureLocalServiceClp implements DbPictureLocalService {
 			}
 		}
 
-		return (java.lang.String)ClpSerializer.translateOutput(returnObj);
+		return (String)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public void setBeanIdentifier(java.lang.String beanIdentifier) {
+	public void setBeanIdentifier(String beanIdentifier) {
 		MethodHandler methodHandler = new MethodHandler(_setBeanIdentifierMethodKey16,
 				ClpSerializer.translateInput(beanIdentifier));
 

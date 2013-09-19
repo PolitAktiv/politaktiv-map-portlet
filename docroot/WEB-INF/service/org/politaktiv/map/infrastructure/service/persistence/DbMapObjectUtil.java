@@ -21,7 +21,9 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
 import com.liferay.portal.service.ServiceContext;
 
+import org.politaktiv.map.infrastructure.NoSuchDbMapObjectException;
 import org.politaktiv.map.infrastructure.model.DbMapObject;
+import org.politaktiv.map.infrastructure.service.ClpSerializer;
 
 import java.util.List;
 
@@ -116,7 +118,7 @@ public class DbMapObjectUtil {
 	* @param dbMapObject the db map object
 	*/
 	public static void cacheResult(
-		org.politaktiv.map.infrastructure.model.DbMapObject dbMapObject) {
+		DbMapObject dbMapObject) {
 		getPersistence().cacheResult(dbMapObject);
 	}
 
@@ -126,7 +128,7 @@ public class DbMapObjectUtil {
 	* @param dbMapObjects the db map objects
 	*/
 	public static void cacheResult(
-		java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> dbMapObjects) {
+		List<DbMapObject> dbMapObjects) {
 		getPersistence().cacheResult(dbMapObjects);
 	}
 
@@ -136,7 +138,7 @@ public class DbMapObjectUtil {
 	* @param mapObjectId the primary key for the new db map object
 	* @return the new db map object
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMapObject create(
+	public static DbMapObject create(
 		long mapObjectId) {
 		return getPersistence().create(mapObjectId);
 	}
@@ -146,35 +148,35 @@ public class DbMapObjectUtil {
 	*
 	* @param mapObjectId the primary key of the db map object
 	* @return the db map object that was removed
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbMapObjectException if a db map object with the primary key could not be found
+	* @throws NoSuchDbMapObjectException if a db map object with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMapObject remove(
+	public static DbMapObject remove(
 		long mapObjectId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMapObjectException {
+		throws SystemException,
+			NoSuchDbMapObjectException {
 		return getPersistence().remove(mapObjectId);
 	}
 
-	public static org.politaktiv.map.infrastructure.model.DbMapObject updateImpl(
-		org.politaktiv.map.infrastructure.model.DbMapObject dbMapObject,
+	public static DbMapObject updateImpl(
+		DbMapObject dbMapObject,
 		boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().updateImpl(dbMapObject, merge);
 	}
 
 	/**
-	* Returns the db map object with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchDbMapObjectException} if it could not be found.
+	* Returns the db map object with the primary key or throws a {@link NoSuchDbMapObjectException} if it could not be found.
 	*
 	* @param mapObjectId the primary key of the db map object
 	* @return the db map object
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbMapObjectException if a db map object with the primary key could not be found
+	* @throws NoSuchDbMapObjectException if a db map object with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMapObject findByPrimaryKey(
+	public static DbMapObject findByPrimaryKey(
 		long mapObjectId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMapObjectException {
+		throws SystemException,
+			NoSuchDbMapObjectException {
 		return getPersistence().findByPrimaryKey(mapObjectId);
 	}
 
@@ -185,9 +187,9 @@ public class DbMapObjectUtil {
 	* @return the db map object, or <code>null</code> if a db map object with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMapObject fetchByPrimaryKey(
+	public static DbMapObject fetchByPrimaryKey(
 		long mapObjectId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().fetchByPrimaryKey(mapObjectId);
 	}
 
@@ -199,9 +201,9 @@ public class DbMapObjectUtil {
 	* @return the matching db map objects
 	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> findBycompanyIdAndgroupId(
+	public static List<DbMapObject> findBycompanyIdAndgroupId(
 		long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().findBycompanyIdAndgroupId(companyId, groupId);
 	}
 
@@ -219,9 +221,9 @@ public class DbMapObjectUtil {
 	* @return the range of matching db map objects
 	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> findBycompanyIdAndgroupId(
+	public static List<DbMapObject> findBycompanyIdAndgroupId(
 		long companyId, long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence()
 				   .findBycompanyIdAndgroupId(companyId, groupId, start, end);
 	}
@@ -241,10 +243,10 @@ public class DbMapObjectUtil {
 	* @return the ordered range of matching db map objects
 	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> findBycompanyIdAndgroupId(
+	public static List<DbMapObject> findBycompanyIdAndgroupId(
 		long companyId, long groupId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		OrderByComparator orderByComparator)
+		throws SystemException {
 		return getPersistence()
 				   .findBycompanyIdAndgroupId(companyId, groupId, start, end,
 			orderByComparator);
@@ -261,14 +263,14 @@ public class DbMapObjectUtil {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching db map object
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbMapObjectException if a matching db map object could not be found
+	* @throws NoSuchDbMapObjectException if a matching db map object could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMapObject findBycompanyIdAndgroupId_First(
+	public static DbMapObject findBycompanyIdAndgroupId_First(
 		long companyId, long groupId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMapObjectException {
+		OrderByComparator orderByComparator)
+		throws SystemException,
+			NoSuchDbMapObjectException {
 		return getPersistence()
 				   .findBycompanyIdAndgroupId_First(companyId, groupId,
 			orderByComparator);
@@ -285,14 +287,14 @@ public class DbMapObjectUtil {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching db map object
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbMapObjectException if a matching db map object could not be found
+	* @throws NoSuchDbMapObjectException if a matching db map object could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMapObject findBycompanyIdAndgroupId_Last(
+	public static DbMapObject findBycompanyIdAndgroupId_Last(
 		long companyId, long groupId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMapObjectException {
+		OrderByComparator orderByComparator)
+		throws SystemException,
+			NoSuchDbMapObjectException {
 		return getPersistence()
 				   .findBycompanyIdAndgroupId_Last(companyId, groupId,
 			orderByComparator);
@@ -310,14 +312,14 @@ public class DbMapObjectUtil {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next db map object
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbMapObjectException if a db map object with the primary key could not be found
+	* @throws NoSuchDbMapObjectException if a db map object with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbMapObject[] findBycompanyIdAndgroupId_PrevAndNext(
+	public static DbMapObject[] findBycompanyIdAndgroupId_PrevAndNext(
 		long mapObjectId, long companyId, long groupId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMapObjectException {
+		OrderByComparator orderByComparator)
+		throws SystemException,
+			NoSuchDbMapObjectException {
 		return getPersistence()
 				   .findBycompanyIdAndgroupId_PrevAndNext(mapObjectId,
 			companyId, groupId, orderByComparator);
@@ -329,8 +331,8 @@ public class DbMapObjectUtil {
 	* @return the db map objects
 	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> findAll()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<DbMapObject> findAll()
+		throws SystemException {
 		return getPersistence().findAll();
 	}
 
@@ -346,9 +348,9 @@ public class DbMapObjectUtil {
 	* @return the range of db map objects
 	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> findAll(
+	public static List<DbMapObject> findAll(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().findAll(start, end);
 	}
 
@@ -365,10 +367,10 @@ public class DbMapObjectUtil {
 	* @return the ordered range of db map objects
 	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> findAll(
+	public static List<DbMapObject> findAll(
 		int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		OrderByComparator orderByComparator)
+		throws SystemException {
 		return getPersistence().findAll(start, end, orderByComparator);
 	}
 
@@ -380,7 +382,7 @@ public class DbMapObjectUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeBycompanyIdAndgroupId(long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		getPersistence().removeBycompanyIdAndgroupId(companyId, groupId);
 	}
 
@@ -390,7 +392,7 @@ public class DbMapObjectUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeAll()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		getPersistence().removeAll();
 	}
 
@@ -403,7 +405,7 @@ public class DbMapObjectUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static int countBycompanyIdAndgroupId(long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().countBycompanyIdAndgroupId(companyId, groupId);
 	}
 
@@ -414,13 +416,13 @@ public class DbMapObjectUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static int countAll()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().countAll();
 	}
 
 	public static DbMapObjectPersistence getPersistence() {
 		if (_persistence == null) {
-			_persistence = (DbMapObjectPersistence)PortletBeanLocatorUtil.locate(org.politaktiv.map.infrastructure.service.ClpSerializer.getServletContextName(),
+			_persistence = (DbMapObjectPersistence)PortletBeanLocatorUtil.locate(ClpSerializer.getServletContextName(),
 					DbMapObjectPersistence.class.getName());
 
 			ReferenceRegistry.registerReference(DbMapObjectUtil.class,

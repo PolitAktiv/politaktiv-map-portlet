@@ -14,9 +14,19 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import java.io.Serializable;
+import java.util.List;
+
+import org.politaktiv.map.infrastructure.model.DbMapObject;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.ClassLoaderProxy;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.model.PersistedModel;
 
 /**
  * @author eichi
@@ -27,7 +37,7 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 
 		_addDbMapObjectMethodKey0 = new MethodKey(_classLoaderProxy.getClassName(),
 				"addDbMapObject",
-				org.politaktiv.map.infrastructure.model.DbMapObject.class);
+				DbMapObject.class);
 
 		_createDbMapObjectMethodKey1 = new MethodKey(_classLoaderProxy.getClassName(),
 				"createDbMapObject", long.class);
@@ -37,26 +47,26 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 
 		_deleteDbMapObjectMethodKey3 = new MethodKey(_classLoaderProxy.getClassName(),
 				"deleteDbMapObject",
-				org.politaktiv.map.infrastructure.model.DbMapObject.class);
+				DbMapObject.class);
 
 		_dynamicQueryMethodKey4 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQuery",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class);
+				DynamicQuery.class);
 
 		_dynamicQueryMethodKey5 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQuery",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class,
+				DynamicQuery.class,
 				int.class, int.class);
 
 		_dynamicQueryMethodKey6 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQuery",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class,
+				DynamicQuery.class,
 				int.class, int.class,
-				com.liferay.portal.kernel.util.OrderByComparator.class);
+				OrderByComparator.class);
 
 		_dynamicQueryCountMethodKey7 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQueryCount",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class);
+				DynamicQuery.class);
 
 		_fetchDbMapObjectMethodKey8 = new MethodKey(_classLoaderProxy.getClassName(),
 				"fetchDbMapObject", long.class);
@@ -65,7 +75,7 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 				"getDbMapObject", long.class);
 
 		_getPersistedModelMethodKey10 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getPersistedModel", java.io.Serializable.class);
+				"getPersistedModel", Serializable.class);
 
 		_getDbMapObjectsMethodKey11 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getDbMapObjects", int.class, int.class);
@@ -75,27 +85,26 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 
 		_updateDbMapObjectMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateDbMapObject",
-				org.politaktiv.map.infrastructure.model.DbMapObject.class);
+				DbMapObject.class);
 
 		_updateDbMapObjectMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateDbMapObject",
-				org.politaktiv.map.infrastructure.model.DbMapObject.class,
+				DbMapObject.class,
 				boolean.class);
 
 		_getBeanIdentifierMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getBeanIdentifier");
 
 		_setBeanIdentifierMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
-				"setBeanIdentifier", java.lang.String.class);
+				"setBeanIdentifier", String.class);
 
 		_getAllDbMapObjectsFromCompanyIdAndGroupIdMethodKey17 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getAllDbMapObjectsFromCompanyIdAndGroupId", long.class,
 				long.class);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMapObject addDbMapObject(
-		org.politaktiv.map.infrastructure.model.DbMapObject dbMapObject)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbMapObject addDbMapObject(DbMapObject dbMapObject)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_addDbMapObjectMethodKey0,
@@ -105,8 +114,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -118,11 +127,10 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbMapObject)ClpSerializer.translateOutput(returnObj);
+		return (DbMapObject)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMapObject createDbMapObject(
-		long mapObjectId) {
+	public DbMapObject createDbMapObject(long mapObjectId) {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_createDbMapObjectMethodKey1,
@@ -141,12 +149,12 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbMapObject)ClpSerializer.translateOutput(returnObj);
+		return (DbMapObject)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public void deleteDbMapObject(long mapObjectId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		MethodHandler methodHandler = new MethodHandler(_deleteDbMapObjectMethodKey2,
 				mapObjectId);
 
@@ -154,12 +162,12 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			_classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
-				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			if (t instanceof PortalException) {
+				throw (PortalException)t;
 			}
 
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -172,9 +180,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 		}
 	}
 
-	public void deleteDbMapObject(
-		org.politaktiv.map.infrastructure.model.DbMapObject dbMapObject)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public void deleteDbMapObject(DbMapObject dbMapObject)
+		throws SystemException {
 		MethodHandler methodHandler = new MethodHandler(_deleteDbMapObjectMethodKey3,
 				ClpSerializer.translateInput(dbMapObject));
 
@@ -182,8 +189,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			_classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -197,9 +204,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(DynamicQuery dynamicQuery)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryMethodKey4,
@@ -209,8 +215,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -222,13 +228,12 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (List)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(DynamicQuery dynamicQuery, int start,
+		int end) throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryMethodKey5,
@@ -238,8 +243,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -251,15 +256,15 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (List)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
 		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		OrderByComparator orderByComparator)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryMethodKey6,
@@ -270,8 +275,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -283,12 +288,11 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (List)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public long dynamicQueryCount(DynamicQuery dynamicQuery)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryCountMethodKey7,
@@ -298,8 +302,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -314,9 +318,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 		return ((Long)returnObj).longValue();
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMapObject fetchDbMapObject(
-		long mapObjectId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbMapObject fetchDbMapObject(long mapObjectId)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_fetchDbMapObjectMethodKey8,
@@ -326,8 +329,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -339,13 +342,13 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbMapObject)ClpSerializer.translateOutput(returnObj);
+		return (DbMapObject)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMapObject getDbMapObject(
+	public DbMapObject getDbMapObject(
 		long mapObjectId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getDbMapObjectMethodKey9,
@@ -355,12 +358,12 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
-				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			if (t instanceof PortalException) {
+				throw (PortalException)t;
 			}
 
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -372,13 +375,12 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbMapObject)ClpSerializer.translateOutput(returnObj);
+		return (DbMapObject)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public com.liferay.portal.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException,
+			SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getPersistedModelMethodKey10,
@@ -388,12 +390,12 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
-				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			if (t instanceof PortalException) {
+				throw (PortalException)t;
 			}
 
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -405,12 +407,12 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			}
 		}
 
-		return (com.liferay.portal.model.PersistedModel)ClpSerializer.translateOutput(returnObj);
+		return (PersistedModel)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> getDbMapObjects(
+	public List<DbMapObject> getDbMapObjects(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getDbMapObjectsMethodKey11,
@@ -420,8 +422,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -433,11 +435,11 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			}
 		}
 
-		return (java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject>)ClpSerializer.translateOutput(returnObj);
+		return (List<DbMapObject>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public int getDbMapObjectsCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getDbMapObjectsCountMethodKey12);
@@ -446,8 +448,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -462,9 +464,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 		return ((Integer)returnObj).intValue();
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMapObject updateDbMapObject(
-		org.politaktiv.map.infrastructure.model.DbMapObject dbMapObject)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbMapObject updateDbMapObject(DbMapObject dbMapObject)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_updateDbMapObjectMethodKey13,
@@ -474,8 +475,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -487,13 +488,13 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbMapObject)ClpSerializer.translateOutput(returnObj);
+		return (DbMapObject)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMapObject updateDbMapObject(
-		org.politaktiv.map.infrastructure.model.DbMapObject dbMapObject,
+	public DbMapObject updateDbMapObject(
+		DbMapObject dbMapObject,
 		boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_updateDbMapObjectMethodKey14,
@@ -503,8 +504,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -516,10 +517,10 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbMapObject)ClpSerializer.translateOutput(returnObj);
+		return (DbMapObject)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public java.lang.String getBeanIdentifier() {
+	public String getBeanIdentifier() {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getBeanIdentifierMethodKey15);
@@ -537,10 +538,10 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			}
 		}
 
-		return (java.lang.String)ClpSerializer.translateOutput(returnObj);
+		return (String)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public void setBeanIdentifier(java.lang.String beanIdentifier) {
+	public void setBeanIdentifier(String beanIdentifier) {
 		MethodHandler methodHandler = new MethodHandler(_setBeanIdentifierMethodKey16,
 				ClpSerializer.translateInput(beanIdentifier));
 
@@ -558,9 +559,9 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 		}
 	}
 
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> getAllDbMapObjectsFromCompanyIdAndGroupId(
+	public List<DbMapObject> getAllDbMapObjectsFromCompanyIdAndGroupId(
 		long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getAllDbMapObjectsFromCompanyIdAndGroupIdMethodKey17,
@@ -570,8 +571,8 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -583,7 +584,7 @@ public class DbMapObjectLocalServiceClp implements DbMapObjectLocalService {
 			}
 		}
 
-		return (java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject>)ClpSerializer.translateOutput(returnObj);
+		return (List<DbMapObject>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public ClassLoaderProxy getClassLoaderProxy() {

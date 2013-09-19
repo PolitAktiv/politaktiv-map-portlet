@@ -14,6 +14,10 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import org.politaktiv.map.infrastructure.model.DbMarker;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.security.auth.PrincipalException;
 import com.liferay.portal.service.ServiceWrapper;
 
 /**
@@ -31,10 +35,10 @@ public class DbMarkerServiceWrapper implements DbMarkerService,
 		_dbMarkerService = dbMarkerService;
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMarker addDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.portal.security.auth.PrincipalException {
+	public DbMarker addDbMarker(
+		DbMarker dbMarker, long groupId)
+		throws SystemException,
+			PrincipalException {
 		return _dbMarkerService.addDbMarker(dbMarker, groupId);
 	}
 

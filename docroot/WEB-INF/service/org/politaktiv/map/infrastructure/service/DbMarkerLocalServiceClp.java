@@ -14,9 +14,19 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import java.io.Serializable;
+import java.util.List;
+
+import org.politaktiv.map.infrastructure.model.DbMarker;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.util.ClassLoaderProxy;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.model.PersistedModel;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  * @author eichi
@@ -27,7 +37,7 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 
 		_addDbMarkerMethodKey0 = new MethodKey(_classLoaderProxy.getClassName(),
 				"addDbMarker",
-				org.politaktiv.map.infrastructure.model.DbMarker.class);
+				DbMarker.class);
 
 		_createDbMarkerMethodKey1 = new MethodKey(_classLoaderProxy.getClassName(),
 				"createDbMarker", long.class);
@@ -37,26 +47,26 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 
 		_deleteDbMarkerMethodKey3 = new MethodKey(_classLoaderProxy.getClassName(),
 				"deleteDbMarker",
-				org.politaktiv.map.infrastructure.model.DbMarker.class);
+				DbMarker.class);
 
 		_dynamicQueryMethodKey4 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQuery",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class);
+				DynamicQuery.class);
 
 		_dynamicQueryMethodKey5 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQuery",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class,
+				DynamicQuery.class,
 				int.class, int.class);
 
 		_dynamicQueryMethodKey6 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQuery",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class,
+				DynamicQuery.class,
 				int.class, int.class,
-				com.liferay.portal.kernel.util.OrderByComparator.class);
+				OrderByComparator.class);
 
 		_dynamicQueryCountMethodKey7 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQueryCount",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class);
+				DynamicQuery.class);
 
 		_fetchDbMarkerMethodKey8 = new MethodKey(_classLoaderProxy.getClassName(),
 				"fetchDbMarker", long.class);
@@ -65,7 +75,7 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 				"getDbMarker", long.class);
 
 		_getPersistedModelMethodKey10 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getPersistedModel", java.io.Serializable.class);
+				"getPersistedModel", Serializable.class);
 
 		_getDbMarkersMethodKey11 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getDbMarkers", int.class, int.class);
@@ -75,23 +85,23 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 
 		_updateDbMarkerMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateDbMarker",
-				org.politaktiv.map.infrastructure.model.DbMarker.class);
+				DbMarker.class);
 
 		_updateDbMarkerMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateDbMarker",
-				org.politaktiv.map.infrastructure.model.DbMarker.class,
+				DbMarker.class,
 				boolean.class);
 
 		_getBeanIdentifierMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getBeanIdentifier");
 
 		_setBeanIdentifierMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
-				"setBeanIdentifier", java.lang.String.class);
+				"setBeanIdentifier", String.class);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMarker addDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbMarker addDbMarker(
+		DbMarker dbMarker)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_addDbMarkerMethodKey0,
@@ -101,8 +111,8 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -114,10 +124,10 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbMarker)ClpSerializer.translateOutput(returnObj);
+		return (DbMarker)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMarker createDbMarker(
+	public DbMarker createDbMarker(
 		long markerId) {
 		Object returnObj = null;
 
@@ -137,12 +147,12 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbMarker)ClpSerializer.translateOutput(returnObj);
+		return (DbMarker)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public void deleteDbMarker(long markerId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		MethodHandler methodHandler = new MethodHandler(_deleteDbMarkerMethodKey2,
 				markerId);
 
@@ -150,12 +160,12 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			_classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
-				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			if (t instanceof PortalException) {
+				throw (PortalException)t;
 			}
 
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -169,8 +179,8 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 	}
 
 	public void deleteDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		DbMarker dbMarker)
+		throws SystemException {
 		MethodHandler methodHandler = new MethodHandler(_deleteDbMarkerMethodKey3,
 				ClpSerializer.translateInput(dbMarker));
 
@@ -178,8 +188,8 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			_classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -193,9 +203,9 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryMethodKey4,
@@ -205,8 +215,8 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -218,13 +228,13 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (List)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
+		int end) throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryMethodKey5,
@@ -234,8 +244,8 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -247,15 +257,15 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (List)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
 		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		OrderByComparator orderByComparator)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryMethodKey6,
@@ -266,8 +276,8 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -279,12 +289,12 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (List)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		DynamicQuery dynamicQuery)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryCountMethodKey7,
@@ -294,8 +304,8 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -310,9 +320,9 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 		return ((Long)returnObj).longValue();
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMarker fetchDbMarker(
+	public DbMarker fetchDbMarker(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_fetchDbMarkerMethodKey8,
@@ -322,8 +332,8 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -335,13 +345,13 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbMarker)ClpSerializer.translateOutput(returnObj);
+		return (DbMarker)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMarker getDbMarker(
+	public DbMarker getDbMarker(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getDbMarkerMethodKey9,
@@ -351,12 +361,12 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
-				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			if (t instanceof PortalException) {
+				throw (PortalException)t;
 			}
 
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -368,13 +378,13 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbMarker)ClpSerializer.translateOutput(returnObj);
+		return (DbMarker)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public com.liferay.portal.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+	public PersistedModel getPersistedModel(
+		Serializable primaryKeyObj)
+		throws PortalException,
+			SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getPersistedModelMethodKey10,
@@ -384,12 +394,12 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
-				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			if (t instanceof PortalException) {
+				throw (PortalException)t;
 			}
 
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -401,12 +411,12 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			}
 		}
 
-		return (com.liferay.portal.model.PersistedModel)ClpSerializer.translateOutput(returnObj);
+		return (PersistedModel)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMarker> getDbMarkers(
+	public List<DbMarker> getDbMarkers(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getDbMarkersMethodKey11,
@@ -416,8 +426,8 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -429,11 +439,11 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			}
 		}
 
-		return (java.util.List<org.politaktiv.map.infrastructure.model.DbMarker>)ClpSerializer.translateOutput(returnObj);
+		return (List<DbMarker>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public int getDbMarkersCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getDbMarkersCountMethodKey12);
@@ -442,8 +452,8 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -458,9 +468,9 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 		return ((Integer)returnObj).intValue();
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMarker updateDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbMarker updateDbMarker(
+		DbMarker dbMarker)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_updateDbMarkerMethodKey13,
@@ -470,8 +480,8 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -483,12 +493,12 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbMarker)ClpSerializer.translateOutput(returnObj);
+		return (DbMarker)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMarker updateDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker, boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbMarker updateDbMarker(
+		DbMarker dbMarker, boolean merge)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_updateDbMarkerMethodKey14,
@@ -498,8 +508,8 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -511,10 +521,10 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbMarker)ClpSerializer.translateOutput(returnObj);
+		return (DbMarker)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public java.lang.String getBeanIdentifier() {
+	public String getBeanIdentifier() {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getBeanIdentifierMethodKey15);
@@ -532,10 +542,10 @@ public class DbMarkerLocalServiceClp implements DbMarkerLocalService {
 			}
 		}
 
-		return (java.lang.String)ClpSerializer.translateOutput(returnObj);
+		return (String)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public void setBeanIdentifier(java.lang.String beanIdentifier) {
+	public void setBeanIdentifier(String beanIdentifier) {
 		MethodHandler methodHandler = new MethodHandler(_setBeanIdentifierMethodKey16,
 				ClpSerializer.translateInput(beanIdentifier));
 

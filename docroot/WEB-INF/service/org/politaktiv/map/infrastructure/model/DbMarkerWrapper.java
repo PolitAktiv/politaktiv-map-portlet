@@ -14,7 +14,13 @@
 
 package org.politaktiv.map.infrastructure.model;
 
+import java.io.Serializable;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelWrapper;
+import com.liferay.portal.service.ServiceContext;
+import com.liferay.portlet.expando.model.ExpandoBridge;
 
 /**
  * <p>
@@ -79,7 +85,7 @@ public class DbMarkerWrapper implements DbMarker, ModelWrapper<DbMarker> {
 	*
 	* @return the marker image name of this db marker
 	*/
-	public java.lang.String getMarkerImageName() {
+	public String getMarkerImageName() {
 		return _dbMarker.getMarkerImageName();
 	}
 
@@ -88,7 +94,7 @@ public class DbMarkerWrapper implements DbMarker, ModelWrapper<DbMarker> {
 	*
 	* @param markerImageName the marker image name of this db marker
 	*/
-	public void setMarkerImageName(java.lang.String markerImageName) {
+	public void setMarkerImageName(String markerImageName) {
 		_dbMarker.setMarkerImageName(markerImageName);
 	}
 
@@ -130,25 +136,25 @@ public class DbMarkerWrapper implements DbMarker, ModelWrapper<DbMarker> {
 		return _dbMarker.isEscapedModel();
 	}
 
-	public java.io.Serializable getPrimaryKeyObj() {
+	public Serializable getPrimaryKeyObj() {
 		return _dbMarker.getPrimaryKeyObj();
 	}
 
-	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_dbMarker.setPrimaryKeyObj(primaryKeyObj);
 	}
 
-	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
+	public ExpandoBridge getExpandoBridge() {
 		return _dbMarker.getExpandoBridge();
 	}
 
 	public void setExpandoBridgeAttributes(
-		com.liferay.portal.service.ServiceContext serviceContext) {
+		ServiceContext serviceContext) {
 		_dbMarker.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	@Override
-	public java.lang.Object clone() {
+	public Object clone() {
 		return new DbMarkerWrapper((DbMarker)_dbMarker.clone());
 	}
 
@@ -161,7 +167,7 @@ public class DbMarkerWrapper implements DbMarker, ModelWrapper<DbMarker> {
 		return _dbMarker.hashCode();
 	}
 
-	public com.liferay.portal.model.CacheModel<DbMarker> toCacheModel() {
+	public CacheModel<DbMarker> toCacheModel() {
 		return _dbMarker.toCacheModel();
 	}
 
@@ -170,16 +176,16 @@ public class DbMarkerWrapper implements DbMarker, ModelWrapper<DbMarker> {
 	}
 
 	@Override
-	public java.lang.String toString() {
+	public String toString() {
 		return _dbMarker.toString();
 	}
 
-	public java.lang.String toXmlString() {
+	public String toXmlString() {
 		return _dbMarker.toXmlString();
 	}
 
 	public void persist()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		_dbMarker.persist();
 	}
 

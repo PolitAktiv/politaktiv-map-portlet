@@ -14,11 +14,19 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import java.io.Serializable;
+import java.util.List;
+
+import org.politaktiv.map.infrastructure.model.DbMapObject;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.model.PersistedModel;
 import com.liferay.portal.service.PersistedModelLocalService;
 
 /**
@@ -50,9 +58,8 @@ public interface DbMapObjectLocalService extends PersistedModelLocalService {
 	* @return the db map object that was added
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMapObject addDbMapObject(
-		org.politaktiv.map.infrastructure.model.DbMapObject dbMapObject)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public DbMapObject addDbMapObject(DbMapObject dbMapObject)
+		throws SystemException;
 
 	/**
 	* Creates a new db map object with the primary key. Does not add the db map object to the database.
@@ -60,7 +67,7 @@ public interface DbMapObjectLocalService extends PersistedModelLocalService {
 	* @param mapObjectId the primary key for the new db map object
 	* @return the new db map object
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMapObject createDbMapObject(
+	public DbMapObject createDbMapObject(
 		long mapObjectId);
 
 	/**
@@ -71,8 +78,8 @@ public interface DbMapObjectLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteDbMapObject(long mapObjectId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws PortalException,
+			SystemException;
 
 	/**
 	* Deletes the db map object from the database. Also notifies the appropriate model listeners.
@@ -80,9 +87,8 @@ public interface DbMapObjectLocalService extends PersistedModelLocalService {
 	* @param dbMapObject the db map object
 	* @throws SystemException if a system exception occurred
 	*/
-	public void deleteDbMapObject(
-		org.politaktiv.map.infrastructure.model.DbMapObject dbMapObject)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public void deleteDbMapObject(DbMapObject dbMapObject)
+		throws SystemException;
 
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.
@@ -92,9 +98,9 @@ public interface DbMapObjectLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery)
+		throws SystemException;
 
 	/**
 	* Performs a dynamic query on the database and returns a range of the matching rows.
@@ -110,9 +116,9 @@ public interface DbMapObjectLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException;
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
+		int end) throws SystemException;
 
 	/**
 	* Performs a dynamic query on the database and returns an ordered range of the matching rows.
@@ -129,11 +135,11 @@ public interface DbMapObjectLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
 		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		OrderByComparator orderByComparator)
+		throws SystemException;
 
 	/**
 	* Returns the number of rows that match the dynamic query.
@@ -143,13 +149,13 @@ public interface DbMapObjectLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		DynamicQuery dynamicQuery)
+		throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public org.politaktiv.map.infrastructure.model.DbMapObject fetchDbMapObject(
+	public DbMapObject fetchDbMapObject(
 		long mapObjectId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the db map object with the primary key.
@@ -160,14 +166,14 @@ public interface DbMapObjectLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public org.politaktiv.map.infrastructure.model.DbMapObject getDbMapObject(
+	public DbMapObject getDbMapObject(
 		long mapObjectId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws PortalException,
+			SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public com.liferay.portal.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
+	public PersistedModel getPersistedModel(
+		Serializable primaryKeyObj)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
@@ -184,9 +190,9 @@ public interface DbMapObjectLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> getDbMapObjects(
+	public List<DbMapObject> getDbMapObjects(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the number of db map objects.
@@ -196,7 +202,7 @@ public interface DbMapObjectLocalService extends PersistedModelLocalService {
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getDbMapObjectsCount()
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Updates the db map object in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -205,9 +211,8 @@ public interface DbMapObjectLocalService extends PersistedModelLocalService {
 	* @return the db map object that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMapObject updateDbMapObject(
-		org.politaktiv.map.infrastructure.model.DbMapObject dbMapObject)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public DbMapObject updateDbMapObject(DbMapObject dbMapObject)
+		throws SystemException;
 
 	/**
 	* Updates the db map object in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -217,27 +222,26 @@ public interface DbMapObjectLocalService extends PersistedModelLocalService {
 	* @return the db map object that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMapObject updateDbMapObject(
-		org.politaktiv.map.infrastructure.model.DbMapObject dbMapObject,
+	public DbMapObject updateDbMapObject(DbMapObject dbMapObject,
 		boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the Spring bean ID for this bean.
 	*
 	* @return the Spring bean ID for this bean
 	*/
-	public java.lang.String getBeanIdentifier();
+	public String getBeanIdentifier();
 
 	/**
 	* Sets the Spring bean ID for this bean.
 	*
 	* @param beanIdentifier the Spring bean ID for this bean
 	*/
-	public void setBeanIdentifier(java.lang.String beanIdentifier);
+	public void setBeanIdentifier(String beanIdentifier);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> getAllDbMapObjectsFromCompanyIdAndGroupId(
+	public List<DbMapObject> getAllDbMapObjectsFromCompanyIdAndGroupId(
 		long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 }

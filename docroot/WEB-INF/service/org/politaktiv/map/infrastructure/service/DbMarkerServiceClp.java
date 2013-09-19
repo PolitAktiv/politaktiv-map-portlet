@@ -14,9 +14,13 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import org.politaktiv.map.infrastructure.model.DbMarker;
+
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.ClassLoaderProxy;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
+import com.liferay.portal.security.auth.PrincipalException;
 
 /**
  * @author eichi
@@ -27,14 +31,14 @@ public class DbMarkerServiceClp implements DbMarkerService {
 
 		_addDbMarkerMethodKey0 = new MethodKey(_classLoaderProxy.getClassName(),
 				"addDbMarker",
-				org.politaktiv.map.infrastructure.model.DbMarker.class,
+				DbMarker.class,
 				long.class);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMarker addDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.portal.security.auth.PrincipalException {
+	public DbMarker addDbMarker(
+		DbMarker dbMarker, long groupId)
+		throws SystemException,
+			PrincipalException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_addDbMarkerMethodKey0,
@@ -44,12 +48,12 @@ public class DbMarkerServiceClp implements DbMarkerService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
-			if (t instanceof com.liferay.portal.security.auth.PrincipalException) {
-				throw (com.liferay.portal.security.auth.PrincipalException)t;
+			if (t instanceof PrincipalException) {
+				throw (PrincipalException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -61,7 +65,7 @@ public class DbMarkerServiceClp implements DbMarkerService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbMarker)ClpSerializer.translateOutput(returnObj);
+		return (DbMarker)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public ClassLoaderProxy getClassLoaderProxy() {

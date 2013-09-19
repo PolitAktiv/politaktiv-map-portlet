@@ -14,6 +14,16 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import java.io.Serializable;
+import java.util.List;
+
+import org.politaktiv.map.infrastructure.model.DbPoint;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.model.PersistedModel;
 import com.liferay.portal.service.ServiceWrapper;
 
 /**
@@ -38,9 +48,9 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	* @return the db point that was added
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint addDbPoint(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbPoint addDbPoint(
+		DbPoint dbPoint)
+		throws SystemException {
 		return _dbPointLocalService.addDbPoint(dbPoint);
 	}
 
@@ -50,7 +60,7 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	* @param pointId the primary key for the new db point
 	* @return the new db point
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint createDbPoint(
+	public DbPoint createDbPoint(
 		long pointId) {
 		return _dbPointLocalService.createDbPoint(pointId);
 	}
@@ -63,8 +73,8 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteDbPoint(long pointId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		_dbPointLocalService.deleteDbPoint(pointId);
 	}
 
@@ -75,8 +85,8 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteDbPoint(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		DbPoint dbPoint)
+		throws SystemException {
 		_dbPointLocalService.deleteDbPoint(dbPoint);
 	}
 
@@ -88,9 +98,9 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery)
+		throws SystemException {
 		return _dbPointLocalService.dynamicQuery(dynamicQuery);
 	}
 
@@ -108,9 +118,9 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
+		int end) throws SystemException {
 		return _dbPointLocalService.dynamicQuery(dynamicQuery, start, end);
 	}
 
@@ -129,11 +139,11 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
 		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		OrderByComparator orderByComparator)
+		throws SystemException {
 		return _dbPointLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
 	}
@@ -146,14 +156,14 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		DynamicQuery dynamicQuery)
+		throws SystemException {
 		return _dbPointLocalService.dynamicQueryCount(dynamicQuery);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPoint fetchDbPoint(
+	public DbPoint fetchDbPoint(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return _dbPointLocalService.fetchDbPoint(pointId);
 	}
 
@@ -165,17 +175,17 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	* @throws PortalException if a db point with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint getDbPoint(
+	public DbPoint getDbPoint(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		return _dbPointLocalService.getDbPoint(pointId);
 	}
 
-	public com.liferay.portal.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+	public PersistedModel getPersistedModel(
+		Serializable primaryKeyObj)
+		throws PortalException,
+			SystemException {
 		return _dbPointLocalService.getPersistedModel(primaryKeyObj);
 	}
 
@@ -191,9 +201,9 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	* @return the range of db points
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbPoint> getDbPoints(
+	public List<DbPoint> getDbPoints(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return _dbPointLocalService.getDbPoints(start, end);
 	}
 
@@ -204,7 +214,7 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	public int getDbPointsCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return _dbPointLocalService.getDbPointsCount();
 	}
 
@@ -215,9 +225,9 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	* @return the db point that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint updateDbPoint(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbPoint updateDbPoint(
+		DbPoint dbPoint)
+		throws SystemException {
 		return _dbPointLocalService.updateDbPoint(dbPoint);
 	}
 
@@ -229,9 +239,9 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	* @return the db point that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint updateDbPoint(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint, boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbPoint updateDbPoint(
+		DbPoint dbPoint, boolean merge)
+		throws SystemException {
 		return _dbPointLocalService.updateDbPoint(dbPoint, merge);
 	}
 
@@ -240,7 +250,7 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	*
 	* @return the Spring bean ID for this bean
 	*/
-	public java.lang.String getBeanIdentifier() {
+	public String getBeanIdentifier() {
 		return _dbPointLocalService.getBeanIdentifier();
 	}
 
@@ -249,7 +259,7 @@ public class DbPointLocalServiceWrapper implements DbPointLocalService,
 	*
 	* @param beanIdentifier the Spring bean ID for this bean
 	*/
-	public void setBeanIdentifier(java.lang.String beanIdentifier) {
+	public void setBeanIdentifier(String beanIdentifier) {
 		_dbPointLocalService.setBeanIdentifier(beanIdentifier);
 	}
 

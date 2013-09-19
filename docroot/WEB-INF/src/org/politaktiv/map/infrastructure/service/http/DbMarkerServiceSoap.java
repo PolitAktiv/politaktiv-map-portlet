@@ -17,6 +17,8 @@ package org.politaktiv.map.infrastructure.service.http;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
+import org.politaktiv.map.infrastructure.model.DbMarker;
+import org.politaktiv.map.infrastructure.model.DbMarkerSoap;
 import org.politaktiv.map.infrastructure.service.DbMarkerServiceUtil;
 
 import java.rmi.RemoteException;
@@ -65,14 +67,13 @@ import java.rmi.RemoteException;
  * @generated
  */
 public class DbMarkerServiceSoap {
-	public static org.politaktiv.map.infrastructure.model.DbMarkerSoap addDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker, long groupId)
+	public static DbMarkerSoap addDbMarker(DbMarker dbMarker, long groupId)
 		throws RemoteException {
 		try {
-			org.politaktiv.map.infrastructure.model.DbMarker returnValue = DbMarkerServiceUtil.addDbMarker(dbMarker,
+			DbMarker returnValue = DbMarkerServiceUtil.addDbMarker(dbMarker,
 					groupId);
 
-			return org.politaktiv.map.infrastructure.model.DbMarkerSoap.toSoapModel(returnValue);
+			return DbMarkerSoap.toSoapModel(returnValue);
 		}
 		catch (Exception e) {
 			_log.error(e, e);

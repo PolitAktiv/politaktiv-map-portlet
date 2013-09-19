@@ -41,6 +41,7 @@ import com.liferay.portal.service.persistence.BatchSessionUtil;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.util.service.ServiceProps;
 
 import org.politaktiv.map.infrastructure.NoSuchDbPointException;
 import org.politaktiv.map.infrastructure.model.DbPoint;
@@ -278,7 +279,7 @@ public class DbPointPersistenceImpl extends BasePersistenceImpl<DbPoint>
 
 	@Override
 	public DbPoint updateImpl(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint, boolean merge)
+		DbPoint dbPoint, boolean merge)
 		throws SystemException {
 		dbPoint = toUnwrappedModel(dbPoint);
 
@@ -809,7 +810,7 @@ public class DbPointPersistenceImpl extends BasePersistenceImpl<DbPoint>
 	 */
 	public void afterPropertiesSet() {
 		String[] listenerClassNames = StringUtil.split(GetterUtil.getString(
-					com.liferay.util.service.ServiceProps.get(
+					ServiceProps.get(
 						"value.object.listener.org.politaktiv.map.infrastructure.model.DbPoint")));
 
 		if (listenerClassNames.length > 0) {

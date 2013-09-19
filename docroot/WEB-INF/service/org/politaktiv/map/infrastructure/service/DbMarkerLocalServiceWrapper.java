@@ -12,9 +12,20 @@
  * limitations under the License.
  */
 
+
 package org.politaktiv.map.infrastructure.service;
 
+import java.util.List;
+import java.io.Serializable;
+
+import org.politaktiv.map.infrastructure.model.DbMarker;
+
 import com.liferay.portal.service.ServiceWrapper;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.model.PersistedModel;
 
 /**
  * <p>
@@ -39,9 +50,9 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	* @return the db marker that was added
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker addDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbMarker addDbMarker(
+		DbMarker dbMarker)
+		throws SystemException {
 		return _dbMarkerLocalService.addDbMarker(dbMarker);
 	}
 
@@ -51,7 +62,7 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	* @param markerId the primary key for the new db marker
 	* @return the new db marker
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker createDbMarker(
+	public DbMarker createDbMarker(
 		long markerId) {
 		return _dbMarkerLocalService.createDbMarker(markerId);
 	}
@@ -64,8 +75,8 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteDbMarker(long markerId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		_dbMarkerLocalService.deleteDbMarker(markerId);
 	}
 
@@ -76,8 +87,8 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		DbMarker dbMarker)
+		throws SystemException {
 		_dbMarkerLocalService.deleteDbMarker(dbMarker);
 	}
 
@@ -89,9 +100,9 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery)
+		throws SystemException {
 		return _dbMarkerLocalService.dynamicQuery(dynamicQuery);
 	}
 
@@ -109,9 +120,9 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
+		int end) throws SystemException {
 		return _dbMarkerLocalService.dynamicQuery(dynamicQuery, start, end);
 	}
 
@@ -130,11 +141,11 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
 		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		OrderByComparator orderByComparator)
+		throws SystemException {
 		return _dbMarkerLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
 	}
@@ -147,14 +158,14 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		DynamicQuery dynamicQuery)
+		throws SystemException {
 		return _dbMarkerLocalService.dynamicQueryCount(dynamicQuery);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbMarker fetchDbMarker(
+	public DbMarker fetchDbMarker(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return _dbMarkerLocalService.fetchDbMarker(markerId);
 	}
 
@@ -166,17 +177,17 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	* @throws PortalException if a db marker with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker getDbMarker(
+	public DbMarker getDbMarker(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		return _dbMarkerLocalService.getDbMarker(markerId);
 	}
 
-	public com.liferay.portal.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+	public PersistedModel getPersistedModel(
+		Serializable primaryKeyObj)
+		throws PortalException,
+			SystemException {
 		return _dbMarkerLocalService.getPersistedModel(primaryKeyObj);
 	}
 
@@ -192,9 +203,9 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	* @return the range of db markers
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMarker> getDbMarkers(
+	public List<DbMarker> getDbMarkers(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return _dbMarkerLocalService.getDbMarkers(start, end);
 	}
 
@@ -205,7 +216,7 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	* @throws SystemException if a system exception occurred
 	*/
 	public int getDbMarkersCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return _dbMarkerLocalService.getDbMarkersCount();
 	}
 
@@ -216,9 +227,9 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	* @return the db marker that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker updateDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbMarker updateDbMarker(
+		DbMarker dbMarker)
+		throws SystemException {
 		return _dbMarkerLocalService.updateDbMarker(dbMarker);
 	}
 
@@ -230,9 +241,9 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	* @return the db marker that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker updateDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker, boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbMarker updateDbMarker(
+		DbMarker dbMarker, boolean merge)
+		throws SystemException {
 		return _dbMarkerLocalService.updateDbMarker(dbMarker, merge);
 	}
 
@@ -241,7 +252,7 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	*
 	* @return the Spring bean ID for this bean
 	*/
-	public java.lang.String getBeanIdentifier() {
+	public String getBeanIdentifier() {
 		return _dbMarkerLocalService.getBeanIdentifier();
 	}
 
@@ -250,7 +261,7 @@ public class DbMarkerLocalServiceWrapper implements DbMarkerLocalService,
 	*
 	* @param beanIdentifier the Spring bean ID for this bean
 	*/
-	public void setBeanIdentifier(java.lang.String beanIdentifier) {
+	public void setBeanIdentifier(String beanIdentifier) {
 		_dbMarkerLocalService.setBeanIdentifier(beanIdentifier);
 	}
 

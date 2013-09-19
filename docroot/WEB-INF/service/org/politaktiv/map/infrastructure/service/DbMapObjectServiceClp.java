@@ -14,6 +14,11 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import java.util.List;
+
+import org.politaktiv.map.infrastructure.model.DbMapObject;
+
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.ClassLoaderProxy;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
@@ -30,9 +35,9 @@ public class DbMapObjectServiceClp implements DbMapObjectService {
 				long.class);
 	}
 
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> getAllDbMapObjectsFromCompanyIdAndGroupId(
+	public List<DbMapObject> getAllDbMapObjectsFromCompanyIdAndGroupId(
 		long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getAllDbMapObjectsFromCompanyIdAndGroupIdMethodKey0,
@@ -42,8 +47,8 @@ public class DbMapObjectServiceClp implements DbMapObjectService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -55,7 +60,7 @@ public class DbMapObjectServiceClp implements DbMapObjectService {
 			}
 		}
 
-		return (java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject>)ClpSerializer.translateOutput(returnObj);
+		return (List<DbMapObject>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public ClassLoaderProxy getClassLoaderProxy() {

@@ -14,7 +14,13 @@
 
 package org.politaktiv.map.infrastructure.model;
 
+import java.io.Serializable;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelWrapper;
+import com.liferay.portal.service.ServiceContext;
+import com.liferay.portlet.expando.model.ExpandoBridge;
 
 /**
  * <p>
@@ -184,25 +190,25 @@ public class DbPictureWrapper implements DbPicture, ModelWrapper<DbPicture> {
 		return _dbPicture.isEscapedModel();
 	}
 
-	public java.io.Serializable getPrimaryKeyObj() {
+	public Serializable getPrimaryKeyObj() {
 		return _dbPicture.getPrimaryKeyObj();
 	}
 
-	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_dbPicture.setPrimaryKeyObj(primaryKeyObj);
 	}
 
-	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
+	public ExpandoBridge getExpandoBridge() {
 		return _dbPicture.getExpandoBridge();
 	}
 
 	public void setExpandoBridgeAttributes(
-		com.liferay.portal.service.ServiceContext serviceContext) {
+		ServiceContext serviceContext) {
 		_dbPicture.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	@Override
-	public java.lang.Object clone() {
+	public Object clone() {
 		return new DbPictureWrapper((DbPicture)_dbPicture.clone());
 	}
 
@@ -215,7 +221,7 @@ public class DbPictureWrapper implements DbPicture, ModelWrapper<DbPicture> {
 		return _dbPicture.hashCode();
 	}
 
-	public com.liferay.portal.model.CacheModel<DbPicture> toCacheModel() {
+	public CacheModel<DbPicture> toCacheModel() {
 		return _dbPicture.toCacheModel();
 	}
 
@@ -224,16 +230,16 @@ public class DbPictureWrapper implements DbPicture, ModelWrapper<DbPicture> {
 	}
 
 	@Override
-	public java.lang.String toString() {
+	public String toString() {
 		return _dbPicture.toString();
 	}
 
-	public java.lang.String toXmlString() {
+	public String toXmlString() {
 		return _dbPicture.toXmlString();
 	}
 
 	public void persist()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		_dbPicture.persist();
 	}
 

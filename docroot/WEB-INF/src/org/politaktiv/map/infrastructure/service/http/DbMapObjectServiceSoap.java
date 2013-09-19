@@ -17,9 +17,11 @@ package org.politaktiv.map.infrastructure.service.http;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
+import org.politaktiv.map.infrastructure.model.DbMapObject;
 import org.politaktiv.map.infrastructure.service.DbMapObjectServiceUtil;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * <p>
@@ -64,15 +66,16 @@ import java.rmi.RemoteException;
  * @see       org.politaktiv.map.infrastructure.service.DbMapObjectServiceUtil
  * @generated
  */
+
 public class DbMapObjectServiceSoap {
-	public static org.politaktiv.map.infrastructure.model.DbMapObject[] getAllDbMapObjectsFromCompanyIdAndGroupId(
+	public static DbMapObject[] getAllDbMapObjectsFromCompanyIdAndGroupId(
 		long companyId, long groupId) throws RemoteException {
 		try {
-			java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> returnValue =
+			List<DbMapObject> returnValue =
 				DbMapObjectServiceUtil.getAllDbMapObjectsFromCompanyIdAndGroupId(companyId,
 					groupId);
 
-			return returnValue.toArray(new org.politaktiv.map.infrastructure.model.DbMapObject[returnValue.size()]);
+			return returnValue.toArray(new DbMapObject[returnValue.size()]);
 		}
 		catch (Exception e) {
 			_log.error(e, e);

@@ -14,7 +14,12 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import java.util.List;
+
+import org.politaktiv.map.infrastructure.model.DbMapObject;
+
 import com.liferay.portal.kernel.bean.PortletBeanLocatorUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.ClassLoaderProxy;
 import com.liferay.portal.kernel.util.MethodCache;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
@@ -38,9 +43,9 @@ public class DbMapObjectServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link org.politaktiv.map.infrastructure.service.impl.DbMapObjectServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> getAllDbMapObjectsFromCompanyIdAndGroupId(
+	public static List<DbMapObject> getAllDbMapObjectsFromCompanyIdAndGroupId(
 		long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getService()
 				   .getAllDbMapObjectsFromCompanyIdAndGroupId(companyId, groupId);
 	}

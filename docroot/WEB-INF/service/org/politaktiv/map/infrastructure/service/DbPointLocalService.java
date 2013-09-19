@@ -14,11 +14,19 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import java.io.Serializable;
+import java.util.List;
+
+import org.politaktiv.map.infrastructure.model.DbPoint;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.model.PersistedModel;
 import com.liferay.portal.service.PersistedModelLocalService;
 
 /**
@@ -50,9 +58,9 @@ public interface DbPointLocalService extends PersistedModelLocalService {
 	* @return the db point that was added
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint addDbPoint(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public DbPoint addDbPoint(
+		DbPoint dbPoint)
+		throws SystemException;
 
 	/**
 	* Creates a new db point with the primary key. Does not add the db point to the database.
@@ -60,7 +68,7 @@ public interface DbPointLocalService extends PersistedModelLocalService {
 	* @param pointId the primary key for the new db point
 	* @return the new db point
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint createDbPoint(
+	public DbPoint createDbPoint(
 		long pointId);
 
 	/**
@@ -71,8 +79,8 @@ public interface DbPointLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteDbPoint(long pointId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws PortalException,
+			SystemException;
 
 	/**
 	* Deletes the db point from the database. Also notifies the appropriate model listeners.
@@ -81,8 +89,8 @@ public interface DbPointLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteDbPoint(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		DbPoint dbPoint)
+		throws SystemException;
 
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.
@@ -92,9 +100,9 @@ public interface DbPointLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery)
+		throws SystemException;
 
 	/**
 	* Performs a dynamic query on the database and returns a range of the matching rows.
@@ -110,9 +118,9 @@ public interface DbPointLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException;
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
+		int end) throws SystemException;
 
 	/**
 	* Performs a dynamic query on the database and returns an ordered range of the matching rows.
@@ -129,11 +137,11 @@ public interface DbPointLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
 		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		OrderByComparator orderByComparator)
+		throws SystemException;
 
 	/**
 	* Returns the number of rows that match the dynamic query.
@@ -143,13 +151,13 @@ public interface DbPointLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		DynamicQuery dynamicQuery)
+		throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public org.politaktiv.map.infrastructure.model.DbPoint fetchDbPoint(
+	public DbPoint fetchDbPoint(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the db point with the primary key.
@@ -160,16 +168,16 @@ public interface DbPointLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public org.politaktiv.map.infrastructure.model.DbPoint getDbPoint(
+	public DbPoint getDbPoint(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws PortalException,
+			SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public com.liferay.portal.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+	public PersistedModel getPersistedModel(
+		Serializable primaryKeyObj)
+		throws PortalException,
+			SystemException;
 
 	/**
 	* Returns a range of all the db points.
@@ -184,9 +192,9 @@ public interface DbPointLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbPoint> getDbPoints(
+	public List<DbPoint> getDbPoints(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the number of db points.
@@ -196,7 +204,7 @@ public interface DbPointLocalService extends PersistedModelLocalService {
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getDbPointsCount()
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Updates the db point in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -205,9 +213,9 @@ public interface DbPointLocalService extends PersistedModelLocalService {
 	* @return the db point that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint updateDbPoint(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public DbPoint updateDbPoint(
+		DbPoint dbPoint)
+		throws SystemException;
 
 	/**
 	* Updates the db point in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -217,21 +225,21 @@ public interface DbPointLocalService extends PersistedModelLocalService {
 	* @return the db point that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPoint updateDbPoint(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint, boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public DbPoint updateDbPoint(
+		DbPoint dbPoint, boolean merge)
+		throws SystemException;
 
 	/**
 	* Returns the Spring bean ID for this bean.
 	*
 	* @return the Spring bean ID for this bean
 	*/
-	public java.lang.String getBeanIdentifier();
+	public String getBeanIdentifier();
 
 	/**
 	* Sets the Spring bean ID for this bean.
 	*
 	* @param beanIdentifier the Spring bean ID for this bean
 	*/
-	public void setBeanIdentifier(java.lang.String beanIdentifier);
+	public void setBeanIdentifier(String beanIdentifier);
 }

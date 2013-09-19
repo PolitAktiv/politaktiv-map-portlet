@@ -41,6 +41,7 @@ import com.liferay.portal.service.persistence.BatchSessionUtil;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.util.service.ServiceProps;
 
 import org.politaktiv.map.infrastructure.NoSuchDbMarkerException;
 import org.politaktiv.map.infrastructure.model.DbMarker;
@@ -278,8 +279,7 @@ public class DbMarkerPersistenceImpl extends BasePersistenceImpl<DbMarker>
 	}
 
 	@Override
-	public DbMarker updateImpl(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker, boolean merge)
+	public DbMarker updateImpl(DbMarker dbMarker, boolean merge)
 		throws SystemException {
 		dbMarker = toUnwrappedModel(dbMarker);
 
@@ -811,7 +811,7 @@ public class DbMarkerPersistenceImpl extends BasePersistenceImpl<DbMarker>
 	 */
 	public void afterPropertiesSet() {
 		String[] listenerClassNames = StringUtil.split(GetterUtil.getString(
-					com.liferay.util.service.ServiceProps.get(
+					ServiceProps.get(
 						"value.object.listener.org.politaktiv.map.infrastructure.model.DbMarker")));
 
 		if (listenerClassNames.length > 0) {

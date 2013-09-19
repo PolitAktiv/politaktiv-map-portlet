@@ -14,11 +14,19 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import java.io.Serializable;
+import java.util.List;
+
+import org.politaktiv.map.infrastructure.model.DbMarker;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.model.PersistedModel;
 import com.liferay.portal.service.PersistedModelLocalService;
 
 /**
@@ -50,9 +58,9 @@ public interface DbMarkerLocalService extends PersistedModelLocalService {
 	* @return the db marker that was added
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker addDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public DbMarker addDbMarker(
+		DbMarker dbMarker)
+		throws SystemException;
 
 	/**
 	* Creates a new db marker with the primary key. Does not add the db marker to the database.
@@ -60,7 +68,7 @@ public interface DbMarkerLocalService extends PersistedModelLocalService {
 	* @param markerId the primary key for the new db marker
 	* @return the new db marker
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker createDbMarker(
+	public DbMarker createDbMarker(
 		long markerId);
 
 	/**
@@ -71,8 +79,8 @@ public interface DbMarkerLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteDbMarker(long markerId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws PortalException,
+			SystemException;
 
 	/**
 	* Deletes the db marker from the database. Also notifies the appropriate model listeners.
@@ -81,8 +89,8 @@ public interface DbMarkerLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	public void deleteDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		DbMarker dbMarker)
+		throws SystemException;
 
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.
@@ -92,9 +100,9 @@ public interface DbMarkerLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery)
+		throws SystemException;
 
 	/**
 	* Performs a dynamic query on the database and returns a range of the matching rows.
@@ -110,9 +118,9 @@ public interface DbMarkerLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException;
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
+		int end) throws SystemException;
 
 	/**
 	* Performs a dynamic query on the database and returns an ordered range of the matching rows.
@@ -129,11 +137,11 @@ public interface DbMarkerLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
 		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		OrderByComparator orderByComparator)
+		throws SystemException;
 
 	/**
 	* Returns the number of rows that match the dynamic query.
@@ -143,13 +151,13 @@ public interface DbMarkerLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		DynamicQuery dynamicQuery)
+		throws SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public org.politaktiv.map.infrastructure.model.DbMarker fetchDbMarker(
+	public DbMarker fetchDbMarker(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the db marker with the primary key.
@@ -160,16 +168,16 @@ public interface DbMarkerLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public org.politaktiv.map.infrastructure.model.DbMarker getDbMarker(
+	public DbMarker getDbMarker(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+		throws PortalException,
+			SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public com.liferay.portal.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+	public PersistedModel getPersistedModel(
+		Serializable primaryKeyObj)
+		throws PortalException,
+			SystemException;
 
 	/**
 	* Returns a range of all the db markers.
@@ -184,9 +192,9 @@ public interface DbMarkerLocalService extends PersistedModelLocalService {
 	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMarker> getDbMarkers(
+	public List<DbMarker> getDbMarkers(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the number of db markers.
@@ -196,7 +204,7 @@ public interface DbMarkerLocalService extends PersistedModelLocalService {
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getDbMarkersCount()
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Updates the db marker in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -205,9 +213,9 @@ public interface DbMarkerLocalService extends PersistedModelLocalService {
 	* @return the db marker that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker updateDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public DbMarker updateDbMarker(
+		DbMarker dbMarker)
+		throws SystemException;
 
 	/**
 	* Updates the db marker in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -217,21 +225,21 @@ public interface DbMarkerLocalService extends PersistedModelLocalService {
 	* @return the db marker that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker updateDbMarker(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker, boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public DbMarker updateDbMarker(
+		DbMarker dbMarker, boolean merge)
+		throws SystemException;
 
 	/**
 	* Returns the Spring bean ID for this bean.
 	*
 	* @return the Spring bean ID for this bean
 	*/
-	public java.lang.String getBeanIdentifier();
+	public String getBeanIdentifier();
 
 	/**
 	* Sets the Spring bean ID for this bean.
 	*
 	* @param beanIdentifier the Spring bean ID for this bean
 	*/
-	public void setBeanIdentifier(java.lang.String beanIdentifier);
+	public void setBeanIdentifier(String beanIdentifier);
 }

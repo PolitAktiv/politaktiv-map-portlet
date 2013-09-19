@@ -14,6 +14,10 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import org.politaktiv.map.infrastructure.model.DbPicture;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.security.auth.PrincipalException;
 import com.liferay.portal.service.ServiceWrapper;
 
 /**
@@ -31,11 +35,11 @@ public class DbPictureServiceWrapper implements DbPictureService,
 		_dbPictureService = dbPictureService;
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPicture addDbPicture(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture,
+	public DbPicture addDbPicture(
+		DbPicture dbPicture,
 		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.portal.security.auth.PrincipalException {
+		throws SystemException,
+			PrincipalException {
 		return _dbPictureService.addDbPicture(dbPicture, groupId);
 	}
 

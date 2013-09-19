@@ -41,6 +41,7 @@ import com.liferay.portal.service.persistence.BatchSessionUtil;
 import com.liferay.portal.service.persistence.ResourcePersistence;
 import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.util.service.ServiceProps;
 
 import org.politaktiv.map.infrastructure.NoSuchDbMapObjectException;
 import org.politaktiv.map.infrastructure.model.DbMapObject;
@@ -283,7 +284,7 @@ public class DbMapObjectPersistenceImpl extends BasePersistenceImpl<DbMapObject>
 
 	@Override
 	public DbMapObject updateImpl(
-		org.politaktiv.map.infrastructure.model.DbMapObject dbMapObject,
+		DbMapObject dbMapObject,
 		boolean merge) throws SystemException {
 		dbMapObject = toUnwrappedModel(dbMapObject);
 
@@ -1076,7 +1077,7 @@ public class DbMapObjectPersistenceImpl extends BasePersistenceImpl<DbMapObject>
 	 */
 	public void afterPropertiesSet() {
 		String[] listenerClassNames = StringUtil.split(GetterUtil.getString(
-					com.liferay.util.service.ServiceProps.get(
+					ServiceProps.get(
 						"value.object.listener.org.politaktiv.map.infrastructure.model.DbMapObject")));
 
 		if (listenerClassNames.length > 0) {

@@ -14,7 +14,13 @@
 
 package org.politaktiv.map.infrastructure.model;
 
+import java.io.Serializable;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelWrapper;
+import com.liferay.portal.service.ServiceContext;
+import com.liferay.portlet.expando.model.ExpandoBridge;
 
 /**
  * <p>
@@ -130,25 +136,25 @@ public class DbPointWrapper implements DbPoint, ModelWrapper<DbPoint> {
 		return _dbPoint.isEscapedModel();
 	}
 
-	public java.io.Serializable getPrimaryKeyObj() {
+	public Serializable getPrimaryKeyObj() {
 		return _dbPoint.getPrimaryKeyObj();
 	}
 
-	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_dbPoint.setPrimaryKeyObj(primaryKeyObj);
 	}
 
-	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
+	public ExpandoBridge getExpandoBridge() {
 		return _dbPoint.getExpandoBridge();
 	}
 
 	public void setExpandoBridgeAttributes(
-		com.liferay.portal.service.ServiceContext serviceContext) {
+		ServiceContext serviceContext) {
 		_dbPoint.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	@Override
-	public java.lang.Object clone() {
+	public Object clone() {
 		return new DbPointWrapper((DbPoint)_dbPoint.clone());
 	}
 
@@ -161,7 +167,7 @@ public class DbPointWrapper implements DbPoint, ModelWrapper<DbPoint> {
 		return _dbPoint.hashCode();
 	}
 
-	public com.liferay.portal.model.CacheModel<DbPoint> toCacheModel() {
+	public CacheModel<DbPoint> toCacheModel() {
 		return _dbPoint.toCacheModel();
 	}
 
@@ -170,16 +176,16 @@ public class DbPointWrapper implements DbPoint, ModelWrapper<DbPoint> {
 	}
 
 	@Override
-	public java.lang.String toString() {
+	public String toString() {
 		return _dbPoint.toString();
 	}
 
-	public java.lang.String toXmlString() {
+	public String toXmlString() {
 		return _dbPoint.toXmlString();
 	}
 
 	public void persist()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		_dbPoint.persist();
 	}
 

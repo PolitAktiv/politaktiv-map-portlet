@@ -14,7 +14,13 @@
 
 package org.politaktiv.map.infrastructure.model;
 
+import java.io.Serializable;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelWrapper;
+import com.liferay.portal.service.ServiceContext;
+import com.liferay.portlet.expando.model.ExpandoBridge;
 
 /**
  * <p>
@@ -135,8 +141,8 @@ public class DbMapObjectWrapper implements DbMapObject,
 	* @return the user uuid of this db map object
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.lang.String getUserUuid()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public String getUserUuid()
+		throws SystemException {
 		return _dbMapObject.getUserUuid();
 	}
 
@@ -145,7 +151,7 @@ public class DbMapObjectWrapper implements DbMapObject,
 	*
 	* @param userUuid the user uuid of this db map object
 	*/
-	public void setUserUuid(java.lang.String userUuid) {
+	public void setUserUuid(String userUuid) {
 		_dbMapObject.setUserUuid(userUuid);
 	}
 
@@ -154,7 +160,7 @@ public class DbMapObjectWrapper implements DbMapObject,
 	*
 	* @return the name of this db map object
 	*/
-	public java.lang.String getName() {
+	public String getName() {
 		return _dbMapObject.getName();
 	}
 
@@ -163,7 +169,7 @@ public class DbMapObjectWrapper implements DbMapObject,
 	*
 	* @param name the name of this db map object
 	*/
-	public void setName(java.lang.String name) {
+	public void setName(String name) {
 		_dbMapObject.setName(name);
 	}
 
@@ -172,7 +178,7 @@ public class DbMapObjectWrapper implements DbMapObject,
 	*
 	* @return the description of this db map object
 	*/
-	public java.lang.String getDescription() {
+	public String getDescription() {
 		return _dbMapObject.getDescription();
 	}
 
@@ -181,7 +187,7 @@ public class DbMapObjectWrapper implements DbMapObject,
 	*
 	* @param description the description of this db map object
 	*/
-	public void setDescription(java.lang.String description) {
+	public void setDescription(String description) {
 		_dbMapObject.setDescription(description);
 	}
 
@@ -190,7 +196,7 @@ public class DbMapObjectWrapper implements DbMapObject,
 	*
 	* @return the reference url of this db map object
 	*/
-	public java.lang.String getReferenceUrl() {
+	public String getReferenceUrl() {
 		return _dbMapObject.getReferenceUrl();
 	}
 
@@ -199,7 +205,7 @@ public class DbMapObjectWrapper implements DbMapObject,
 	*
 	* @param referenceUrl the reference url of this db map object
 	*/
-	public void setReferenceUrl(java.lang.String referenceUrl) {
+	public void setReferenceUrl(String referenceUrl) {
 		_dbMapObject.setReferenceUrl(referenceUrl);
 	}
 
@@ -244,7 +250,7 @@ public class DbMapObjectWrapper implements DbMapObject,
 	*
 	* @return the type of this db map object
 	*/
-	public java.lang.String getType() {
+	public String getType() {
 		return _dbMapObject.getType();
 	}
 
@@ -253,7 +259,7 @@ public class DbMapObjectWrapper implements DbMapObject,
 	*
 	* @param type the type of this db map object
 	*/
-	public void setType(java.lang.String type) {
+	public void setType(String type) {
 		_dbMapObject.setType(type);
 	}
 
@@ -295,25 +301,25 @@ public class DbMapObjectWrapper implements DbMapObject,
 		return _dbMapObject.isEscapedModel();
 	}
 
-	public java.io.Serializable getPrimaryKeyObj() {
+	public Serializable getPrimaryKeyObj() {
 		return _dbMapObject.getPrimaryKeyObj();
 	}
 
-	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_dbMapObject.setPrimaryKeyObj(primaryKeyObj);
 	}
 
-	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
+	public ExpandoBridge getExpandoBridge() {
 		return _dbMapObject.getExpandoBridge();
 	}
 
 	public void setExpandoBridgeAttributes(
-		com.liferay.portal.service.ServiceContext serviceContext) {
+		ServiceContext serviceContext) {
 		_dbMapObject.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	@Override
-	public java.lang.Object clone() {
+	public Object clone() {
 		return new DbMapObjectWrapper((DbMapObject)_dbMapObject.clone());
 	}
 
@@ -326,7 +332,7 @@ public class DbMapObjectWrapper implements DbMapObject,
 		return _dbMapObject.hashCode();
 	}
 
-	public com.liferay.portal.model.CacheModel<DbMapObject> toCacheModel() {
+	public CacheModel<DbMapObject> toCacheModel() {
 		return _dbMapObject.toCacheModel();
 	}
 
@@ -335,16 +341,16 @@ public class DbMapObjectWrapper implements DbMapObject,
 	}
 
 	@Override
-	public java.lang.String toString() {
+	public String toString() {
 		return _dbMapObject.toString();
 	}
 
-	public java.lang.String toXmlString() {
+	public String toXmlString() {
 		return _dbMapObject.toXmlString();
 	}
 
 	public void persist()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		_dbMapObject.persist();
 	}
 

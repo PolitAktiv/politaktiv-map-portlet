@@ -21,7 +21,9 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
 import com.liferay.portal.service.ServiceContext;
 
+import org.politaktiv.map.infrastructure.NoSuchDbPointException;
 import org.politaktiv.map.infrastructure.model.DbPoint;
+import org.politaktiv.map.infrastructure.service.ClpSerializer;
 
 import java.util.List;
 
@@ -116,7 +118,7 @@ public class DbPointUtil {
 	* @param dbPoint the db point
 	*/
 	public static void cacheResult(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint) {
+		DbPoint dbPoint) {
 		getPersistence().cacheResult(dbPoint);
 	}
 
@@ -126,7 +128,7 @@ public class DbPointUtil {
 	* @param dbPoints the db points
 	*/
 	public static void cacheResult(
-		java.util.List<org.politaktiv.map.infrastructure.model.DbPoint> dbPoints) {
+		List<DbPoint> dbPoints) {
 		getPersistence().cacheResult(dbPoints);
 	}
 
@@ -136,7 +138,7 @@ public class DbPointUtil {
 	* @param pointId the primary key for the new db point
 	* @return the new db point
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbPoint create(
+	public static DbPoint create(
 		long pointId) {
 		return getPersistence().create(pointId);
 	}
@@ -146,34 +148,34 @@ public class DbPointUtil {
 	*
 	* @param pointId the primary key of the db point
 	* @return the db point that was removed
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbPointException if a db point with the primary key could not be found
+	* @throws NoSuchDbPointException if a db point with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbPoint remove(
+	public static DbPoint remove(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbPointException {
+		throws SystemException,
+			NoSuchDbPointException {
 		return getPersistence().remove(pointId);
 	}
 
-	public static org.politaktiv.map.infrastructure.model.DbPoint updateImpl(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint, boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static DbPoint updateImpl(
+		DbPoint dbPoint, boolean merge)
+		throws SystemException {
 		return getPersistence().updateImpl(dbPoint, merge);
 	}
 
 	/**
-	* Returns the db point with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchDbPointException} if it could not be found.
+	* Returns the db point with the primary key or throws a {@link NoSuchDbPointException} if it could not be found.
 	*
 	* @param pointId the primary key of the db point
 	* @return the db point
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbPointException if a db point with the primary key could not be found
+	* @throws NoSuchDbPointException if a db point with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbPoint findByPrimaryKey(
+	public static DbPoint findByPrimaryKey(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbPointException {
+		throws SystemException,
+			NoSuchDbPointException {
 		return getPersistence().findByPrimaryKey(pointId);
 	}
 
@@ -184,24 +186,24 @@ public class DbPointUtil {
 	* @return the db point, or <code>null</code> if a db point with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbPoint fetchByPrimaryKey(
+	public static DbPoint fetchByPrimaryKey(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().fetchByPrimaryKey(pointId);
 	}
 
 	/**
-	* Returns the db point where pointId = &#63; or throws a {@link org.politaktiv.map.infrastructure.NoSuchDbPointException} if it could not be found.
+	* Returns the db point where pointId = &#63; or throws a {@link NoSuchDbPointException} if it could not be found.
 	*
 	* @param pointId the point ID
 	* @return the matching db point
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbPointException if a matching db point could not be found
+	* @throws NoSuchDbPointException if a matching db point could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbPoint findBypointId(
+	public static DbPoint findBypointId(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbPointException {
+		throws SystemException,
+			NoSuchDbPointException {
 		return getPersistence().findBypointId(pointId);
 	}
 
@@ -212,9 +214,9 @@ public class DbPointUtil {
 	* @return the matching db point, or <code>null</code> if a matching db point could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbPoint fetchBypointId(
+	public static DbPoint fetchBypointId(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().fetchBypointId(pointId);
 	}
 
@@ -226,9 +228,9 @@ public class DbPointUtil {
 	* @return the matching db point, or <code>null</code> if a matching db point could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static org.politaktiv.map.infrastructure.model.DbPoint fetchBypointId(
+	public static DbPoint fetchBypointId(
 		long pointId, boolean retrieveFromCache)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().fetchBypointId(pointId, retrieveFromCache);
 	}
 
@@ -238,8 +240,8 @@ public class DbPointUtil {
 	* @return the db points
 	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<org.politaktiv.map.infrastructure.model.DbPoint> findAll()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<DbPoint> findAll()
+		throws SystemException {
 		return getPersistence().findAll();
 	}
 
@@ -255,9 +257,9 @@ public class DbPointUtil {
 	* @return the range of db points
 	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<org.politaktiv.map.infrastructure.model.DbPoint> findAll(
+	public static List<DbPoint> findAll(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().findAll(start, end);
 	}
 
@@ -274,10 +276,10 @@ public class DbPointUtil {
 	* @return the ordered range of db points
 	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<org.politaktiv.map.infrastructure.model.DbPoint> findAll(
+	public static List<DbPoint> findAll(
 		int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		OrderByComparator orderByComparator)
+		throws SystemException {
 		return getPersistence().findAll(start, end, orderByComparator);
 	}
 
@@ -288,8 +290,8 @@ public class DbPointUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeBypointId(long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbPointException {
+		throws SystemException,
+			NoSuchDbPointException {
 		getPersistence().removeBypointId(pointId);
 	}
 
@@ -299,7 +301,7 @@ public class DbPointUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeAll()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		getPersistence().removeAll();
 	}
 
@@ -311,7 +313,7 @@ public class DbPointUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static int countBypointId(long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().countBypointId(pointId);
 	}
 
@@ -322,13 +324,13 @@ public class DbPointUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static int countAll()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		return getPersistence().countAll();
 	}
 
 	public static DbPointPersistence getPersistence() {
 		if (_persistence == null) {
-			_persistence = (DbPointPersistence)PortletBeanLocatorUtil.locate(org.politaktiv.map.infrastructure.service.ClpSerializer.getServletContextName(),
+			_persistence = (DbPointPersistence)PortletBeanLocatorUtil.locate(ClpSerializer.getServletContextName(),
 					DbPointPersistence.class.getName());
 
 			ReferenceRegistry.registerReference(DbPointUtil.class,

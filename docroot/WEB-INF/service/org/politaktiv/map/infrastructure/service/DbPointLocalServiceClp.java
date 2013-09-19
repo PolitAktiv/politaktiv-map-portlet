@@ -14,9 +14,19 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import java.io.Serializable;
+import java.util.List;
+
+import org.politaktiv.map.infrastructure.model.DbPoint;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.ClassLoaderProxy;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.model.PersistedModel;
 
 /**
  * @author eichi
@@ -27,7 +37,7 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 
 		_addDbPointMethodKey0 = new MethodKey(_classLoaderProxy.getClassName(),
 				"addDbPoint",
-				org.politaktiv.map.infrastructure.model.DbPoint.class);
+				DbPoint.class);
 
 		_createDbPointMethodKey1 = new MethodKey(_classLoaderProxy.getClassName(),
 				"createDbPoint", long.class);
@@ -37,26 +47,26 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 
 		_deleteDbPointMethodKey3 = new MethodKey(_classLoaderProxy.getClassName(),
 				"deleteDbPoint",
-				org.politaktiv.map.infrastructure.model.DbPoint.class);
+				DbPoint.class);
 
 		_dynamicQueryMethodKey4 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQuery",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class);
+				DynamicQuery.class);
 
 		_dynamicQueryMethodKey5 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQuery",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class,
+				DynamicQuery.class,
 				int.class, int.class);
 
 		_dynamicQueryMethodKey6 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQuery",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class,
+				DynamicQuery.class,
 				int.class, int.class,
-				com.liferay.portal.kernel.util.OrderByComparator.class);
+				OrderByComparator.class);
 
 		_dynamicQueryCountMethodKey7 = new MethodKey(_classLoaderProxy.getClassName(),
 				"dynamicQueryCount",
-				com.liferay.portal.kernel.dao.orm.DynamicQuery.class);
+				DynamicQuery.class);
 
 		_fetchDbPointMethodKey8 = new MethodKey(_classLoaderProxy.getClassName(),
 				"fetchDbPoint", long.class);
@@ -65,7 +75,7 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 				"getDbPoint", long.class);
 
 		_getPersistedModelMethodKey10 = new MethodKey(_classLoaderProxy.getClassName(),
-				"getPersistedModel", java.io.Serializable.class);
+				"getPersistedModel", Serializable.class);
 
 		_getDbPointsMethodKey11 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getDbPoints", int.class, int.class);
@@ -75,23 +85,23 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 
 		_updateDbPointMethodKey13 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateDbPoint",
-				org.politaktiv.map.infrastructure.model.DbPoint.class);
+				DbPoint.class);
 
 		_updateDbPointMethodKey14 = new MethodKey(_classLoaderProxy.getClassName(),
 				"updateDbPoint",
-				org.politaktiv.map.infrastructure.model.DbPoint.class,
+				DbPoint.class,
 				boolean.class);
 
 		_getBeanIdentifierMethodKey15 = new MethodKey(_classLoaderProxy.getClassName(),
 				"getBeanIdentifier");
 
 		_setBeanIdentifierMethodKey16 = new MethodKey(_classLoaderProxy.getClassName(),
-				"setBeanIdentifier", java.lang.String.class);
+				"setBeanIdentifier", String.class);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPoint addDbPoint(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbPoint addDbPoint(
+		DbPoint dbPoint)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_addDbPointMethodKey0,
@@ -101,8 +111,8 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -114,10 +124,10 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbPoint)ClpSerializer.translateOutput(returnObj);
+		return (DbPoint)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPoint createDbPoint(
+	public DbPoint createDbPoint(
 		long pointId) {
 		Object returnObj = null;
 
@@ -137,12 +147,12 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbPoint)ClpSerializer.translateOutput(returnObj);
+		return (DbPoint)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public void deleteDbPoint(long pointId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		MethodHandler methodHandler = new MethodHandler(_deleteDbPointMethodKey2,
 				pointId);
 
@@ -150,12 +160,12 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			_classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
-				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			if (t instanceof PortalException) {
+				throw (PortalException)t;
 			}
 
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -169,8 +179,8 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 	}
 
 	public void deleteDbPoint(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		DbPoint dbPoint)
+		throws SystemException {
 		MethodHandler methodHandler = new MethodHandler(_deleteDbPointMethodKey3,
 				ClpSerializer.translateInput(dbPoint));
 
@@ -178,8 +188,8 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			_classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -193,9 +203,9 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryMethodKey4,
@@ -205,8 +215,8 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -218,13 +228,13 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (List)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException {
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
+		int end) throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryMethodKey5,
@@ -234,8 +244,8 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -247,15 +257,15 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (List)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+	public List dynamicQuery(
+		DynamicQuery dynamicQuery, int start,
 		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		OrderByComparator orderByComparator)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryMethodKey6,
@@ -266,8 +276,8 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -279,12 +289,12 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (List)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		DynamicQuery dynamicQuery)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_dynamicQueryCountMethodKey7,
@@ -294,8 +304,8 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -310,9 +320,9 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 		return ((Long)returnObj).longValue();
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPoint fetchDbPoint(
+	public DbPoint fetchDbPoint(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_fetchDbPointMethodKey8,
@@ -322,8 +332,8 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -335,13 +345,13 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbPoint)ClpSerializer.translateOutput(returnObj);
+		return (DbPoint)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPoint getDbPoint(
+	public DbPoint getDbPoint(
 		long pointId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws PortalException,
+			SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getDbPointMethodKey9,
@@ -351,12 +361,12 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
-				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			if (t instanceof PortalException) {
+				throw (PortalException)t;
 			}
 
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -368,13 +378,13 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbPoint)ClpSerializer.translateOutput(returnObj);
+		return (DbPoint)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public com.liferay.portal.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+	public PersistedModel getPersistedModel(
+		Serializable primaryKeyObj)
+		throws PortalException,
+			SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getPersistedModelMethodKey10,
@@ -384,12 +394,12 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
-				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			if (t instanceof PortalException) {
+				throw (PortalException)t;
 			}
 
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -401,12 +411,12 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			}
 		}
 
-		return (com.liferay.portal.model.PersistedModel)ClpSerializer.translateOutput(returnObj);
+		return (PersistedModel)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbPoint> getDbPoints(
+	public List<DbPoint> getDbPoints(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getDbPointsMethodKey11,
@@ -416,8 +426,8 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -429,11 +439,11 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			}
 		}
 
-		return (java.util.List<org.politaktiv.map.infrastructure.model.DbPoint>)ClpSerializer.translateOutput(returnObj);
+		return (List<DbPoint>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public int getDbPointsCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getDbPointsCountMethodKey12);
@@ -442,8 +452,8 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -458,9 +468,9 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 		return ((Integer)returnObj).intValue();
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPoint updateDbPoint(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbPoint updateDbPoint(
+		DbPoint dbPoint)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_updateDbPointMethodKey13,
@@ -470,8 +480,8 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -483,12 +493,12 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbPoint)ClpSerializer.translateOutput(returnObj);
+		return (DbPoint)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPoint updateDbPoint(
-		org.politaktiv.map.infrastructure.model.DbPoint dbPoint, boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public DbPoint updateDbPoint(
+		DbPoint dbPoint, boolean merge)
+		throws SystemException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_updateDbPointMethodKey14,
@@ -498,8 +508,8 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -511,10 +521,10 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbPoint)ClpSerializer.translateOutput(returnObj);
+		return (DbPoint)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public java.lang.String getBeanIdentifier() {
+	public String getBeanIdentifier() {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_getBeanIdentifierMethodKey15);
@@ -532,10 +542,10 @@ public class DbPointLocalServiceClp implements DbPointLocalService {
 			}
 		}
 
-		return (java.lang.String)ClpSerializer.translateOutput(returnObj);
+		return (String)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public void setBeanIdentifier(java.lang.String beanIdentifier) {
+	public void setBeanIdentifier(String beanIdentifier) {
 		MethodHandler methodHandler = new MethodHandler(_setBeanIdentifierMethodKey16,
 				ClpSerializer.translateInput(beanIdentifier));
 

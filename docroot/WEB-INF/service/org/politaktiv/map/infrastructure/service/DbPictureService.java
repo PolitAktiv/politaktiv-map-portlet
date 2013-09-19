@@ -14,11 +14,14 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import org.politaktiv.map.infrastructure.model.DbPicture;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Transactional;
+import com.liferay.portal.security.auth.PrincipalException;
 
 /**
  * The interface for the db picture remote service.
@@ -42,9 +45,9 @@ public interface DbPictureService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link DbPictureServiceUtil} to access the db picture remote service. Add custom service methods to {@link org.politaktiv.map.infrastructure.service.impl.DbPictureServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public org.politaktiv.map.infrastructure.model.DbPicture addDbPicture(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture,
+	public DbPicture addDbPicture(
+		DbPicture dbPicture,
 		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.portal.security.auth.PrincipalException;
+		throws SystemException,
+			PrincipalException;
 }

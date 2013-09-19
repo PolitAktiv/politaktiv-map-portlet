@@ -14,8 +14,13 @@
 
 package org.politaktiv.map.infrastructure.service.persistence;
 
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.service.persistence.BasePersistence;
 
+import org.politaktiv.map.infrastructure.NoSuchDbMapObjectException;
 import org.politaktiv.map.infrastructure.model.DbMapObject;
 
 /**
@@ -43,7 +48,7 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @param dbMapObject the db map object
 	*/
 	public void cacheResult(
-		org.politaktiv.map.infrastructure.model.DbMapObject dbMapObject);
+		DbMapObject dbMapObject);
 
 	/**
 	* Caches the db map objects in the entity cache if it is enabled.
@@ -51,7 +56,7 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @param dbMapObjects the db map objects
 	*/
 	public void cacheResult(
-		java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> dbMapObjects);
+		List<DbMapObject> dbMapObjects);
 
 	/**
 	* Creates a new db map object with the primary key. Does not add the db map object to the database.
@@ -59,7 +64,7 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @param mapObjectId the primary key for the new db map object
 	* @return the new db map object
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMapObject create(
+	public DbMapObject create(
 		long mapObjectId);
 
 	/**
@@ -67,31 +72,31 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	*
 	* @param mapObjectId the primary key of the db map object
 	* @return the db map object that was removed
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbMapObjectException if a db map object with the primary key could not be found
+	* @throws NoSuchDbMapObjectException if a db map object with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMapObject remove(
+	public DbMapObject remove(
 		long mapObjectId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMapObjectException;
+		throws SystemException,
+			NoSuchDbMapObjectException;
 
-	public org.politaktiv.map.infrastructure.model.DbMapObject updateImpl(
-		org.politaktiv.map.infrastructure.model.DbMapObject dbMapObject,
+	public DbMapObject updateImpl(
+		DbMapObject dbMapObject,
 		boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
-	* Returns the db map object with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchDbMapObjectException} if it could not be found.
+	* Returns the db map object with the primary key or throws a {@link NoSuchDbMapObjectException} if it could not be found.
 	*
 	* @param mapObjectId the primary key of the db map object
 	* @return the db map object
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbMapObjectException if a db map object with the primary key could not be found
+	* @throws NoSuchDbMapObjectException if a db map object with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMapObject findByPrimaryKey(
+	public DbMapObject findByPrimaryKey(
 		long mapObjectId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMapObjectException;
+		throws SystemException,
+			NoSuchDbMapObjectException;
 
 	/**
 	* Returns the db map object with the primary key or returns <code>null</code> if it could not be found.
@@ -100,9 +105,9 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @return the db map object, or <code>null</code> if a db map object with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMapObject fetchByPrimaryKey(
+	public DbMapObject fetchByPrimaryKey(
 		long mapObjectId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns all the db map objects where companyId = &#63; and groupId = &#63;.
@@ -112,9 +117,9 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @return the matching db map objects
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> findBycompanyIdAndgroupId(
+	public List<DbMapObject> findBycompanyIdAndgroupId(
 		long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns a range of all the db map objects where companyId = &#63; and groupId = &#63;.
@@ -130,9 +135,9 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @return the range of matching db map objects
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> findBycompanyIdAndgroupId(
+	public List<DbMapObject> findBycompanyIdAndgroupId(
 		long companyId, long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns an ordered range of all the db map objects where companyId = &#63; and groupId = &#63;.
@@ -149,10 +154,10 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @return the ordered range of matching db map objects
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> findBycompanyIdAndgroupId(
+	public List<DbMapObject> findBycompanyIdAndgroupId(
 		long companyId, long groupId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		OrderByComparator orderByComparator)
+		throws SystemException;
 
 	/**
 	* Returns the first db map object in the ordered set where companyId = &#63; and groupId = &#63;.
@@ -165,14 +170,14 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching db map object
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbMapObjectException if a matching db map object could not be found
+	* @throws NoSuchDbMapObjectException if a matching db map object could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMapObject findBycompanyIdAndgroupId_First(
+	public DbMapObject findBycompanyIdAndgroupId_First(
 		long companyId, long groupId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMapObjectException;
+		OrderByComparator orderByComparator)
+		throws SystemException,
+			NoSuchDbMapObjectException;
 
 	/**
 	* Returns the last db map object in the ordered set where companyId = &#63; and groupId = &#63;.
@@ -185,14 +190,14 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching db map object
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbMapObjectException if a matching db map object could not be found
+	* @throws NoSuchDbMapObjectException if a matching db map object could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMapObject findBycompanyIdAndgroupId_Last(
+	public DbMapObject findBycompanyIdAndgroupId_Last(
 		long companyId, long groupId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMapObjectException;
+		OrderByComparator orderByComparator)
+		throws SystemException,
+			NoSuchDbMapObjectException;
 
 	/**
 	* Returns the db map objects before and after the current db map object in the ordered set where companyId = &#63; and groupId = &#63;.
@@ -206,14 +211,14 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next db map object
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbMapObjectException if a db map object with the primary key could not be found
+	* @throws NoSuchDbMapObjectException if a db map object with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMapObject[] findBycompanyIdAndgroupId_PrevAndNext(
+	public DbMapObject[] findBycompanyIdAndgroupId_PrevAndNext(
 		long mapObjectId, long companyId, long groupId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMapObjectException;
+		OrderByComparator orderByComparator)
+		throws SystemException,
+			NoSuchDbMapObjectException;
 
 	/**
 	* Returns all the db map objects.
@@ -221,8 +226,8 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @return the db map objects
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> findAll()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public List<DbMapObject> findAll()
+		throws SystemException;
 
 	/**
 	* Returns a range of all the db map objects.
@@ -236,9 +241,9 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @return the range of db map objects
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> findAll(
+	public List<DbMapObject> findAll(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns an ordered range of all the db map objects.
@@ -253,10 +258,10 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @return the ordered range of db map objects
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> findAll(
+	public List<DbMapObject> findAll(
 		int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		OrderByComparator orderByComparator)
+		throws SystemException;
 
 	/**
 	* Removes all the db map objects where companyId = &#63; and groupId = &#63; from the database.
@@ -266,7 +271,7 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public void removeBycompanyIdAndgroupId(long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Removes all the db map objects from the database.
@@ -274,7 +279,7 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public void removeAll()
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the number of db map objects where companyId = &#63; and groupId = &#63;.
@@ -285,7 +290,7 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public int countBycompanyIdAndgroupId(long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the number of db map objects.
@@ -294,5 +299,5 @@ public interface DbMapObjectPersistence extends BasePersistence<DbMapObject> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public int countAll()
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 }

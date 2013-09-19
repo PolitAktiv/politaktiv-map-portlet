@@ -14,8 +14,13 @@
 
 package org.politaktiv.map.infrastructure.service.persistence;
 
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.service.persistence.BasePersistence;
 
+import org.politaktiv.map.infrastructure.NoSuchDbMarkerException;
 import org.politaktiv.map.infrastructure.model.DbMarker;
 
 /**
@@ -43,7 +48,7 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	* @param dbMarker the db marker
 	*/
 	public void cacheResult(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker);
+		DbMarker dbMarker);
 
 	/**
 	* Caches the db markers in the entity cache if it is enabled.
@@ -51,7 +56,7 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	* @param dbMarkers the db markers
 	*/
 	public void cacheResult(
-		java.util.List<org.politaktiv.map.infrastructure.model.DbMarker> dbMarkers);
+		List<DbMarker> dbMarkers);
 
 	/**
 	* Creates a new db marker with the primary key. Does not add the db marker to the database.
@@ -59,7 +64,7 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	* @param markerId the primary key for the new db marker
 	* @return the new db marker
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker create(
+	public DbMarker create(
 		long markerId);
 
 	/**
@@ -67,30 +72,30 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	*
 	* @param markerId the primary key of the db marker
 	* @return the db marker that was removed
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbMarkerException if a db marker with the primary key could not be found
+	* @throws NoSuchDbMarkerException if a db marker with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker remove(
+	public DbMarker remove(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMarkerException;
+		throws SystemException,
+			NoSuchDbMarkerException;
 
-	public org.politaktiv.map.infrastructure.model.DbMarker updateImpl(
-		org.politaktiv.map.infrastructure.model.DbMarker dbMarker, boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public DbMarker updateImpl(
+		DbMarker dbMarker, boolean merge)
+		throws SystemException;
 
 	/**
-	* Returns the db marker with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchDbMarkerException} if it could not be found.
+	* Returns the db marker with the primary key or throws a {@link NoSuchDbMarkerException} if it could not be found.
 	*
 	* @param markerId the primary key of the db marker
 	* @return the db marker
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbMarkerException if a db marker with the primary key could not be found
+	* @throws NoSuchDbMarkerException if a db marker with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker findByPrimaryKey(
+	public DbMarker findByPrimaryKey(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMarkerException;
+		throws SystemException,
+			NoSuchDbMarkerException;
 
 	/**
 	* Returns the db marker with the primary key or returns <code>null</code> if it could not be found.
@@ -99,22 +104,22 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	* @return the db marker, or <code>null</code> if a db marker with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker fetchByPrimaryKey(
+	public DbMarker fetchByPrimaryKey(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
-	* Returns the db marker where markerId = &#63; or throws a {@link org.politaktiv.map.infrastructure.NoSuchDbMarkerException} if it could not be found.
+	* Returns the db marker where markerId = &#63; or throws a {@link NoSuchDbMarkerException} if it could not be found.
 	*
 	* @param markerId the marker ID
 	* @return the matching db marker
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbMarkerException if a matching db marker could not be found
+	* @throws NoSuchDbMarkerException if a matching db marker could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker findBymarkerId(
+	public DbMarker findBymarkerId(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMarkerException;
+		throws SystemException,
+			NoSuchDbMarkerException;
 
 	/**
 	* Returns the db marker where markerId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
@@ -123,9 +128,9 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	* @return the matching db marker, or <code>null</code> if a matching db marker could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker fetchBymarkerId(
+	public DbMarker fetchBymarkerId(
 		long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the db marker where markerId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
@@ -135,9 +140,9 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	* @return the matching db marker, or <code>null</code> if a matching db marker could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbMarker fetchBymarkerId(
+	public DbMarker fetchBymarkerId(
 		long markerId, boolean retrieveFromCache)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns all the db markers.
@@ -145,8 +150,8 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	* @return the db markers
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMarker> findAll()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public List<DbMarker> findAll()
+		throws SystemException;
 
 	/**
 	* Returns a range of all the db markers.
@@ -160,9 +165,9 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	* @return the range of db markers
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMarker> findAll(
+	public List<DbMarker> findAll(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns an ordered range of all the db markers.
@@ -177,10 +182,10 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	* @return the ordered range of db markers
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMarker> findAll(
+	public List<DbMarker> findAll(
 		int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		OrderByComparator orderByComparator)
+		throws SystemException;
 
 	/**
 	* Removes the db marker where markerId = &#63; from the database.
@@ -189,8 +194,8 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public void removeBymarkerId(long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbMarkerException;
+		throws SystemException,
+			NoSuchDbMarkerException;
 
 	/**
 	* Removes all the db markers from the database.
@@ -198,7 +203,7 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public void removeAll()
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the number of db markers where markerId = &#63;.
@@ -208,7 +213,7 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public int countBymarkerId(long markerId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the number of db markers.
@@ -217,5 +222,5 @@ public interface DbMarkerPersistence extends BasePersistence<DbMarker> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public int countAll()
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 }

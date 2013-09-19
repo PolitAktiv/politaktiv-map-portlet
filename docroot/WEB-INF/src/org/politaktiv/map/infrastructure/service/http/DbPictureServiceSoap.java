@@ -17,6 +17,8 @@ package org.politaktiv.map.infrastructure.service.http;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
+import org.politaktiv.map.infrastructure.model.DbPicture;
+import org.politaktiv.map.infrastructure.model.DbPictureSoap;
 import org.politaktiv.map.infrastructure.service.DbPictureServiceUtil;
 
 import java.rmi.RemoteException;
@@ -65,14 +67,13 @@ import java.rmi.RemoteException;
  * @generated
  */
 public class DbPictureServiceSoap {
-	public static org.politaktiv.map.infrastructure.model.DbPictureSoap addDbPicture(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture,
+	public static DbPictureSoap addDbPicture(DbPicture dbPicture,
 		long groupId) throws RemoteException {
 		try {
-			org.politaktiv.map.infrastructure.model.DbPicture returnValue = DbPictureServiceUtil.addDbPicture(dbPicture,
+			DbPicture returnValue = DbPictureServiceUtil.addDbPicture(dbPicture,
 					groupId);
 
-			return org.politaktiv.map.infrastructure.model.DbPictureSoap.toSoapModel(returnValue);
+			return DbPictureSoap.toSoapModel(returnValue);
 		}
 		catch (Exception e) {
 			_log.error(e, e);

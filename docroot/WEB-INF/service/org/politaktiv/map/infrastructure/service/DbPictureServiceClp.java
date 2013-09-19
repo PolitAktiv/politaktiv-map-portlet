@@ -14,9 +14,13 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import org.politaktiv.map.infrastructure.model.DbPicture;
+
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.ClassLoaderProxy;
 import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
+import com.liferay.portal.security.auth.PrincipalException;
 
 /**
  * @author eichi
@@ -27,15 +31,15 @@ public class DbPictureServiceClp implements DbPictureService {
 
 		_addDbPictureMethodKey0 = new MethodKey(_classLoaderProxy.getClassName(),
 				"addDbPicture",
-				org.politaktiv.map.infrastructure.model.DbPicture.class,
+				DbPicture.class,
 				long.class);
 	}
 
-	public org.politaktiv.map.infrastructure.model.DbPicture addDbPicture(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture,
+	public DbPicture addDbPicture(
+		DbPicture dbPicture,
 		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.portal.security.auth.PrincipalException {
+		throws SystemException,
+			PrincipalException {
 		Object returnObj = null;
 
 		MethodHandler methodHandler = new MethodHandler(_addDbPictureMethodKey0,
@@ -45,12 +49,12 @@ public class DbPictureServiceClp implements DbPictureService {
 			returnObj = _classLoaderProxy.invoke(methodHandler);
 		}
 		catch (Throwable t) {
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			if (t instanceof SystemException) {
+				throw (SystemException)t;
 			}
 
-			if (t instanceof com.liferay.portal.security.auth.PrincipalException) {
-				throw (com.liferay.portal.security.auth.PrincipalException)t;
+			if (t instanceof PrincipalException) {
+				throw (PrincipalException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -62,7 +66,7 @@ public class DbPictureServiceClp implements DbPictureService {
 			}
 		}
 
-		return (org.politaktiv.map.infrastructure.model.DbPicture)ClpSerializer.translateOutput(returnObj);
+		return (DbPicture)ClpSerializer.translateOutput(returnObj);
 	}
 
 	public ClassLoaderProxy getClassLoaderProxy() {

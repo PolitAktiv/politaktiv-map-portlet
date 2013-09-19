@@ -14,8 +14,13 @@
 
 package org.politaktiv.map.infrastructure.service.persistence;
 
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.service.persistence.BasePersistence;
 
+import org.politaktiv.map.infrastructure.NoSuchDbPictureException;
 import org.politaktiv.map.infrastructure.model.DbPicture;
 
 /**
@@ -43,7 +48,7 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	* @param dbPicture the db picture
 	*/
 	public void cacheResult(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture);
+		DbPicture dbPicture);
 
 	/**
 	* Caches the db pictures in the entity cache if it is enabled.
@@ -51,7 +56,7 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	* @param dbPictures the db pictures
 	*/
 	public void cacheResult(
-		java.util.List<org.politaktiv.map.infrastructure.model.DbPicture> dbPictures);
+		List<DbPicture> dbPictures);
 
 	/**
 	* Creates a new db picture with the primary key. Does not add the db picture to the database.
@@ -59,7 +64,7 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	* @param pictureId the primary key for the new db picture
 	* @return the new db picture
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPicture create(
+	public DbPicture create(
 		long pictureId);
 
 	/**
@@ -67,31 +72,31 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	*
 	* @param pictureId the primary key of the db picture
 	* @return the db picture that was removed
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbPictureException if a db picture with the primary key could not be found
+	* @throws NoSuchDbPictureException if a db picture with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPicture remove(
+	public DbPicture remove(
 		long pictureId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbPictureException;
+		throws SystemException,
+			NoSuchDbPictureException;
 
-	public org.politaktiv.map.infrastructure.model.DbPicture updateImpl(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture,
+	public DbPicture updateImpl(
+		DbPicture dbPicture,
 		boolean merge)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
-	* Returns the db picture with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchDbPictureException} if it could not be found.
+	* Returns the db picture with the primary key or throws a {@link NoSuchDbPictureException} if it could not be found.
 	*
 	* @param pictureId the primary key of the db picture
 	* @return the db picture
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbPictureException if a db picture with the primary key could not be found
+	* @throws NoSuchDbPictureException if a db picture with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPicture findByPrimaryKey(
+	public DbPicture findByPrimaryKey(
 		long pictureId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbPictureException;
+		throws SystemException,
+			NoSuchDbPictureException;
 
 	/**
 	* Returns the db picture with the primary key or returns <code>null</code> if it could not be found.
@@ -100,22 +105,22 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	* @return the db picture, or <code>null</code> if a db picture with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPicture fetchByPrimaryKey(
+	public DbPicture fetchByPrimaryKey(
 		long pictureId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
-	* Returns the db picture where pictureId = &#63; or throws a {@link org.politaktiv.map.infrastructure.NoSuchDbPictureException} if it could not be found.
+	* Returns the db picture where pictureId = &#63; or throws a {@link NoSuchDbPictureException} if it could not be found.
 	*
 	* @param pictureId the picture ID
 	* @return the matching db picture
-	* @throws org.politaktiv.map.infrastructure.NoSuchDbPictureException if a matching db picture could not be found
+	* @throws NoSuchDbPictureException if a matching db picture could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPicture findBypictureId(
+	public DbPicture findBypictureId(
 		long pictureId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbPictureException;
+		throws SystemException,
+			NoSuchDbPictureException;
 
 	/**
 	* Returns the db picture where pictureId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
@@ -124,9 +129,9 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	* @return the matching db picture, or <code>null</code> if a matching db picture could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPicture fetchBypictureId(
+	public DbPicture fetchBypictureId(
 		long pictureId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the db picture where pictureId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
@@ -136,9 +141,9 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	* @return the matching db picture, or <code>null</code> if a matching db picture could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public org.politaktiv.map.infrastructure.model.DbPicture fetchBypictureId(
+	public DbPicture fetchBypictureId(
 		long pictureId, boolean retrieveFromCache)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns all the db pictures.
@@ -146,8 +151,8 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	* @return the db pictures
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbPicture> findAll()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public List<DbPicture> findAll()
+		throws SystemException;
 
 	/**
 	* Returns a range of all the db pictures.
@@ -161,9 +166,9 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	* @return the range of db pictures
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbPicture> findAll(
+	public List<DbPicture> findAll(
 		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns an ordered range of all the db pictures.
@@ -178,10 +183,10 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	* @return the ordered range of db pictures
 	* @throws SystemException if a system exception occurred
 	*/
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbPicture> findAll(
+	public List<DbPicture> findAll(
 		int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		OrderByComparator orderByComparator)
+		throws SystemException;
 
 	/**
 	* Removes the db picture where pictureId = &#63; from the database.
@@ -190,8 +195,8 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public void removeBypictureId(long pictureId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.politaktiv.map.infrastructure.NoSuchDbPictureException;
+		throws SystemException,
+			NoSuchDbPictureException;
 
 	/**
 	* Removes all the db pictures from the database.
@@ -199,7 +204,7 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public void removeAll()
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the number of db pictures where pictureId = &#63;.
@@ -209,7 +214,7 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public int countBypictureId(long pictureId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 
 	/**
 	* Returns the number of db pictures.
@@ -218,5 +223,5 @@ public interface DbPicturePersistence extends BasePersistence<DbPicture> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public int countAll()
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 }

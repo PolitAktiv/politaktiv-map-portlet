@@ -14,10 +14,14 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import org.politaktiv.map.infrastructure.model.DbPicture;
+
 import com.liferay.portal.kernel.bean.PortletBeanLocatorUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.ClassLoaderProxy;
 import com.liferay.portal.kernel.util.MethodCache;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
+import com.liferay.portal.security.auth.PrincipalException;
 
 /**
  * The utility for the db picture remote service. This utility wraps {@link org.politaktiv.map.infrastructure.service.impl.DbPictureServiceImpl} and is the primary access point for service operations in application layer code running on a remote server.
@@ -38,11 +42,11 @@ public class DbPictureServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link org.politaktiv.map.infrastructure.service.impl.DbPictureServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static org.politaktiv.map.infrastructure.model.DbPicture addDbPicture(
-		org.politaktiv.map.infrastructure.model.DbPicture dbPicture,
+	public static DbPicture addDbPicture(
+		DbPicture dbPicture,
 		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.portal.security.auth.PrincipalException {
+		throws SystemException,
+			PrincipalException {
 		return getService().addDbPicture(dbPicture, groupId);
 	}
 

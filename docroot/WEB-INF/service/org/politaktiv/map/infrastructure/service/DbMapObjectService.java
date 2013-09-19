@@ -14,6 +14,10 @@
 
 package org.politaktiv.map.infrastructure.service;
 
+import java.util.List;
+
+import org.politaktiv.map.infrastructure.model.DbMapObject;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
@@ -44,7 +48,7 @@ public interface DbMapObjectService {
 	 * Never modify or reference this interface directly. Always use {@link DbMapObjectServiceUtil} to access the db map object remote service. Add custom service methods to {@link org.politaktiv.map.infrastructure.service.impl.DbMapObjectServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<org.politaktiv.map.infrastructure.model.DbMapObject> getAllDbMapObjectsFromCompanyIdAndGroupId(
+	public List<DbMapObject> getAllDbMapObjectsFromCompanyIdAndGroupId(
 		long companyId, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+		throws SystemException;
 }
