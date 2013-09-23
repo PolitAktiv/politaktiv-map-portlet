@@ -1,22 +1,28 @@
 Liferay.Service.register("Liferay.Service.politaktivmap", "org.politaktiv.map.infrastructure.service", "politaktiv-map-portlet");
 
 Liferay.Service.registerClass(
-	Liferay.Service.politaktivmap, "DbMapObject",
+	Liferay.Service.politaktivmap, "Background",
 	{
-		getAllDbMapObjectsFromCompanyIdAndGroupId: true
+		findBycompanyIdAndGroupId: true,
+		addBackground: true,
+		deleteBackground: true
 	}
 );
 
 Liferay.Service.registerClass(
-	Liferay.Service.politaktivmap, "DbMarker",
+	Liferay.Service.politaktivmap, "Marker",
 	{
-		addDbMarker: true
+		addMarker: true,
+		findMarkerByBackgroundId: true,
+		deleteMarker: true
 	}
 );
 
 Liferay.Service.registerClass(
-	Liferay.Service.politaktivmap, "DbPicture",
+	Liferay.Service.politaktivmap, "Picture",
 	{
-		addDbPicture: true
+		addPicture: true,
+		findByBackgroundId: true,
+		deletePicture: true
 	}
 );

@@ -1,0 +1,2 @@
+<%@ include file="globalInit.jsp" %>
+

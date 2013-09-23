@@ -17,15 +17,13 @@ package org.politaktiv.map.infrastructure.service.messaging;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.Message;
 
+import org.politaktiv.map.infrastructure.service.BackgroundLocalServiceUtil;
+import org.politaktiv.map.infrastructure.service.BackgroundServiceUtil;
 import org.politaktiv.map.infrastructure.service.ClpSerializer;
-import org.politaktiv.map.infrastructure.service.DbMapObjectLocalServiceUtil;
-import org.politaktiv.map.infrastructure.service.DbMapObjectServiceUtil;
-import org.politaktiv.map.infrastructure.service.DbMarkerLocalServiceUtil;
-import org.politaktiv.map.infrastructure.service.DbMarkerServiceUtil;
-import org.politaktiv.map.infrastructure.service.DbPictureLocalServiceUtil;
-import org.politaktiv.map.infrastructure.service.DbPictureServiceUtil;
-import org.politaktiv.map.infrastructure.service.DbPointLocalServiceUtil;
-import org.politaktiv.map.infrastructure.service.DbPointServiceUtil;
+import org.politaktiv.map.infrastructure.service.MarkerLocalServiceUtil;
+import org.politaktiv.map.infrastructure.service.MarkerServiceUtil;
+import org.politaktiv.map.infrastructure.service.PictureLocalServiceUtil;
+import org.politaktiv.map.infrastructure.service.PictureServiceUtil;
 
 /**
  * @author Brian Wing Shun Chan
@@ -42,18 +40,15 @@ public class ClpMessageListener extends BaseMessageListener {
 
 		if (command.equals("undeploy") &&
 				servletContextName.equals(getServletContextName())) {
-			DbMapObjectLocalServiceUtil.clearService();
+			BackgroundLocalServiceUtil.clearService();
 
-			DbMapObjectServiceUtil.clearService();
-			DbMarkerLocalServiceUtil.clearService();
+			BackgroundServiceUtil.clearService();
+			MarkerLocalServiceUtil.clearService();
 
-			DbMarkerServiceUtil.clearService();
-			DbPictureLocalServiceUtil.clearService();
+			MarkerServiceUtil.clearService();
+			PictureLocalServiceUtil.clearService();
 
-			DbPictureServiceUtil.clearService();
-			DbPointLocalServiceUtil.clearService();
-
-			DbPointServiceUtil.clearService();
+			PictureServiceUtil.clearService();
 		}
 	}
 }

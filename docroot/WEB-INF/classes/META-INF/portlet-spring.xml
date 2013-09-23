@@ -1,40 +1,31 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-	<bean id="org.politaktiv.map.infrastructure.service.DbMapObjectLocalService" class="org.politaktiv.map.infrastructure.service.impl.DbMapObjectLocalServiceImpl" />
-	<bean id="org.politaktiv.map.infrastructure.service.DbMapObjectLocalServiceUtil" class="org.politaktiv.map.infrastructure.service.DbMapObjectLocalServiceUtil">
-		<property name="service" ref="org.politaktiv.map.infrastructure.service.DbMapObjectLocalService" />
+	<bean id="org.politaktiv.map.infrastructure.service.BackgroundLocalService" class="org.politaktiv.map.infrastructure.service.impl.BackgroundLocalServiceImpl" />
+	<bean id="org.politaktiv.map.infrastructure.service.BackgroundLocalServiceUtil" class="org.politaktiv.map.infrastructure.service.BackgroundLocalServiceUtil">
+		<property name="service" ref="org.politaktiv.map.infrastructure.service.BackgroundLocalService" />
 	</bean>
-	<bean id="org.politaktiv.map.infrastructure.service.DbMapObjectService" class="org.politaktiv.map.infrastructure.service.impl.DbMapObjectServiceImpl" />
-	<bean id="org.politaktiv.map.infrastructure.service.DbMapObjectServiceUtil" class="org.politaktiv.map.infrastructure.service.DbMapObjectServiceUtil">
-		<property name="service" ref="org.politaktiv.map.infrastructure.service.DbMapObjectService" />
+	<bean id="org.politaktiv.map.infrastructure.service.BackgroundService" class="org.politaktiv.map.infrastructure.service.impl.BackgroundServiceImpl" />
+	<bean id="org.politaktiv.map.infrastructure.service.BackgroundServiceUtil" class="org.politaktiv.map.infrastructure.service.BackgroundServiceUtil">
+		<property name="service" ref="org.politaktiv.map.infrastructure.service.BackgroundService" />
 	</bean>
-	<bean id="org.politaktiv.map.infrastructure.service.persistence.DbMapObjectPersistence" class="org.politaktiv.map.infrastructure.service.persistence.DbMapObjectPersistenceImpl" parent="basePersistence" />
-	<bean id="org.politaktiv.map.infrastructure.service.DbMarkerLocalService" class="org.politaktiv.map.infrastructure.service.impl.DbMarkerLocalServiceImpl" />
-	<bean id="org.politaktiv.map.infrastructure.service.DbMarkerLocalServiceUtil" class="org.politaktiv.map.infrastructure.service.DbMarkerLocalServiceUtil">
-		<property name="service" ref="org.politaktiv.map.infrastructure.service.DbMarkerLocalService" />
+	<bean id="org.politaktiv.map.infrastructure.service.persistence.BackgroundPersistence" class="org.politaktiv.map.infrastructure.service.persistence.BackgroundPersistenceImpl" parent="basePersistence" />
+	<bean id="org.politaktiv.map.infrastructure.service.MarkerLocalService" class="org.politaktiv.map.infrastructure.service.impl.MarkerLocalServiceImpl" />
+	<bean id="org.politaktiv.map.infrastructure.service.MarkerLocalServiceUtil" class="org.politaktiv.map.infrastructure.service.MarkerLocalServiceUtil">
+		<property name="service" ref="org.politaktiv.map.infrastructure.service.MarkerLocalService" />
 	</bean>
-	<bean id="org.politaktiv.map.infrastructure.service.DbMarkerService" class="org.politaktiv.map.infrastructure.service.impl.DbMarkerServiceImpl" />
-	<bean id="org.politaktiv.map.infrastructure.service.DbMarkerServiceUtil" class="org.politaktiv.map.infrastructure.service.DbMarkerServiceUtil">
-		<property name="service" ref="org.politaktiv.map.infrastructure.service.DbMarkerService" />
+	<bean id="org.politaktiv.map.infrastructure.service.MarkerService" class="org.politaktiv.map.infrastructure.service.impl.MarkerServiceImpl" />
+	<bean id="org.politaktiv.map.infrastructure.service.MarkerServiceUtil" class="org.politaktiv.map.infrastructure.service.MarkerServiceUtil">
+		<property name="service" ref="org.politaktiv.map.infrastructure.service.MarkerService" />
 	</bean>
-	<bean id="org.politaktiv.map.infrastructure.service.persistence.DbMarkerPersistence" class="org.politaktiv.map.infrastructure.service.persistence.DbMarkerPersistenceImpl" parent="basePersistence" />
-	<bean id="org.politaktiv.map.infrastructure.service.DbPictureLocalService" class="org.politaktiv.map.infrastructure.service.impl.DbPictureLocalServiceImpl" />
-	<bean id="org.politaktiv.map.infrastructure.service.DbPictureLocalServiceUtil" class="org.politaktiv.map.infrastructure.service.DbPictureLocalServiceUtil">
-		<property name="service" ref="org.politaktiv.map.infrastructure.service.DbPictureLocalService" />
+	<bean id="org.politaktiv.map.infrastructure.service.persistence.MarkerPersistence" class="org.politaktiv.map.infrastructure.service.persistence.MarkerPersistenceImpl" parent="basePersistence" />
+	<bean id="org.politaktiv.map.infrastructure.service.PictureLocalService" class="org.politaktiv.map.infrastructure.service.impl.PictureLocalServiceImpl" />
+	<bean id="org.politaktiv.map.infrastructure.service.PictureLocalServiceUtil" class="org.politaktiv.map.infrastructure.service.PictureLocalServiceUtil">
+		<property name="service" ref="org.politaktiv.map.infrastructure.service.PictureLocalService" />
 	</bean>
-	<bean id="org.politaktiv.map.infrastructure.service.DbPictureService" class="org.politaktiv.map.infrastructure.service.impl.DbPictureServiceImpl" />
-	<bean id="org.politaktiv.map.infrastructure.service.DbPictureServiceUtil" class="org.politaktiv.map.infrastructure.service.DbPictureServiceUtil">
-		<property name="service" ref="org.politaktiv.map.infrastructure.service.DbPictureService" />
+	<bean id="org.politaktiv.map.infrastructure.service.PictureService" class="org.politaktiv.map.infrastructure.service.impl.PictureServiceImpl" />
+	<bean id="org.politaktiv.map.infrastructure.service.PictureServiceUtil" class="org.politaktiv.map.infrastructure.service.PictureServiceUtil">
+		<property name="service" ref="org.politaktiv.map.infrastructure.service.PictureService" />
 	</bean>
-	<bean id="org.politaktiv.map.infrastructure.service.persistence.DbPicturePersistence" class="org.politaktiv.map.infrastructure.service.persistence.DbPicturePersistenceImpl" parent="basePersistence" />
-	<bean id="org.politaktiv.map.infrastructure.service.DbPointLocalService" class="org.politaktiv.map.infrastructure.service.impl.DbPointLocalServiceImpl" />
-	<bean id="org.politaktiv.map.infrastructure.service.DbPointLocalServiceUtil" class="org.politaktiv.map.infrastructure.service.DbPointLocalServiceUtil">
-		<property name="service" ref="org.politaktiv.map.infrastructure.service.DbPointLocalService" />
-	</bean>
-	<bean id="org.politaktiv.map.infrastructure.service.DbPointService" class="org.politaktiv.map.infrastructure.service.impl.DbPointServiceImpl" />
-	<bean id="org.politaktiv.map.infrastructure.service.DbPointServiceUtil" class="org.politaktiv.map.infrastructure.service.DbPointServiceUtil">
-		<property name="service" ref="org.politaktiv.map.infrastructure.service.DbPointService" />
-	</bean>
-	<bean id="org.politaktiv.map.infrastructure.service.persistence.DbPointPersistence" class="org.politaktiv.map.infrastructure.service.persistence.DbPointPersistenceImpl" parent="basePersistence" />
+	<bean id="org.politaktiv.map.infrastructure.service.persistence.PicturePersistence" class="org.politaktiv.map.infrastructure.service.persistence.PicturePersistenceImpl" parent="basePersistence" />
 </beans>

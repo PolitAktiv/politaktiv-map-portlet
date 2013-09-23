@@ -19,6 +19,7 @@ import javax.portlet.ValidatorException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
+
 /**
  * @author politaktiv
  *
@@ -28,44 +29,61 @@ public class UserAction {
 
 	private static Log _log = LogFactoryUtil.getLog(UserAction.class);
 	String action;
-	String onObjectType;
 	
-	public UserAction(String action, String onObjectType){
+	public UserAction(String action){
 		
 		this.action = action;
-		this.onObjectType = onObjectType;
 	}
 	
 	public void validate() throws ValidatorException{
 		
-		if(!(this.isAddAction()
-				|| this.isUpdateAction()
-				|| this.isDeleteAction())
-			||
-			(! this.isOnMarker()
-					|| this.isOnPicture())){
+		if(!(this.isAddMarker()
+				|| this.isUpdateMarker()
+				|| this.isDeleteMarker()
+				|| this.isAddPicture()
+				|| this.isUpdatePicture()
+				|| this.isDeletePicture()
+				|| this.isAddBackground()
+				|| this.isDeleteBackground()
+				|| this.isSaveCenterAndZoom())){
 			_log.info("user action invalide");
 			throw new ValidatorException("illegalMarkerAction",null);
 		}
 	}
 	
-	public boolean isAddAction(){
-		return this.action.equals("add");
+	public boolean isAddMarker(){
+		return this.action.equals("addMarker");
 	}
 	
-	public boolean isUpdateAction(){
-		return this.action.equals("update");
+	public boolean isUpdateMarker(){
+		return this.action.equals("updateMarker");
 	}
 	
-	public boolean isDeleteAction(){
-		return this.action.equals("delete");
+	public boolean isDeleteMarker(){
+		return this.action.equals("deleteMarker");
 	}
 	
-	public boolean isOnMarker(){
-		return this.onObjectType.equals("marker");
+	public boolean isAddPicture(){
+		return this.action.equals("addPicture");
 	}
 	
-	public boolean isOnPicture(){
-		return this.onObjectType.equals("picture");
+	public boolean isUpdatePicture(){
+		return this.action.equals("updatePicture");
+	}
+	
+	public boolean isDeletePicture(){
+		return this.action.equals("deletePicture");
+	}
+	
+	public boolean isAddBackground(){
+		return this.action.equals("addBackground");
+	}
+	
+	public boolean isDeleteBackground(){
+		return this.action.equals("deleteBackground");
+	}
+	
+	public boolean isSaveCenterAndZoom(){
+		return this.action.equals("saveCenterAndZoom");
 	}
 }

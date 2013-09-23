@@ -7,70 +7,69 @@
 			<access>PROPERTY</access>
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
-	<mapped-superclass class="org.politaktiv.map.infrastructure.model.impl.DbMapObjectModelImpl">
+	<mapped-superclass class="org.politaktiv.map.infrastructure.model.impl.BackgroundModelImpl">
 		<attributes>
-			<id name="mapObjectId" />
+			<id name="backgroundId" />
+			<basic name="companyId" />
+			<basic name="groupId" />
+			<basic name="userId" />
+			<basic name="name" />
+			<basic name="fileEntryUuid" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="org.politaktiv.map.infrastructure.model.impl.MarkerModelImpl">
+		<attributes>
+			<id name="markerId" />
 			<basic name="companyId" />
 			<basic name="groupId" />
 			<basic name="userId" />
 			<basic name="name" />
 			<basic name="description" />
 			<basic name="referenceUrl" />
-			<basic name="occupancy" />
-			<basic name="mapId" />
-			<basic name="type">
-				<column name="TYPE_" />
-			</basic>
-			<basic name="graphicObjectId" />
+			<basic name="backgroundId" />
+			<basic name="longitude" />
+			<basic name="latitude" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
 			<transient name="userUuid" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass class="org.politaktiv.map.infrastructure.model.impl.DbMarkerModelImpl">
-		<attributes>
-			<id name="markerId" />
-			<basic name="markerImageName" />
-			<basic name="pointId" />
-			<transient name="primaryKey" />
-			<transient name="primaryKeyObj" />
-		</attributes>
-	</mapped-superclass>
-	<mapped-superclass class="org.politaktiv.map.infrastructure.model.impl.DbPictureModelImpl">
+	<mapped-superclass class="org.politaktiv.map.infrastructure.model.impl.PictureModelImpl">
 		<attributes>
 			<id name="pictureId" />
+			<basic name="companyId" />
+			<basic name="groupId" />
+			<basic name="userId" />
+			<basic name="name" />
+			<basic name="description" />
+			<basic name="referenceUrl" />
+			<basic name="backgroundId" />
 			<basic name="rotation" />
 			<basic name="width" />
 			<basic name="height" />
 			<basic name="resolution" />
-			<basic name="pointId" />
-			<transient name="primaryKey" />
-			<transient name="primaryKeyObj" />
-		</attributes>
-	</mapped-superclass>
-	<mapped-superclass class="org.politaktiv.map.infrastructure.model.impl.DbPointModelImpl">
-		<attributes>
-			<id name="pointId" />
+			<basic name="ocupacy" />
 			<basic name="longitude" />
 			<basic name="latitude" />
+			<basic name="fileEntryUuid" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
 		</attributes>
 	</mapped-superclass>
-	<entity class="org.politaktiv.map.infrastructure.model.impl.DbMapObjectImpl" name="DbMapObject">
-		<table name="politaktivmap_DbMapObject" />
+	<entity class="org.politaktiv.map.infrastructure.model.impl.BackgroundImpl" name="Background">
+		<table name="politaktivmap_Background" />
 		<attributes />
 	</entity>
-	<entity class="org.politaktiv.map.infrastructure.model.impl.DbMarkerImpl" name="DbMarker">
-		<table name="politaktivmap_DbMarker" />
+	<entity class="org.politaktiv.map.infrastructure.model.impl.MarkerImpl" name="Marker">
+		<table name="politaktivmap_Marker" />
 		<attributes />
 	</entity>
-	<entity class="org.politaktiv.map.infrastructure.model.impl.DbPictureImpl" name="DbPicture">
-		<table name="politaktivmap_DbPicture" />
-		<attributes />
-	</entity>
-	<entity class="org.politaktiv.map.infrastructure.model.impl.DbPointImpl" name="DbPoint">
-		<table name="politaktivmap_DbPoint" />
+	<entity class="org.politaktiv.map.infrastructure.model.impl.PictureImpl" name="Picture">
+		<table name="politaktivmap_Picture" />
 		<attributes />
 	</entity>
 </entity-mappings>

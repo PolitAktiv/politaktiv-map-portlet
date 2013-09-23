@@ -21,9 +21,8 @@
             </guest-unsupported>
         </permissions>
     </portlet-resource>
-    
      <model-resource>
-    	<model-name>org.politaktiv.map.infrastructure.model.DbMapObject</model-name>
+    	<model-name>org.politaktiv.map.infrastructure.model.Marker</model-name>
     	<portlet-ref>
     		<portlet-name>politaktiv-map</portlet-name>
     	</portlet-ref>
@@ -45,7 +44,6 @@
     	<guest-defaults>
     		<action-key>VIEW</action-key>
     	</guest-defaults>
-    	
     	<guest-unsupported>
     		<action-key>ADD</action-key>
     		<action-key>UPDATE</action-key>
@@ -53,89 +51,49 @@
     	</guest-unsupported>
     </model-resource>
     <model-resource>
-    	<model-name>org.politaktiv.map.infrastructure.model.DbMarker</model-name>
+    	<model-name>org.politaktiv.map.infrastructure.model.Picture</model-name>
     	<portlet-ref>
     		<portlet-name>politaktiv-map</portlet-name>
     	</portlet-ref>
-    	
     	<supports>
     		<action-key>VIEW</action-key>
     		<action-key>ADD</action-key>
     		<action-key>UPDATE</action-key>
     		<action-key>DELETE</action-key>
-    	</supports>
-    	
+    	</supports>	
     	<community-defaults>
     		<action-key>VIEW</action-key>
     		<action-key>ADD</action-key>
     		<action-key>UPDATE</action-key>
     		<action-key>DELETE</action-key>
-    	</community-defaults>
-    	
+    	</community-defaults>	
     	<guest-defaults>
     		<action-key>VIEW</action-key>
     	</guest-defaults>
-    	
     	<guest-unsupported>
     		<action-key>ADD</action-key>
     		<action-key>UPDATE</action-key>
     		<action-key>DELETE</action-key>
     	</guest-unsupported>
     </model-resource>
-    <model-resource>
-    	<model-name>org.politaktiv.map.infrastructure.model.DbPicture</model-name>
+    
+       <model-resource>
+    	<model-name>org.politaktiv.map.infrastructure.model.Background</model-name>
     	<portlet-ref>
     		<portlet-name>politaktiv-map</portlet-name>
     	</portlet-ref>
-    	
     	<supports>
     		<action-key>VIEW</action-key>
     		<action-key>ADD</action-key>
     		<action-key>UPDATE</action-key>
     		<action-key>DELETE</action-key>
-    	</supports>
-    	
+    	</supports>	
     	<community-defaults>
     		<action-key>VIEW</action-key>
-    		<action-key>ADD</action-key>
-    		<action-key>UPDATE</action-key>
-    		<action-key>DELETE</action-key>
-    	</community-defaults>
-    	
+    	</community-defaults>	
     	<guest-defaults>
     		<action-key>VIEW</action-key>
     	</guest-defaults>
-    	
-    	<guest-unsupported>
-    		<action-key>ADD</action-key>
-    		<action-key>UPDATE</action-key>
-    		<action-key>DELETE</action-key>
-    	</guest-unsupported>
-    </model-resource>
-    <model-resource>
-    	<model-name>org.politaktiv.map.infrastructure.model.DbPoint</model-name>
-    	<portlet-ref>
-    		<portlet-name>politaktiv-map</portlet-name>
-    	</portlet-ref>
-    	
-    	<supports>
-    		<action-key>VIEW</action-key>
-    		<action-key>ADD</action-key>
-    		<action-key>UPDATE</action-key>
-    		<action-key>DELETE</action-key>
-    	</supports>
-    	
-    	<community-defaults>
-    		<action-key>VIEW</action-key>
-    		<action-key>ADD</action-key>
-    		<action-key>UPDATE</action-key>
-    		<action-key>DELETE</action-key>
-    	</community-defaults>
-    	
-    	<guest-defaults>
-    		<action-key>VIEW</action-key>
-    	</guest-defaults>
-    	
     	<guest-unsupported>
     		<action-key>ADD</action-key>
     		<action-key>UPDATE</action-key>

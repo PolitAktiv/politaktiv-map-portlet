@@ -2,13 +2,23 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-lazy="false" auto-import="false">
-	<import class="org.politaktiv.map.infrastructure.model.DbMapObject" />
-	<import class="org.politaktiv.map.infrastructure.model.DbMarker" />
-	<import class="org.politaktiv.map.infrastructure.model.DbPicture" />
-	<import class="org.politaktiv.map.infrastructure.model.DbPoint" />
-	<class name="org.politaktiv.map.infrastructure.model.impl.DbMapObjectImpl" table="politaktivmap_DbMapObject">
+	<import class="org.politaktiv.map.infrastructure.model.Background" />
+	<import class="org.politaktiv.map.infrastructure.model.Marker" />
+	<import class="org.politaktiv.map.infrastructure.model.Picture" />
+	<class name="org.politaktiv.map.infrastructure.model.impl.BackgroundImpl" table="politaktivmap_Background">
 		<cache usage="read-write" />
-		<id name="mapObjectId" type="long">
+		<id name="backgroundId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="fileEntryUuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="org.politaktiv.map.infrastructure.model.impl.MarkerImpl" table="politaktivmap_Marker">
+		<cache usage="read-write" />
+		<id name="markerId" type="long">
 			<generator class="assigned" />
 		</id>
 		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
@@ -17,36 +27,29 @@
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="referenceUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="occupancy" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="mapId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" column="type_" />
-		<property name="graphicObjectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="backgroundId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="longitude" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="latitude" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 	</class>
-	<class name="org.politaktiv.map.infrastructure.model.impl.DbMarkerImpl" table="politaktivmap_DbMarker">
-		<cache usage="read-write" />
-		<id name="markerId" type="long">
-			<generator class="assigned" />
-		</id>
-		<property name="markerImageName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="pointId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-	</class>
-	<class name="org.politaktiv.map.infrastructure.model.impl.DbPictureImpl" table="politaktivmap_DbPicture">
+	<class name="org.politaktiv.map.infrastructure.model.impl.PictureImpl" table="politaktivmap_Picture">
 		<cache usage="read-write" />
 		<id name="pictureId" type="long">
 			<generator class="assigned" />
 		</id>
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="referenceUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="backgroundId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="rotation" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="width" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="height" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="width" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="height" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="resolution" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
-		<property name="pointId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-	</class>
-	<class name="org.politaktiv.map.infrastructure.model.impl.DbPointImpl" table="politaktivmap_DbPoint">
-		<cache usage="read-write" />
-		<id name="pointId" type="long">
-			<generator class="assigned" />
-		</id>
+		<property name="ocupacy" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="longitude" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="latitude" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="fileEntryUuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 </hibernate-mapping>

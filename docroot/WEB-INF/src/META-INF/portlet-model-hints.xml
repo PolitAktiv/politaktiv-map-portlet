@@ -1,35 +1,42 @@
 <?xml version="1.0"?>
 
 <model-hints>
-	<model name="org.politaktiv.map.infrastructure.model.DbMapObject">
-		<field name="mapObjectId" type="long" />
+	<model name="org.politaktiv.map.infrastructure.model.Background">
+		<field name="backgroundId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="userId" type="long" />
+		<field name="name" type="String" />
+		<field name="fileEntryUuid" type="String" />
+	</model>
+	<model name="org.politaktiv.map.infrastructure.model.Marker">
+		<field name="markerId" type="long" />
 		<field name="companyId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="userId" type="long" />
 		<field name="name" type="String" />
 		<field name="description" type="String" />
 		<field name="referenceUrl" type="String" />
-		<field name="occupancy" type="long" />
-		<field name="mapId" type="long" />
-		<field name="type" type="String" />
-		<field name="graphicObjectId" type="long" />
-	</model>
-	<model name="org.politaktiv.map.infrastructure.model.DbMarker">
-		<field name="markerId" type="long" />
-		<field name="markerImageName" type="String" />
-		<field name="pointId" type="long" />
-	</model>
-	<model name="org.politaktiv.map.infrastructure.model.DbPicture">
-		<field name="pictureId" type="long" />
-		<field name="rotation" type="long" />
-		<field name="width" type="long" />
-		<field name="height" type="long" />
-		<field name="resolution" type="double" />
-		<field name="pointId" type="long" />
-	</model>
-	<model name="org.politaktiv.map.infrastructure.model.DbPoint">
-		<field name="pointId" type="long" />
+		<field name="backgroundId" type="long" />
 		<field name="longitude" type="double" />
 		<field name="latitude" type="double" />
+	</model>
+	<model name="org.politaktiv.map.infrastructure.model.Picture">
+		<field name="pictureId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="userId" type="long" />
+		<field name="name" type="String" />
+		<field name="description" type="String" />
+		<field name="referenceUrl" type="String" />
+		<field name="backgroundId" type="long" />
+		<field name="rotation" type="long" />
+		<field name="width" type="double" />
+		<field name="height" type="double" />
+		<field name="resolution" type="double" />
+		<field name="ocupacy" type="double" />
+		<field name="longitude" type="double" />
+		<field name="latitude" type="double" />
+		<field name="fileEntryUuid" type="String" />
 	</model>
 </model-hints>
