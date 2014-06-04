@@ -1,63 +1,117 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.service;
 
-import java.util.List;
-
-import org.politaktiv.map.infrastructure.model.Background;
-
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.util.ClassLoaderProxy;
-import com.liferay.portal.kernel.util.MethodHandler;
-import com.liferay.portal.kernel.util.MethodKey;
-import com.liferay.portal.security.auth.PrincipalException;
+import com.liferay.portal.service.InvokableService;
 
 /**
  * @author eichi
+ * @generated
  */
 public class BackgroundServiceClp implements BackgroundService {
-	public BackgroundServiceClp(ClassLoaderProxy classLoaderProxy) {
-		_classLoaderProxy = classLoaderProxy;
+	public BackgroundServiceClp(InvokableService invokableService) {
+		_invokableService = invokableService;
 
-		_findBycompanyIdAndGroupIdMethodKey0 = new MethodKey(_classLoaderProxy.getClassName(),
-				"findBycompanyIdAndGroupId", long.class, long.class);
+		_methodName0 = "getBeanIdentifier";
 
-		_addBackgroundMethodKey1 = new MethodKey(_classLoaderProxy.getClassName(),
-				"addBackground",
-				Background.class,
-				long.class);
+		_methodParameterTypes0 = new String[] {  };
 
-		_deleteBackgroundMethodKey2 = new MethodKey(_classLoaderProxy.getClassName(),
-				"deleteBackground", long.class, long.class);
+		_methodName1 = "setBeanIdentifier";
+
+		_methodParameterTypes1 = new String[] { "java.lang.String" };
+
+		_methodName3 = "findBycompanyIdAndGroupId";
+
+		_methodParameterTypes3 = new String[] { "long", "long" };
+
+		_methodName4 = "addBackground";
+
+		_methodParameterTypes4 = new String[] {
+				"org.politaktiv.map.infrastructure.model.Background", "long"
+			};
+
+		_methodName5 = "deleteBackground";
+
+		_methodParameterTypes5 = new String[] { "long", "long" };
 	}
 
-	public List<Background> findBycompanyIdAndGroupId(
+	@Override
+	public java.lang.String getBeanIdentifier() {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableService.invokeMethod(_methodName0,
+					_methodParameterTypes0, new Object[] {  });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.lang.String)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public void setBeanIdentifier(java.lang.String beanIdentifier) {
+		try {
+			_invokableService.invokeMethod(_methodName1,
+				_methodParameterTypes1,
+				new Object[] { ClpSerializer.translateInput(beanIdentifier) });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
+	@Override
+	public java.lang.Object invokeMethod(java.lang.String name,
+		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
+		throws java.lang.Throwable {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public java.util.List<org.politaktiv.map.infrastructure.model.Background> findBycompanyIdAndGroupId(
 		long companyId, long groupId)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_findBycompanyIdAndGroupIdMethodKey0,
-				companyId, groupId);
-
 		try {
-			returnObj = _classLoaderProxy.invoke(methodHandler);
+			returnObj = _invokableService.invokeMethod(_methodName3,
+					_methodParameterTypes3, new Object[] { companyId, groupId });
 		}
 		catch (Throwable t) {
-			if (t instanceof SystemException) {
-				throw (SystemException)t;
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -69,29 +123,35 @@ public class BackgroundServiceClp implements BackgroundService {
 			}
 		}
 
-		return (List<Background>)ClpSerializer.translateOutput(returnObj);
+		return (java.util.List<org.politaktiv.map.infrastructure.model.Background>)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public Background addBackground(
-		Background background,
+	@Override
+	public org.politaktiv.map.infrastructure.model.Background addBackground(
+		org.politaktiv.map.infrastructure.model.Background background,
 		long groupId)
-		throws SystemException,
-			PrincipalException {
+		throws com.liferay.portal.kernel.exception.SystemException,
+			com.liferay.portal.security.auth.PrincipalException {
 		Object returnObj = null;
 
-		MethodHandler methodHandler = new MethodHandler(_addBackgroundMethodKey1,
-				ClpSerializer.translateInput(background), groupId);
-
 		try {
-			returnObj = _classLoaderProxy.invoke(methodHandler);
+			returnObj = _invokableService.invokeMethod(_methodName4,
+					_methodParameterTypes4,
+					new Object[] {
+						ClpSerializer.translateInput(background),
+						
+					groupId
+					});
 		}
 		catch (Throwable t) {
-			if (t instanceof SystemException) {
-				throw (SystemException)t;
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
-			if (t instanceof PrincipalException) {
-				throw (PrincipalException)t;
+			if (t instanceof com.liferay.portal.security.auth.PrincipalException) {
+				throw (com.liferay.portal.security.auth.PrincipalException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -103,25 +163,26 @@ public class BackgroundServiceClp implements BackgroundService {
 			}
 		}
 
-		return (Background)ClpSerializer.translateOutput(returnObj);
+		return (org.politaktiv.map.infrastructure.model.Background)ClpSerializer.translateOutput(returnObj);
 	}
 
+	@Override
 	public void deleteBackground(long backgroundId, long groupId)
-		throws PortalException,
-			SystemException {
-		MethodHandler methodHandler = new MethodHandler(_deleteBackgroundMethodKey2,
-				backgroundId, groupId);
-
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		try {
-			_classLoaderProxy.invoke(methodHandler);
+			_invokableService.invokeMethod(_methodName5,
+				_methodParameterTypes5, new Object[] { backgroundId, groupId });
 		}
 		catch (Throwable t) {
-			if (t instanceof PortalException) {
-				throw (PortalException)t;
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
 			}
 
-			if (t instanceof SystemException) {
-				throw (SystemException)t;
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
 			}
 
 			if (t instanceof RuntimeException) {
@@ -134,12 +195,15 @@ public class BackgroundServiceClp implements BackgroundService {
 		}
 	}
 
-	public ClassLoaderProxy getClassLoaderProxy() {
-		return _classLoaderProxy;
-	}
-
-	private ClassLoaderProxy _classLoaderProxy;
-	private MethodKey _findBycompanyIdAndGroupIdMethodKey0;
-	private MethodKey _addBackgroundMethodKey1;
-	private MethodKey _deleteBackgroundMethodKey2;
+	private InvokableService _invokableService;
+	private String _methodName0;
+	private String[] _methodParameterTypes0;
+	private String _methodName1;
+	private String[] _methodParameterTypes1;
+	private String _methodName3;
+	private String[] _methodParameterTypes3;
+	private String _methodName4;
+	private String[] _methodParameterTypes4;
+	private String _methodName5;
+	private String[] _methodParameterTypes5;
 }

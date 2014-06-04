@@ -1,21 +1,19 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.service.persistence;
 
-import com.liferay.portal.NoSuchModelException;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
@@ -35,11 +33,9 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnmodifiableList;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
-import com.liferay.portal.service.persistence.BatchSessionUtil;
-import com.liferay.portal.service.persistence.ResourcePersistence;
-import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
 import org.politaktiv.map.infrastructure.NoSuchMarkerException;
@@ -77,6 +73,15 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 		".List1";
 	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
 		".List2";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(MarkerModelImpl.ENTITY_CACHE_ENABLED,
+			MarkerModelImpl.FINDER_CACHE_ENABLED, MarkerImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(MarkerModelImpl.ENTITY_CACHE_ENABLED,
+			MarkerModelImpl.FINDER_CACHE_ENABLED, MarkerImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
+	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(MarkerModelImpl.ENTITY_CACHE_ENABLED,
+			MarkerModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_BACKGROUNDID =
 		new FinderPath(MarkerModelImpl.ENTITY_CACHE_ENABLED,
 			MarkerModelImpl.FINDER_CACHE_ENABLED, MarkerImpl.class,
@@ -84,8 +89,8 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 			new String[] {
 				Long.class.getName(),
 				
-			"java.lang.Integer", "java.lang.Integer",
-				"com.liferay.portal.kernel.util.OrderByComparator"
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
 			});
 	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID =
 		new FinderPath(MarkerModelImpl.ENTITY_CACHE_ENABLED,
@@ -97,366 +102,6 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 			MarkerModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBybackgroundId",
 			new String[] { Long.class.getName() });
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(MarkerModelImpl.ENTITY_CACHE_ENABLED,
-			MarkerModelImpl.FINDER_CACHE_ENABLED, MarkerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(MarkerModelImpl.ENTITY_CACHE_ENABLED,
-			MarkerModelImpl.FINDER_CACHE_ENABLED, MarkerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(MarkerModelImpl.ENTITY_CACHE_ENABLED,
-			MarkerModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-
-	/**
-	 * Caches the marker in the entity cache if it is enabled.
-	 *
-	 * @param marker the marker
-	 */
-	public void cacheResult(Marker marker) {
-		EntityCacheUtil.putResult(MarkerModelImpl.ENTITY_CACHE_ENABLED,
-			MarkerImpl.class, marker.getPrimaryKey(), marker);
-
-		marker.resetOriginalValues();
-	}
-
-	/**
-	 * Caches the markers in the entity cache if it is enabled.
-	 *
-	 * @param markers the markers
-	 */
-	public void cacheResult(List<Marker> markers) {
-		for (Marker marker : markers) {
-			if (EntityCacheUtil.getResult(
-						MarkerModelImpl.ENTITY_CACHE_ENABLED, MarkerImpl.class,
-						marker.getPrimaryKey()) == null) {
-				cacheResult(marker);
-			}
-			else {
-				marker.resetOriginalValues();
-			}
-		}
-	}
-
-	/**
-	 * Clears the cache for all markers.
-	 *
-	 * <p>
-	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-	 * </p>
-	 */
-	@Override
-	public void clearCache() {
-		if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
-			CacheRegistryUtil.clear(MarkerImpl.class.getName());
-		}
-
-		EntityCacheUtil.clearCache(MarkerImpl.class.getName());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	/**
-	 * Clears the cache for the marker.
-	 *
-	 * <p>
-	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-	 * </p>
-	 */
-	@Override
-	public void clearCache(Marker marker) {
-		EntityCacheUtil.removeResult(MarkerModelImpl.ENTITY_CACHE_ENABLED,
-			MarkerImpl.class, marker.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	@Override
-	public void clearCache(List<Marker> markers) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		for (Marker marker : markers) {
-			EntityCacheUtil.removeResult(MarkerModelImpl.ENTITY_CACHE_ENABLED,
-				MarkerImpl.class, marker.getPrimaryKey());
-		}
-	}
-
-	/**
-	 * Creates a new marker with the primary key. Does not add the marker to the database.
-	 *
-	 * @param markerId the primary key for the new marker
-	 * @return the new marker
-	 */
-	public Marker create(long markerId) {
-		Marker marker = new MarkerImpl();
-
-		marker.setNew(true);
-		marker.setPrimaryKey(markerId);
-
-		return marker;
-	}
-
-	/**
-	 * Removes the marker with the primary key from the database. Also notifies the appropriate model listeners.
-	 *
-	 * @param markerId the primary key of the marker
-	 * @return the marker that was removed
-	 * @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a marker with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public Marker remove(long markerId)
-		throws NoSuchMarkerException, SystemException {
-		return remove(Long.valueOf(markerId));
-	}
-
-	/**
-	 * Removes the marker with the primary key from the database. Also notifies the appropriate model listeners.
-	 *
-	 * @param primaryKey the primary key of the marker
-	 * @return the marker that was removed
-	 * @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a marker with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	@Override
-	public Marker remove(Serializable primaryKey)
-		throws NoSuchMarkerException, SystemException {
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Marker marker = (Marker)session.get(MarkerImpl.class, primaryKey);
-
-			if (marker == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
-				}
-
-				throw new NoSuchMarkerException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
-			}
-
-			return remove(marker);
-		}
-		catch (NoSuchMarkerException nsee) {
-			throw nsee;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	@Override
-	protected Marker removeImpl(Marker marker) throws SystemException {
-		marker = toUnwrappedModel(marker);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			BatchSessionUtil.delete(session, marker);
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		clearCache(marker);
-
-		return marker;
-	}
-
-	@Override
-	public Marker updateImpl(
-		Marker marker, boolean merge)
-		throws SystemException {
-		marker = toUnwrappedModel(marker);
-
-		boolean isNew = marker.isNew();
-
-		MarkerModelImpl markerModelImpl = (MarkerModelImpl)marker;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			BatchSessionUtil.update(session, marker, merge);
-
-			marker.setNew(false);
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (isNew || !MarkerModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-
-		else {
-			if ((markerModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						Long.valueOf(markerModelImpl.getOriginalBackgroundId())
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_BACKGROUNDID,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID,
-					args);
-
-				args = new Object[] {
-						Long.valueOf(markerModelImpl.getBackgroundId())
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_BACKGROUNDID,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID,
-					args);
-			}
-		}
-
-		EntityCacheUtil.putResult(MarkerModelImpl.ENTITY_CACHE_ENABLED,
-			MarkerImpl.class, marker.getPrimaryKey(), marker);
-
-		return marker;
-	}
-
-	protected Marker toUnwrappedModel(Marker marker) {
-		if (marker instanceof MarkerImpl) {
-			return marker;
-		}
-
-		MarkerImpl markerImpl = new MarkerImpl();
-
-		markerImpl.setNew(marker.isNew());
-		markerImpl.setPrimaryKey(marker.getPrimaryKey());
-
-		markerImpl.setMarkerId(marker.getMarkerId());
-		markerImpl.setCompanyId(marker.getCompanyId());
-		markerImpl.setGroupId(marker.getGroupId());
-		markerImpl.setUserId(marker.getUserId());
-		markerImpl.setName(marker.getName());
-		markerImpl.setDescription(marker.getDescription());
-		markerImpl.setReferenceUrl(marker.getReferenceUrl());
-		markerImpl.setBackgroundId(marker.getBackgroundId());
-		markerImpl.setLongitude(marker.getLongitude());
-		markerImpl.setLatitude(marker.getLatitude());
-
-		return markerImpl;
-	}
-
-	/**
-	 * Returns the marker with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
-	 *
-	 * @param primaryKey the primary key of the marker
-	 * @return the marker
-	 * @throws com.liferay.portal.NoSuchModelException if a marker with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	@Override
-	public Marker findByPrimaryKey(Serializable primaryKey)
-		throws NoSuchModelException, SystemException {
-		return findByPrimaryKey(((Long)primaryKey).longValue());
-	}
-
-	/**
-	 * Returns the marker with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchMarkerException} if it could not be found.
-	 *
-	 * @param markerId the primary key of the marker
-	 * @return the marker
-	 * @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a marker with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public Marker findByPrimaryKey(long markerId)
-		throws NoSuchMarkerException, SystemException {
-		Marker marker = fetchByPrimaryKey(markerId);
-
-		if (marker == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + markerId);
-			}
-
-			throw new NoSuchMarkerException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				markerId);
-		}
-
-		return marker;
-	}
-
-	/**
-	 * Returns the marker with the primary key or returns <code>null</code> if it could not be found.
-	 *
-	 * @param primaryKey the primary key of the marker
-	 * @return the marker, or <code>null</code> if a marker with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	@Override
-	public Marker fetchByPrimaryKey(Serializable primaryKey)
-		throws SystemException {
-		return fetchByPrimaryKey(((Long)primaryKey).longValue());
-	}
-
-	/**
-	 * Returns the marker with the primary key or returns <code>null</code> if it could not be found.
-	 *
-	 * @param markerId the primary key of the marker
-	 * @return the marker, or <code>null</code> if a marker with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public Marker fetchByPrimaryKey(long markerId) throws SystemException {
-		Marker marker = (Marker)EntityCacheUtil.getResult(MarkerModelImpl.ENTITY_CACHE_ENABLED,
-				MarkerImpl.class, markerId);
-
-		if (marker == _nullMarker) {
-			return null;
-		}
-
-		if (marker == null) {
-			Session session = null;
-
-			boolean hasException = false;
-
-			try {
-				session = openSession();
-
-				marker = (Marker)session.get(MarkerImpl.class,
-						Long.valueOf(markerId));
-			}
-			catch (Exception e) {
-				hasException = true;
-
-				throw processException(e);
-			}
-			finally {
-				if (marker != null) {
-					cacheResult(marker);
-				}
-				else if (!hasException) {
-					EntityCacheUtil.putResult(MarkerModelImpl.ENTITY_CACHE_ENABLED,
-						MarkerImpl.class, markerId, _nullMarker);
-				}
-
-				closeSession(session);
-			}
-		}
-
-		return marker;
-	}
 
 	/**
 	 * Returns all the markers where backgroundId = &#63;.
@@ -465,6 +110,7 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	 * @return the matching markers
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Marker> findBybackgroundId(long backgroundId)
 		throws SystemException {
 		return findBybackgroundId(backgroundId, QueryUtil.ALL_POS,
@@ -475,7 +121,7 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	 * Returns a range of all the markers where backgroundId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.MarkerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param backgroundId the background ID
@@ -484,6 +130,7 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	 * @return the range of matching markers
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Marker> findBybackgroundId(long backgroundId, int start, int end)
 		throws SystemException {
 		return findBybackgroundId(backgroundId, start, end, null);
@@ -493,7 +140,7 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	 * Returns an ordered range of all the markers where backgroundId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.MarkerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param backgroundId the background ID
@@ -503,13 +150,16 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	 * @return the ordered range of matching markers
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Marker> findBybackgroundId(long backgroundId, int start,
 		int end, OrderByComparator orderByComparator) throws SystemException {
+		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
+			pagination = false;
 			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID;
 			finderArgs = new Object[] { backgroundId };
 		}
@@ -525,6 +175,16 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 		List<Marker> list = (List<Marker>)FinderCacheUtil.getResult(finderPath,
 				finderArgs, this);
 
+		if ((list != null) && !list.isEmpty()) {
+			for (Marker marker : list) {
+				if ((backgroundId != marker.getBackgroundId())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
 		if (list == null) {
 			StringBundler query = null;
 
@@ -533,7 +193,7 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 						(orderByComparator.getOrderByFields().length * 3));
 			}
 			else {
-				query = new StringBundler(2);
+				query = new StringBundler(3);
 			}
 
 			query.append(_SQL_SELECT_MARKER_WHERE);
@@ -543,6 +203,10 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
 					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(MarkerModelImpl.ORDER_BY_JPQL);
 			}
 
 			String sql = query.toString();
@@ -558,21 +222,29 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 
 				qPos.add(backgroundId);
 
-				list = (List<Marker>)QueryUtil.list(q, getDialect(), start, end);
+				if (!pagination) {
+					list = (List<Marker>)QueryUtil.list(q, getDialect(), start,
+							end, false);
+
+					Collections.sort(list);
+
+					list = new UnmodifiableList<Marker>(list);
+				}
+				else {
+					list = (List<Marker>)QueryUtil.list(q, getDialect(), start,
+							end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
 				throw processException(e);
 			}
 			finally {
-				if (list == null) {
-					FinderCacheUtil.removeResult(finderPath, finderArgs);
-				}
-				else {
-					cacheResult(list);
-
-					FinderCacheUtil.putResult(finderPath, finderArgs, list);
-				}
-
 				closeSession(session);
 			}
 		}
@@ -583,45 +255,58 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	/**
 	 * Returns the first marker in the ordered set where backgroundId = &#63;.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
 	 * @param backgroundId the background ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching marker
 	 * @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a matching marker could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Marker findBybackgroundId_First(long backgroundId,
 		OrderByComparator orderByComparator)
 		throws NoSuchMarkerException, SystemException {
+		Marker marker = fetchBybackgroundId_First(backgroundId,
+				orderByComparator);
+
+		if (marker != null) {
+			return marker;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("backgroundId=");
+		msg.append(backgroundId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchMarkerException(msg.toString());
+	}
+
+	/**
+	 * Returns the first marker in the ordered set where backgroundId = &#63;.
+	 *
+	 * @param backgroundId the background ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching marker, or <code>null</code> if a matching marker could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Marker fetchBybackgroundId_First(long backgroundId,
+		OrderByComparator orderByComparator) throws SystemException {
 		List<Marker> list = findBybackgroundId(backgroundId, 0, 1,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("backgroundId=");
-			msg.append(backgroundId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchMarkerException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the last marker in the ordered set where backgroundId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param backgroundId the background ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -629,37 +314,57 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	 * @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a matching marker could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Marker findBybackgroundId_Last(long backgroundId,
 		OrderByComparator orderByComparator)
 		throws NoSuchMarkerException, SystemException {
+		Marker marker = fetchBybackgroundId_Last(backgroundId, orderByComparator);
+
+		if (marker != null) {
+			return marker;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("backgroundId=");
+		msg.append(backgroundId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchMarkerException(msg.toString());
+	}
+
+	/**
+	 * Returns the last marker in the ordered set where backgroundId = &#63;.
+	 *
+	 * @param backgroundId the background ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching marker, or <code>null</code> if a matching marker could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Marker fetchBybackgroundId_Last(long backgroundId,
+		OrderByComparator orderByComparator) throws SystemException {
 		int count = countBybackgroundId(backgroundId);
+
+		if (count == 0) {
+			return null;
+		}
 
 		List<Marker> list = findBybackgroundId(backgroundId, count - 1, count,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("backgroundId=");
-			msg.append(backgroundId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchMarkerException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the markers before and after the current marker in the ordered set where backgroundId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param markerId the primary key of the current marker
 	 * @param backgroundId the background ID
@@ -668,6 +373,7 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	 * @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a marker with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Marker[] findBybackgroundId_PrevAndNext(long markerId,
 		long backgroundId, OrderByComparator orderByComparator)
 		throws NoSuchMarkerException, SystemException {
@@ -770,6 +476,9 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 				}
 			}
 		}
+		else {
+			query.append(MarkerModelImpl.ORDER_BY_JPQL);
+		}
 
 		String sql = query.toString();
 
@@ -801,11 +510,453 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	}
 
 	/**
+	 * Removes all the markers where backgroundId = &#63; from the database.
+	 *
+	 * @param backgroundId the background ID
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public void removeBybackgroundId(long backgroundId)
+		throws SystemException {
+		for (Marker marker : findBybackgroundId(backgroundId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(marker);
+		}
+	}
+
+	/**
+	 * Returns the number of markers where backgroundId = &#63;.
+	 *
+	 * @param backgroundId the background ID
+	 * @return the number of matching markers
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countBybackgroundId(long backgroundId) throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_BACKGROUNDID;
+
+		Object[] finderArgs = new Object[] { backgroundId };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_MARKER_WHERE);
+
+			query.append(_FINDER_COLUMN_BACKGROUNDID_BACKGROUNDID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(backgroundId);
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_BACKGROUNDID_BACKGROUNDID_2 = "marker.backgroundId = ?";
+
+	public MarkerPersistenceImpl() {
+		setModelClass(Marker.class);
+	}
+
+	/**
+	 * Caches the marker in the entity cache if it is enabled.
+	 *
+	 * @param marker the marker
+	 */
+	@Override
+	public void cacheResult(Marker marker) {
+		EntityCacheUtil.putResult(MarkerModelImpl.ENTITY_CACHE_ENABLED,
+			MarkerImpl.class, marker.getPrimaryKey(), marker);
+
+		marker.resetOriginalValues();
+	}
+
+	/**
+	 * Caches the markers in the entity cache if it is enabled.
+	 *
+	 * @param markers the markers
+	 */
+	@Override
+	public void cacheResult(List<Marker> markers) {
+		for (Marker marker : markers) {
+			if (EntityCacheUtil.getResult(
+						MarkerModelImpl.ENTITY_CACHE_ENABLED, MarkerImpl.class,
+						marker.getPrimaryKey()) == null) {
+				cacheResult(marker);
+			}
+			else {
+				marker.resetOriginalValues();
+			}
+		}
+	}
+
+	/**
+	 * Clears the cache for all markers.
+	 *
+	 * <p>
+	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+	 * </p>
+	 */
+	@Override
+	public void clearCache() {
+		if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
+			CacheRegistryUtil.clear(MarkerImpl.class.getName());
+		}
+
+		EntityCacheUtil.clearCache(MarkerImpl.class.getName());
+
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	/**
+	 * Clears the cache for the marker.
+	 *
+	 * <p>
+	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+	 * </p>
+	 */
+	@Override
+	public void clearCache(Marker marker) {
+		EntityCacheUtil.removeResult(MarkerModelImpl.ENTITY_CACHE_ENABLED,
+			MarkerImpl.class, marker.getPrimaryKey());
+
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	@Override
+	public void clearCache(List<Marker> markers) {
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		for (Marker marker : markers) {
+			EntityCacheUtil.removeResult(MarkerModelImpl.ENTITY_CACHE_ENABLED,
+				MarkerImpl.class, marker.getPrimaryKey());
+		}
+	}
+
+	/**
+	 * Creates a new marker with the primary key. Does not add the marker to the database.
+	 *
+	 * @param markerId the primary key for the new marker
+	 * @return the new marker
+	 */
+	@Override
+	public Marker create(long markerId) {
+		Marker marker = new MarkerImpl();
+
+		marker.setNew(true);
+		marker.setPrimaryKey(markerId);
+
+		return marker;
+	}
+
+	/**
+	 * Removes the marker with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param markerId the primary key of the marker
+	 * @return the marker that was removed
+	 * @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a marker with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Marker remove(long markerId)
+		throws NoSuchMarkerException, SystemException {
+		return remove((Serializable)markerId);
+	}
+
+	/**
+	 * Removes the marker with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param primaryKey the primary key of the marker
+	 * @return the marker that was removed
+	 * @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a marker with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Marker remove(Serializable primaryKey)
+		throws NoSuchMarkerException, SystemException {
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Marker marker = (Marker)session.get(MarkerImpl.class, primaryKey);
+
+			if (marker == null) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				}
+
+				throw new NoSuchMarkerException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+					primaryKey);
+			}
+
+			return remove(marker);
+		}
+		catch (NoSuchMarkerException nsee) {
+			throw nsee;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	@Override
+	protected Marker removeImpl(Marker marker) throws SystemException {
+		marker = toUnwrappedModel(marker);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			if (!session.contains(marker)) {
+				marker = (Marker)session.get(MarkerImpl.class,
+						marker.getPrimaryKeyObj());
+			}
+
+			if (marker != null) {
+				session.delete(marker);
+			}
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+
+		if (marker != null) {
+			clearCache(marker);
+		}
+
+		return marker;
+	}
+
+	@Override
+	public Marker updateImpl(
+		org.politaktiv.map.infrastructure.model.Marker marker)
+		throws SystemException {
+		marker = toUnwrappedModel(marker);
+
+		boolean isNew = marker.isNew();
+
+		MarkerModelImpl markerModelImpl = (MarkerModelImpl)marker;
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			if (marker.isNew()) {
+				session.save(marker);
+
+				marker.setNew(false);
+			}
+			else {
+				session.merge(marker);
+			}
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+
+		if (isNew || !MarkerModelImpl.COLUMN_BITMASK_ENABLED) {
+			FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+
+		else {
+			if ((markerModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						markerModelImpl.getOriginalBackgroundId()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_BACKGROUNDID,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID,
+					args);
+
+				args = new Object[] { markerModelImpl.getBackgroundId() };
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_BACKGROUNDID,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID,
+					args);
+			}
+		}
+
+		EntityCacheUtil.putResult(MarkerModelImpl.ENTITY_CACHE_ENABLED,
+			MarkerImpl.class, marker.getPrimaryKey(), marker);
+
+		return marker;
+	}
+
+	protected Marker toUnwrappedModel(Marker marker) {
+		if (marker instanceof MarkerImpl) {
+			return marker;
+		}
+
+		MarkerImpl markerImpl = new MarkerImpl();
+
+		markerImpl.setNew(marker.isNew());
+		markerImpl.setPrimaryKey(marker.getPrimaryKey());
+
+		markerImpl.setMarkerId(marker.getMarkerId());
+		markerImpl.setCompanyId(marker.getCompanyId());
+		markerImpl.setGroupId(marker.getGroupId());
+		markerImpl.setUserId(marker.getUserId());
+		markerImpl.setName(marker.getName());
+		markerImpl.setDescription(marker.getDescription());
+		markerImpl.setReferenceUrl(marker.getReferenceUrl());
+		markerImpl.setBackgroundId(marker.getBackgroundId());
+		markerImpl.setLongitude(marker.getLongitude());
+		markerImpl.setLatitude(marker.getLatitude());
+
+		return markerImpl;
+	}
+
+	/**
+	 * Returns the marker with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 *
+	 * @param primaryKey the primary key of the marker
+	 * @return the marker
+	 * @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a marker with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Marker findByPrimaryKey(Serializable primaryKey)
+		throws NoSuchMarkerException, SystemException {
+		Marker marker = fetchByPrimaryKey(primaryKey);
+
+		if (marker == null) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			}
+
+			throw new NoSuchMarkerException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+				primaryKey);
+		}
+
+		return marker;
+	}
+
+	/**
+	 * Returns the marker with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchMarkerException} if it could not be found.
+	 *
+	 * @param markerId the primary key of the marker
+	 * @return the marker
+	 * @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a marker with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Marker findByPrimaryKey(long markerId)
+		throws NoSuchMarkerException, SystemException {
+		return findByPrimaryKey((Serializable)markerId);
+	}
+
+	/**
+	 * Returns the marker with the primary key or returns <code>null</code> if it could not be found.
+	 *
+	 * @param primaryKey the primary key of the marker
+	 * @return the marker, or <code>null</code> if a marker with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Marker fetchByPrimaryKey(Serializable primaryKey)
+		throws SystemException {
+		Marker marker = (Marker)EntityCacheUtil.getResult(MarkerModelImpl.ENTITY_CACHE_ENABLED,
+				MarkerImpl.class, primaryKey);
+
+		if (marker == _nullMarker) {
+			return null;
+		}
+
+		if (marker == null) {
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				marker = (Marker)session.get(MarkerImpl.class, primaryKey);
+
+				if (marker != null) {
+					cacheResult(marker);
+				}
+				else {
+					EntityCacheUtil.putResult(MarkerModelImpl.ENTITY_CACHE_ENABLED,
+						MarkerImpl.class, primaryKey, _nullMarker);
+				}
+			}
+			catch (Exception e) {
+				EntityCacheUtil.removeResult(MarkerModelImpl.ENTITY_CACHE_ENABLED,
+					MarkerImpl.class, primaryKey);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return marker;
+	}
+
+	/**
+	 * Returns the marker with the primary key or returns <code>null</code> if it could not be found.
+	 *
+	 * @param markerId the primary key of the marker
+	 * @return the marker, or <code>null</code> if a marker with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Marker fetchByPrimaryKey(long markerId) throws SystemException {
+		return fetchByPrimaryKey((Serializable)markerId);
+	}
+
+	/**
 	 * Returns all the markers.
 	 *
 	 * @return the markers
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Marker> findAll() throws SystemException {
 		return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
@@ -814,7 +965,7 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	 * Returns a range of all the markers.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.MarkerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of markers
@@ -822,6 +973,7 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	 * @return the range of markers
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Marker> findAll(int start, int end) throws SystemException {
 		return findAll(start, end, null);
 	}
@@ -830,7 +982,7 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	 * Returns an ordered range of all the markers.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.MarkerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of markers
@@ -839,18 +991,21 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	 * @return the ordered range of markers
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Marker> findAll(int start, int end,
 		OrderByComparator orderByComparator) throws SystemException {
+		boolean pagination = true;
 		FinderPath finderPath = null;
-		Object[] finderArgs = new Object[] { start, end, orderByComparator };
+		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
 			finderArgs = new Object[] { start, end, orderByComparator };
 		}
 
@@ -874,6 +1029,10 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 			}
 			else {
 				sql = _SQL_SELECT_MARKER;
+
+				if (pagination) {
+					sql = sql.concat(MarkerModelImpl.ORDER_BY_JPQL);
+				}
 			}
 
 			Session session = null;
@@ -883,30 +1042,29 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 
 				Query q = session.createQuery(sql);
 
-				if (orderByComparator == null) {
+				if (!pagination) {
 					list = (List<Marker>)QueryUtil.list(q, getDialect(), start,
 							end, false);
 
 					Collections.sort(list);
+
+					list = new UnmodifiableList<Marker>(list);
 				}
 				else {
 					list = (List<Marker>)QueryUtil.list(q, getDialect(), start,
 							end);
 				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
 				throw processException(e);
 			}
 			finally {
-				if (list == null) {
-					FinderCacheUtil.removeResult(finderPath, finderArgs);
-				}
-				else {
-					cacheResult(list);
-
-					FinderCacheUtil.putResult(finderPath, finderArgs, list);
-				}
-
 				closeSession(session);
 			}
 		}
@@ -915,80 +1073,15 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	}
 
 	/**
-	 * Removes all the markers where backgroundId = &#63; from the database.
-	 *
-	 * @param backgroundId the background ID
-	 * @throws SystemException if a system exception occurred
-	 */
-	public void removeBybackgroundId(long backgroundId)
-		throws SystemException {
-		for (Marker marker : findBybackgroundId(backgroundId)) {
-			remove(marker);
-		}
-	}
-
-	/**
 	 * Removes all the markers from the database.
 	 *
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public void removeAll() throws SystemException {
 		for (Marker marker : findAll()) {
 			remove(marker);
 		}
-	}
-
-	/**
-	 * Returns the number of markers where backgroundId = &#63;.
-	 *
-	 * @param backgroundId the background ID
-	 * @return the number of matching markers
-	 * @throws SystemException if a system exception occurred
-	 */
-	public int countBybackgroundId(long backgroundId) throws SystemException {
-		Object[] finderArgs = new Object[] { backgroundId };
-
-		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_BACKGROUNDID,
-				finderArgs, this);
-
-		if (count == null) {
-			StringBundler query = new StringBundler(2);
-
-			query.append(_SQL_COUNT_MARKER_WHERE);
-
-			query.append(_FINDER_COLUMN_BACKGROUNDID_BACKGROUNDID_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				qPos.add(backgroundId);
-
-				count = (Long)q.uniqueResult();
-			}
-			catch (Exception e) {
-				throw processException(e);
-			}
-			finally {
-				if (count == null) {
-					count = Long.valueOf(0);
-				}
-
-				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_BACKGROUNDID,
-					finderArgs, count);
-
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
 	}
 
 	/**
@@ -997,6 +1090,7 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	 * @return the number of markers
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public int countAll() throws SystemException {
 		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
 				FINDER_ARGS_EMPTY, this);
@@ -1010,18 +1104,17 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 				Query q = session.createQuery(_SQL_COUNT_MARKER);
 
 				count = (Long)q.uniqueResult();
-			}
-			catch (Exception e) {
-				throw processException(e);
-			}
-			finally {
-				if (count == null) {
-					count = Long.valueOf(0);
-				}
 
 				FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL,
 					FINDER_ARGS_EMPTY, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
+					FINDER_ARGS_EMPTY);
 
+				throw processException(e);
+			}
+			finally {
 				closeSession(session);
 			}
 		}
@@ -1043,7 +1136,7 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 
 				for (String listenerClassName : listenerClassNames) {
 					listenersList.add((ModelListener<Marker>)InstanceFactory.newInstance(
-							listenerClassName));
+							getClassLoader(), listenerClassName));
 				}
 
 				listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
@@ -1057,24 +1150,14 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 	public void destroy() {
 		EntityCacheUtil.removeCache(MarkerImpl.class.getName());
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
+		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@BeanReference(type = BackgroundPersistence.class)
-	protected BackgroundPersistence backgroundPersistence;
-	@BeanReference(type = MarkerPersistence.class)
-	protected MarkerPersistence markerPersistence;
-	@BeanReference(type = PicturePersistence.class)
-	protected PicturePersistence picturePersistence;
-	@BeanReference(type = ResourcePersistence.class)
-	protected ResourcePersistence resourcePersistence;
-	@BeanReference(type = UserPersistence.class)
-	protected UserPersistence userPersistence;
 	private static final String _SQL_SELECT_MARKER = "SELECT marker FROM Marker marker";
 	private static final String _SQL_SELECT_MARKER_WHERE = "SELECT marker FROM Marker marker WHERE ";
 	private static final String _SQL_COUNT_MARKER = "SELECT COUNT(marker) FROM Marker marker";
 	private static final String _SQL_COUNT_MARKER_WHERE = "SELECT COUNT(marker) FROM Marker marker WHERE ";
-	private static final String _FINDER_COLUMN_BACKGROUNDID_BACKGROUNDID_2 = "marker.backgroundId = ?";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "marker.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Marker exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Marker exists with the key {";
@@ -1094,6 +1177,7 @@ public class MarkerPersistenceImpl extends BasePersistenceImpl<Marker>
 		};
 
 	private static CacheModel<Marker> _nullMarkerCacheModel = new CacheModel<Marker>() {
+			@Override
 			public Marker toEntityModel() {
 				return _nullMarker;
 			}

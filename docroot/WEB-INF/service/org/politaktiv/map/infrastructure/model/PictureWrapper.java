@@ -1,36 +1,32 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.model;
 
-import java.io.Serializable;
-
-import javax.portlet.ValidatorException;
-
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.model.CacheModel;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.ModelWrapper;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portlet.expando.model.ExpandoBridge;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
  * This class is a wrapper for {@link Picture}.
  * </p>
  *
- * @author    eichi
- * @see       Picture
+ * @author eichi
+ * @see Picture
  * @generated
  */
 public class PictureWrapper implements Picture, ModelWrapper<Picture> {
@@ -38,12 +34,137 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 		_picture = picture;
 	}
 
+	@Override
 	public Class<?> getModelClass() {
 		return Picture.class;
 	}
 
+	@Override
 	public String getModelClassName() {
 		return Picture.class.getName();
+	}
+
+	@Override
+	public Map<String, Object> getModelAttributes() {
+		Map<String, Object> attributes = new HashMap<String, Object>();
+
+		attributes.put("pictureId", getPictureId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("userId", getUserId());
+		attributes.put("name", getName());
+		attributes.put("description", getDescription());
+		attributes.put("referenceUrl", getReferenceUrl());
+		attributes.put("backgroundId", getBackgroundId());
+		attributes.put("rotation", getRotation());
+		attributes.put("width", getWidth());
+		attributes.put("height", getHeight());
+		attributes.put("resolution", getResolution());
+		attributes.put("ocupacy", getOcupacy());
+		attributes.put("longitude", getLongitude());
+		attributes.put("latitude", getLatitude());
+		attributes.put("fileEntryUuid", getFileEntryUuid());
+
+		return attributes;
+	}
+
+	@Override
+	public void setModelAttributes(Map<String, Object> attributes) {
+		Long pictureId = (Long)attributes.get("pictureId");
+
+		if (pictureId != null) {
+			setPictureId(pictureId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String name = (String)attributes.get("name");
+
+		if (name != null) {
+			setName(name);
+		}
+
+		String description = (String)attributes.get("description");
+
+		if (description != null) {
+			setDescription(description);
+		}
+
+		String referenceUrl = (String)attributes.get("referenceUrl");
+
+		if (referenceUrl != null) {
+			setReferenceUrl(referenceUrl);
+		}
+
+		Long backgroundId = (Long)attributes.get("backgroundId");
+
+		if (backgroundId != null) {
+			setBackgroundId(backgroundId);
+		}
+
+		Long rotation = (Long)attributes.get("rotation");
+
+		if (rotation != null) {
+			setRotation(rotation);
+		}
+
+		Double width = (Double)attributes.get("width");
+
+		if (width != null) {
+			setWidth(width);
+		}
+
+		Double height = (Double)attributes.get("height");
+
+		if (height != null) {
+			setHeight(height);
+		}
+
+		Double resolution = (Double)attributes.get("resolution");
+
+		if (resolution != null) {
+			setResolution(resolution);
+		}
+
+		Double ocupacy = (Double)attributes.get("ocupacy");
+
+		if (ocupacy != null) {
+			setOcupacy(ocupacy);
+		}
+
+		Double longitude = (Double)attributes.get("longitude");
+
+		if (longitude != null) {
+			setLongitude(longitude);
+		}
+
+		Double latitude = (Double)attributes.get("latitude");
+
+		if (latitude != null) {
+			setLatitude(latitude);
+		}
+
+		String fileEntryUuid = (String)attributes.get("fileEntryUuid");
+
+		if (fileEntryUuid != null) {
+			setFileEntryUuid(fileEntryUuid);
+		}
 	}
 
 	/**
@@ -51,6 +172,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the primary key of this picture
 	*/
+	@Override
 	public long getPrimaryKey() {
 		return _picture.getPrimaryKey();
 	}
@@ -60,6 +182,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param primaryKey the primary key of this picture
 	*/
+	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_picture.setPrimaryKey(primaryKey);
 	}
@@ -69,6 +192,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the picture ID of this picture
 	*/
+	@Override
 	public long getPictureId() {
 		return _picture.getPictureId();
 	}
@@ -78,6 +202,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param pictureId the picture ID of this picture
 	*/
+	@Override
 	public void setPictureId(long pictureId) {
 		_picture.setPictureId(pictureId);
 	}
@@ -87,6 +212,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the company ID of this picture
 	*/
+	@Override
 	public long getCompanyId() {
 		return _picture.getCompanyId();
 	}
@@ -96,6 +222,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param companyId the company ID of this picture
 	*/
+	@Override
 	public void setCompanyId(long companyId) {
 		_picture.setCompanyId(companyId);
 	}
@@ -105,6 +232,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the group ID of this picture
 	*/
+	@Override
 	public long getGroupId() {
 		return _picture.getGroupId();
 	}
@@ -114,6 +242,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param groupId the group ID of this picture
 	*/
+	@Override
 	public void setGroupId(long groupId) {
 		_picture.setGroupId(groupId);
 	}
@@ -123,6 +252,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the user ID of this picture
 	*/
+	@Override
 	public long getUserId() {
 		return _picture.getUserId();
 	}
@@ -132,6 +262,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param userId the user ID of this picture
 	*/
+	@Override
 	public void setUserId(long userId) {
 		_picture.setUserId(userId);
 	}
@@ -142,8 +273,9 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	* @return the user uuid of this picture
 	* @throws SystemException if a system exception occurred
 	*/
-	public String getUserUuid()
-		throws SystemException {
+	@Override
+	public java.lang.String getUserUuid()
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _picture.getUserUuid();
 	}
 
@@ -152,7 +284,8 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param userUuid the user uuid of this picture
 	*/
-	public void setUserUuid(String userUuid) {
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
 		_picture.setUserUuid(userUuid);
 	}
 
@@ -161,7 +294,8 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the name of this picture
 	*/
-	public String getName() {
+	@Override
+	public java.lang.String getName() {
 		return _picture.getName();
 	}
 
@@ -170,7 +304,8 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param name the name of this picture
 	*/
-	public void setName(String name) {
+	@Override
+	public void setName(java.lang.String name) {
 		_picture.setName(name);
 	}
 
@@ -179,7 +314,8 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the description of this picture
 	*/
-	public String getDescription() {
+	@Override
+	public java.lang.String getDescription() {
 		return _picture.getDescription();
 	}
 
@@ -188,7 +324,8 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param description the description of this picture
 	*/
-	public void setDescription(String description) {
+	@Override
+	public void setDescription(java.lang.String description) {
 		_picture.setDescription(description);
 	}
 
@@ -197,7 +334,8 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the reference url of this picture
 	*/
-	public String getReferenceUrl() {
+	@Override
+	public java.lang.String getReferenceUrl() {
 		return _picture.getReferenceUrl();
 	}
 
@@ -206,7 +344,8 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param referenceUrl the reference url of this picture
 	*/
-	public void setReferenceUrl(String referenceUrl) {
+	@Override
+	public void setReferenceUrl(java.lang.String referenceUrl) {
 		_picture.setReferenceUrl(referenceUrl);
 	}
 
@@ -215,6 +354,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the background ID of this picture
 	*/
+	@Override
 	public long getBackgroundId() {
 		return _picture.getBackgroundId();
 	}
@@ -224,6 +364,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param backgroundId the background ID of this picture
 	*/
+	@Override
 	public void setBackgroundId(long backgroundId) {
 		_picture.setBackgroundId(backgroundId);
 	}
@@ -233,6 +374,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the rotation of this picture
 	*/
+	@Override
 	public long getRotation() {
 		return _picture.getRotation();
 	}
@@ -242,6 +384,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param rotation the rotation of this picture
 	*/
+	@Override
 	public void setRotation(long rotation) {
 		_picture.setRotation(rotation);
 	}
@@ -251,6 +394,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the width of this picture
 	*/
+	@Override
 	public double getWidth() {
 		return _picture.getWidth();
 	}
@@ -260,6 +404,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param width the width of this picture
 	*/
+	@Override
 	public void setWidth(double width) {
 		_picture.setWidth(width);
 	}
@@ -269,6 +414,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the height of this picture
 	*/
+	@Override
 	public double getHeight() {
 		return _picture.getHeight();
 	}
@@ -278,6 +424,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param height the height of this picture
 	*/
+	@Override
 	public void setHeight(double height) {
 		_picture.setHeight(height);
 	}
@@ -287,6 +434,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the resolution of this picture
 	*/
+	@Override
 	public double getResolution() {
 		return _picture.getResolution();
 	}
@@ -296,6 +444,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param resolution the resolution of this picture
 	*/
+	@Override
 	public void setResolution(double resolution) {
 		_picture.setResolution(resolution);
 	}
@@ -305,6 +454,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the ocupacy of this picture
 	*/
+	@Override
 	public double getOcupacy() {
 		return _picture.getOcupacy();
 	}
@@ -314,6 +464,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param ocupacy the ocupacy of this picture
 	*/
+	@Override
 	public void setOcupacy(double ocupacy) {
 		_picture.setOcupacy(ocupacy);
 	}
@@ -323,6 +474,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the longitude of this picture
 	*/
+	@Override
 	public double getLongitude() {
 		return _picture.getLongitude();
 	}
@@ -332,6 +484,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param longitude the longitude of this picture
 	*/
+	@Override
 	public void setLongitude(double longitude) {
 		_picture.setLongitude(longitude);
 	}
@@ -341,6 +494,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the latitude of this picture
 	*/
+	@Override
 	public double getLatitude() {
 		return _picture.getLatitude();
 	}
@@ -350,6 +504,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param latitude the latitude of this picture
 	*/
+	@Override
 	public void setLatitude(double latitude) {
 		_picture.setLatitude(latitude);
 	}
@@ -359,7 +514,8 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @return the file entry uuid of this picture
 	*/
-	public String getFileEntryUuid() {
+	@Override
+	public java.lang.String getFileEntryUuid() {
 		return _picture.getFileEntryUuid();
 	}
 
@@ -368,44 +524,66 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	*
 	* @param fileEntryUuid the file entry uuid of this picture
 	*/
-	public void setFileEntryUuid(String fileEntryUuid) {
+	@Override
+	public void setFileEntryUuid(java.lang.String fileEntryUuid) {
 		_picture.setFileEntryUuid(fileEntryUuid);
 	}
 
+	@Override
 	public boolean isNew() {
 		return _picture.isNew();
 	}
 
+	@Override
 	public void setNew(boolean n) {
 		_picture.setNew(n);
 	}
 
+	@Override
 	public boolean isCachedModel() {
 		return _picture.isCachedModel();
 	}
 
+	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_picture.setCachedModel(cachedModel);
 	}
 
+	@Override
 	public boolean isEscapedModel() {
 		return _picture.isEscapedModel();
 	}
 
-	public Serializable getPrimaryKeyObj() {
+	@Override
+	public java.io.Serializable getPrimaryKeyObj() {
 		return _picture.getPrimaryKeyObj();
 	}
 
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+	@Override
+	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
 		_picture.setPrimaryKeyObj(primaryKeyObj);
 	}
 
-	public ExpandoBridge getExpandoBridge() {
+	@Override
+	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
 		return _picture.getExpandoBridge();
 	}
 
+	@Override
 	public void setExpandoBridgeAttributes(
-		ServiceContext serviceContext) {
+		com.liferay.portal.model.BaseModel<?> baseModel) {
+		_picture.setExpandoBridgeAttributes(baseModel);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portlet.expando.model.ExpandoBridge expandoBridge) {
+		_picture.setExpandoBridgeAttributes(expandoBridge);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.service.ServiceContext serviceContext) {
 		_picture.setExpandoBridgeAttributes(serviceContext);
 	}
 
@@ -414,6 +592,7 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 		return new PictureWrapper((Picture)_picture.clone());
 	}
 
+	@Override
 	public int compareTo(Picture picture) {
 		return _picture.compareTo(picture);
 	}
@@ -423,49 +602,81 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 		return _picture.hashCode();
 	}
 
-	public CacheModel<Picture> toCacheModel() {
+	@Override
+	public com.liferay.portal.model.CacheModel<Picture> toCacheModel() {
 		return _picture.toCacheModel();
 	}
 
+	@Override
 	public Picture toEscapedModel() {
 		return new PictureWrapper(_picture.toEscapedModel());
 	}
 
 	@Override
-	public String toString() {
+	public Picture toUnescapedModel() {
+		return new PictureWrapper(_picture.toUnescapedModel());
+	}
+
+	@Override
+	public java.lang.String toString() {
 		return _picture.toString();
 	}
 
-	public String toXmlString() {
+	@Override
+	public java.lang.String toXmlString() {
 		return _picture.toXmlString();
 	}
 
+	@Override
 	public void persist()
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		_picture.persist();
 	}
 
-	public String getPictureUrl() {
+	@Override
+	public java.lang.String getPictureUrl() {
 		return _picture.getPictureUrl();
 	}
 
+	@Override
 	public void validate()
-		throws SystemException,
-			ValidatorException {
+		throws com.liferay.portal.kernel.exception.SystemException,
+			javax.portlet.ValidatorException {
 		_picture.validate();
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof PictureWrapper)) {
+			return false;
+		}
+
+		PictureWrapper pictureWrapper = (PictureWrapper)obj;
+
+		if (Validator.equals(_picture, pictureWrapper._picture)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
-	 * @deprecated Renamed to {@link #getWrappedModel}
+	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedModel}
 	 */
 	public Picture getWrappedPicture() {
 		return _picture;
 	}
 
+	@Override
 	public Picture getWrappedModel() {
 		return _picture;
 	}
 
+	@Override
 	public void resetOriginalValues() {
 		_picture.resetOriginalValues();
 	}

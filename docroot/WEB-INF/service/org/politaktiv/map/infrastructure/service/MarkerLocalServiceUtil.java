@@ -1,40 +1,30 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.service;
 
-import java.io.Serializable;
-import java.util.List;
-
-import org.politaktiv.map.infrastructure.model.Marker;
-
 import com.liferay.portal.kernel.bean.PortletBeanLocatorUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.util.ClassLoaderProxy;
-import com.liferay.portal.kernel.util.MethodCache;
-import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
-import com.liferay.portal.model.PersistedModel;
+import com.liferay.portal.service.InvokableLocalService;
 
 /**
- * The utility for the marker local service. This utility wraps {@link org.politaktiv.map.infrastructure.service.impl.MarkerLocalServiceImpl} and is the primary access point for service operations in application layer code running on the local server.
- *
- * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
- * </p>
+ * Provides the local service utility for Marker. This utility wraps
+ * {@link org.politaktiv.map.infrastructure.service.impl.MarkerLocalServiceImpl} and is the
+ * primary access point for service operations in application layer code running
+ * on the local server. Methods of this service will not have security checks
+ * based on the propagated JAAS credentials because this service can only be
+ * accessed from within the same VM.
  *
  * @author eichi
  * @see MarkerLocalService
@@ -56,9 +46,9 @@ public class MarkerLocalServiceUtil {
 	* @return the marker that was added
 	* @throws SystemException if a system exception occurred
 	*/
-	public static Marker addMarker(
-		Marker marker)
-		throws SystemException {
+	public static org.politaktiv.map.infrastructure.model.Marker addMarker(
+		org.politaktiv.map.infrastructure.model.Marker marker)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().addMarker(marker);
 	}
 
@@ -68,7 +58,7 @@ public class MarkerLocalServiceUtil {
 	* @param markerId the primary key for the new marker
 	* @return the new marker
 	*/
-	public static Marker createMarker(
+	public static org.politaktiv.map.infrastructure.model.Marker createMarker(
 		long markerId) {
 		return getService().createMarker(markerId);
 	}
@@ -77,25 +67,32 @@ public class MarkerLocalServiceUtil {
 	* Deletes the marker with the primary key from the database. Also notifies the appropriate model listeners.
 	*
 	* @param markerId the primary key of the marker
+	* @return the marker that was removed
 	* @throws PortalException if a marker with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static void deleteMarker(long markerId)
-		throws PortalException,
-			SystemException {
-		getService().deleteMarker(markerId);
+	public static org.politaktiv.map.infrastructure.model.Marker deleteMarker(
+		long markerId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().deleteMarker(markerId);
 	}
 
 	/**
 	* Deletes the marker from the database. Also notifies the appropriate model listeners.
 	*
 	* @param marker the marker
+	* @return the marker that was removed
 	* @throws SystemException if a system exception occurred
 	*/
-	public static void deleteMarker(
-		Marker marker)
-		throws SystemException {
-		getService().deleteMarker(marker);
+	public static org.politaktiv.map.infrastructure.model.Marker deleteMarker(
+		org.politaktiv.map.infrastructure.model.Marker marker)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().deleteMarker(marker);
+	}
+
+	public static com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
+		return getService().dynamicQuery();
 	}
 
 	/**
@@ -106,9 +103,9 @@ public class MarkerLocalServiceUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public static List dynamicQuery(
-		DynamicQuery dynamicQuery)
-		throws SystemException {
+	public static java.util.List dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -116,7 +113,7 @@ public class MarkerLocalServiceUtil {
 	* Performs a dynamic query on the database and returns a range of the matching rows.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.MarkerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param dynamicQuery the dynamic query
@@ -126,9 +123,9 @@ public class MarkerLocalServiceUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public static List dynamicQuery(
-		DynamicQuery dynamicQuery, int start,
-		int end) throws SystemException {
+	public static java.util.List dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
 
@@ -136,7 +133,7 @@ public class MarkerLocalServiceUtil {
 	* Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.MarkerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param dynamicQuery the dynamic query
@@ -147,11 +144,11 @@ public class MarkerLocalServiceUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	@SuppressWarnings("rawtypes")
-	public static List dynamicQuery(
-		DynamicQuery dynamicQuery, int start,
+	public static java.util.List dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
 		int end,
-		OrderByComparator orderByComparator)
-		throws SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
@@ -164,14 +161,29 @@ public class MarkerLocalServiceUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static long dynamicQueryCount(
-		DynamicQuery dynamicQuery)
-		throws SystemException {
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
-	public static Marker fetchMarker(
+	/**
+	* Returns the number of rows that match the dynamic query.
+	*
+	* @param dynamicQuery the dynamic query
+	* @param projection the projection to apply to the query
+	* @return the number of rows that match the dynamic query
+	* @throws SystemException if a system exception occurred
+	*/
+	public static long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.Projection projection)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	public static org.politaktiv.map.infrastructure.model.Marker fetchMarker(
 		long markerId)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().fetchMarker(markerId);
 	}
 
@@ -183,17 +195,17 @@ public class MarkerLocalServiceUtil {
 	* @throws PortalException if a marker with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static Marker getMarker(
+	public static org.politaktiv.map.infrastructure.model.Marker getMarker(
 		long markerId)
-		throws PortalException,
-			SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		return getService().getMarker(markerId);
 	}
 
-	public static PersistedModel getPersistedModel(
-		Serializable primaryKeyObj)
-		throws PortalException,
-			SystemException {
+	public static com.liferay.portal.model.PersistedModel getPersistedModel(
+		java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
@@ -201,7 +213,7 @@ public class MarkerLocalServiceUtil {
 	* Returns a range of all the markers.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.MarkerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param start the lower bound of the range of markers
@@ -209,9 +221,9 @@ public class MarkerLocalServiceUtil {
 	* @return the range of markers
 	* @throws SystemException if a system exception occurred
 	*/
-	public static List<Marker> getMarkers(
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Marker> getMarkers(
 		int start, int end)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().getMarkers(start, end);
 	}
 
@@ -222,7 +234,7 @@ public class MarkerLocalServiceUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static int getMarkersCount()
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().getMarkersCount();
 	}
 
@@ -233,24 +245,10 @@ public class MarkerLocalServiceUtil {
 	* @return the marker that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public static Marker updateMarker(
-		Marker marker)
-		throws SystemException {
+	public static org.politaktiv.map.infrastructure.model.Marker updateMarker(
+		org.politaktiv.map.infrastructure.model.Marker marker)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().updateMarker(marker);
-	}
-
-	/**
-	* Updates the marker in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
-	*
-	* @param marker the marker
-	* @param merge whether to merge the marker with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
-	* @return the marker that was updated
-	* @throws SystemException if a system exception occurred
-	*/
-	public static Marker updateMarker(
-		Marker marker, boolean merge)
-		throws SystemException {
-		return getService().updateMarker(marker, merge);
 	}
 
 	/**
@@ -258,7 +256,7 @@ public class MarkerLocalServiceUtil {
 	*
 	* @return the Spring bean ID for this bean
 	*/
-	public static String getBeanIdentifier() {
+	public static java.lang.String getBeanIdentifier() {
 		return getService().getBeanIdentifier();
 	}
 
@@ -267,13 +265,19 @@ public class MarkerLocalServiceUtil {
 	*
 	* @param beanIdentifier the Spring bean ID for this bean
 	*/
-	public static void setBeanIdentifier(String beanIdentifier) {
+	public static void setBeanIdentifier(java.lang.String beanIdentifier) {
 		getService().setBeanIdentifier(beanIdentifier);
 	}
 
-	public static List<Marker> findMarkerByBackgroundId(
+	public static java.lang.Object invokeMethod(java.lang.String name,
+		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
+		throws java.lang.Throwable {
+		return getService().invokeMethod(name, parameterTypes, arguments);
+	}
+
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Marker> findMarkerByBackgroundId(
 		long backgroundId)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().findMarkerByBackgroundId(backgroundId);
 	}
 
@@ -283,34 +287,27 @@ public class MarkerLocalServiceUtil {
 
 	public static MarkerLocalService getService() {
 		if (_service == null) {
-			Object object = PortletBeanLocatorUtil.locate(ClpSerializer.getServletContextName(),
+			InvokableLocalService invokableLocalService = (InvokableLocalService)PortletBeanLocatorUtil.locate(ClpSerializer.getServletContextName(),
 					MarkerLocalService.class.getName());
-			ClassLoader portletClassLoader = (ClassLoader)PortletBeanLocatorUtil.locate(ClpSerializer.getServletContextName(),
-					"portletClassLoader");
 
-			ClassLoaderProxy classLoaderProxy = new ClassLoaderProxy(object,
-					MarkerLocalService.class.getName(), portletClassLoader);
-
-			_service = new MarkerLocalServiceClp(classLoaderProxy);
-
-			ClpSerializer.setClassLoader(portletClassLoader);
+			if (invokableLocalService instanceof MarkerLocalService) {
+				_service = (MarkerLocalService)invokableLocalService;
+			}
+			else {
+				_service = new MarkerLocalServiceClp(invokableLocalService);
+			}
 
 			ReferenceRegistry.registerReference(MarkerLocalServiceUtil.class,
 				"_service");
-			MethodCache.remove(MarkerLocalService.class);
 		}
 
 		return _service;
 	}
 
+	/**
+	 * @deprecated As of 6.2.0
+	 */
 	public void setService(MarkerLocalService service) {
-		MethodCache.remove(MarkerLocalService.class);
-
-		_service = service;
-
-		ReferenceRegistry.registerReference(MarkerLocalServiceUtil.class,
-			"_service");
-		MethodCache.remove(MarkerLocalService.class);
 	}
 
 	private static MarkerLocalService _service;

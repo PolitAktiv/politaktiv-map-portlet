@@ -1,15 +1,15 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.model.impl;
@@ -38,7 +38,9 @@ import java.io.Serializable;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The base model implementation for the Background service. Represents a row in the &quot;politaktivmap_Background&quot; database table, with each column mapped to a property of this class.
@@ -72,6 +74,8 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 		};
 	public static final String TABLE_SQL_CREATE = "create table politaktivmap_Background (backgroundId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,name VARCHAR(75) null,fileEntryUuid VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table politaktivmap_Background";
+	public static final String ORDER_BY_JPQL = " ORDER BY background.backgroundId ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY politaktivmap_Background.backgroundId ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -86,6 +90,7 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 			true);
 	public static long COMPANYID_COLUMN_BITMASK = 1L;
 	public static long GROUPID_COLUMN_BITMASK = 2L;
+	public static long BACKGROUNDID_COLUMN_BITMASK = 4L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -94,6 +99,10 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 	 * @return the normal model instance
 	 */
 	public static Background toModel(BackgroundSoap soapModel) {
+		if (soapModel == null) {
+			return null;
+		}
+
 		Background model = new BackgroundImpl();
 
 		model.setBackgroundId(soapModel.getBackgroundId());
@@ -113,6 +122,10 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 	 * @return the normal model instances
 	 */
 	public static List<Background> toModels(BackgroundSoap[] soapModels) {
+		if (soapModels == null) {
+			return null;
+		}
+
 		List<Background> models = new ArrayList<Background>(soapModels.length);
 
 		for (BackgroundSoap soapModel : soapModels) {
@@ -128,44 +141,107 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 	public BackgroundModelImpl() {
 	}
 
+	@Override
 	public long getPrimaryKey() {
 		return _backgroundId;
 	}
 
+	@Override
 	public void setPrimaryKey(long primaryKey) {
 		setBackgroundId(primaryKey);
 	}
 
+	@Override
 	public Serializable getPrimaryKeyObj() {
-		return new Long(_backgroundId);
+		return _backgroundId;
 	}
 
+	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
+	@Override
 	public Class<?> getModelClass() {
 		return Background.class;
 	}
 
+	@Override
 	public String getModelClassName() {
 		return Background.class.getName();
 	}
 
+	@Override
+	public Map<String, Object> getModelAttributes() {
+		Map<String, Object> attributes = new HashMap<String, Object>();
+
+		attributes.put("backgroundId", getBackgroundId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("userId", getUserId());
+		attributes.put("name", getName());
+		attributes.put("fileEntryUuid", getFileEntryUuid());
+
+		return attributes;
+	}
+
+	@Override
+	public void setModelAttributes(Map<String, Object> attributes) {
+		Long backgroundId = (Long)attributes.get("backgroundId");
+
+		if (backgroundId != null) {
+			setBackgroundId(backgroundId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String name = (String)attributes.get("name");
+
+		if (name != null) {
+			setName(name);
+		}
+
+		String fileEntryUuid = (String)attributes.get("fileEntryUuid");
+
+		if (fileEntryUuid != null) {
+			setFileEntryUuid(fileEntryUuid);
+		}
+	}
+
 	@JSON
+	@Override
 	public long getBackgroundId() {
 		return _backgroundId;
 	}
 
+	@Override
 	public void setBackgroundId(long backgroundId) {
 		_backgroundId = backgroundId;
 	}
 
 	@JSON
+	@Override
 	public long getCompanyId() {
 		return _companyId;
 	}
 
+	@Override
 	public void setCompanyId(long companyId) {
 		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
 
@@ -183,10 +259,12 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 	}
 
 	@JSON
+	@Override
 	public long getGroupId() {
 		return _groupId;
 	}
 
+	@Override
 	public void setGroupId(long groupId) {
 		_columnBitmask |= GROUPID_COLUMN_BITMASK;
 
@@ -204,23 +282,28 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 	}
 
 	@JSON
+	@Override
 	public long getUserId() {
 		return _userId;
 	}
 
+	@Override
 	public void setUserId(long userId) {
 		_userId = userId;
 	}
 
+	@Override
 	public String getUserUuid() throws SystemException {
 		return PortalUtil.getUserValue(getUserId(), "uuid", _userUuid);
 	}
 
+	@Override
 	public void setUserUuid(String userUuid) {
 		_userUuid = userUuid;
 	}
 
 	@JSON
+	@Override
 	public String getName() {
 		if (_name == null) {
 			return StringPool.BLANK;
@@ -230,11 +313,13 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 		}
 	}
 
+	@Override
 	public void setName(String name) {
 		_name = name;
 	}
 
 	@JSON
+	@Override
 	public String getFileEntryUuid() {
 		if (_fileEntryUuid == null) {
 			return StringPool.BLANK;
@@ -244,6 +329,7 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 		}
 	}
 
+	@Override
 	public void setFileEntryUuid(String fileEntryUuid) {
 		_fileEntryUuid = fileEntryUuid;
 	}
@@ -253,29 +339,26 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 	}
 
 	@Override
-	public Background toEscapedModel() {
-		if (_escapedModelProxy == null) {
-			_escapedModelProxy = (Background)ProxyUtil.newProxyInstance(_classLoader,
-					_escapedModelProxyInterfaces,
-					new AutoEscapeBeanHandler(this));
-		}
-
-		return _escapedModelProxy;
-	}
-
-	@Override
 	public ExpandoBridge getExpandoBridge() {
-		if (_expandoBridge == null) {
-			_expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
-					Background.class.getName(), getPrimaryKey());
-		}
-
-		return _expandoBridge;
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
+			Background.class.getName(), getPrimaryKey());
 	}
 
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		getExpandoBridge().setAttributes(serviceContext);
+		ExpandoBridge expandoBridge = getExpandoBridge();
+
+		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public Background toEscapedModel() {
+		if (_escapedModel == null) {
+			_escapedModel = (Background)ProxyUtil.newProxyInstance(_classLoader,
+					_escapedModelInterfaces, new AutoEscapeBeanHandler(this));
+		}
+
+		return _escapedModel;
 	}
 
 	@Override
@@ -294,6 +377,7 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 		return backgroundImpl;
 	}
 
+	@Override
 	public int compareTo(Background background) {
 		long primaryKey = background.getPrimaryKey();
 
@@ -310,18 +394,15 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof Background)) {
 			return false;
 		}
 
-		Background background = null;
-
-		try {
-			background = (Background)obj;
-		}
-		catch (ClassCastException cce) {
-			return false;
-		}
+		Background background = (Background)obj;
 
 		long primaryKey = background.getPrimaryKey();
 
@@ -405,6 +486,7 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 		return sb.toString();
 	}
 
+	@Override
 	public String toXmlString() {
 		StringBundler sb = new StringBundler(22);
 
@@ -443,7 +525,7 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 	}
 
 	private static ClassLoader _classLoader = Background.class.getClassLoader();
-	private static Class<?>[] _escapedModelProxyInterfaces = new Class[] {
+	private static Class<?>[] _escapedModelInterfaces = new Class[] {
 			Background.class
 		};
 	private long _backgroundId;
@@ -457,7 +539,6 @@ public class BackgroundModelImpl extends BaseModelImpl<Background>
 	private String _userUuid;
 	private String _name;
 	private String _fileEntryUuid;
-	private transient ExpandoBridge _expandoBridge;
 	private long _columnBitmask;
-	private Background _escapedModelProxy;
+	private Background _escapedModel;
 }

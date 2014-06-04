@@ -1,37 +1,32 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.model;
 
-import java.io.Serializable;
-
-import javax.portlet.ValidatorException;
-
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.model.CacheModel;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.ModelWrapper;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portlet.expando.model.ExpandoBridge;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
  * This class is a wrapper for {@link Marker}.
  * </p>
  *
- * @author    eichi
- * @see       Marker
+ * @author eichi
+ * @see Marker
  * @generated
  */
 public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
@@ -39,12 +34,95 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 		_marker = marker;
 	}
 
+	@Override
 	public Class<?> getModelClass() {
 		return Marker.class;
 	}
 
+	@Override
 	public String getModelClassName() {
 		return Marker.class.getName();
+	}
+
+	@Override
+	public Map<String, Object> getModelAttributes() {
+		Map<String, Object> attributes = new HashMap<String, Object>();
+
+		attributes.put("markerId", getMarkerId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("userId", getUserId());
+		attributes.put("name", getName());
+		attributes.put("description", getDescription());
+		attributes.put("referenceUrl", getReferenceUrl());
+		attributes.put("backgroundId", getBackgroundId());
+		attributes.put("longitude", getLongitude());
+		attributes.put("latitude", getLatitude());
+
+		return attributes;
+	}
+
+	@Override
+	public void setModelAttributes(Map<String, Object> attributes) {
+		Long markerId = (Long)attributes.get("markerId");
+
+		if (markerId != null) {
+			setMarkerId(markerId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String name = (String)attributes.get("name");
+
+		if (name != null) {
+			setName(name);
+		}
+
+		String description = (String)attributes.get("description");
+
+		if (description != null) {
+			setDescription(description);
+		}
+
+		String referenceUrl = (String)attributes.get("referenceUrl");
+
+		if (referenceUrl != null) {
+			setReferenceUrl(referenceUrl);
+		}
+
+		Long backgroundId = (Long)attributes.get("backgroundId");
+
+		if (backgroundId != null) {
+			setBackgroundId(backgroundId);
+		}
+
+		Double longitude = (Double)attributes.get("longitude");
+
+		if (longitude != null) {
+			setLongitude(longitude);
+		}
+
+		Double latitude = (Double)attributes.get("latitude");
+
+		if (latitude != null) {
+			setLatitude(latitude);
+		}
 	}
 
 	/**
@@ -52,6 +130,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @return the primary key of this marker
 	*/
+	@Override
 	public long getPrimaryKey() {
 		return _marker.getPrimaryKey();
 	}
@@ -61,6 +140,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @param primaryKey the primary key of this marker
 	*/
+	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_marker.setPrimaryKey(primaryKey);
 	}
@@ -70,6 +150,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @return the marker ID of this marker
 	*/
+	@Override
 	public long getMarkerId() {
 		return _marker.getMarkerId();
 	}
@@ -79,6 +160,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @param markerId the marker ID of this marker
 	*/
+	@Override
 	public void setMarkerId(long markerId) {
 		_marker.setMarkerId(markerId);
 	}
@@ -88,6 +170,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @return the company ID of this marker
 	*/
+	@Override
 	public long getCompanyId() {
 		return _marker.getCompanyId();
 	}
@@ -97,6 +180,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @param companyId the company ID of this marker
 	*/
+	@Override
 	public void setCompanyId(long companyId) {
 		_marker.setCompanyId(companyId);
 	}
@@ -106,6 +190,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @return the group ID of this marker
 	*/
+	@Override
 	public long getGroupId() {
 		return _marker.getGroupId();
 	}
@@ -115,6 +200,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @param groupId the group ID of this marker
 	*/
+	@Override
 	public void setGroupId(long groupId) {
 		_marker.setGroupId(groupId);
 	}
@@ -124,6 +210,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @return the user ID of this marker
 	*/
+	@Override
 	public long getUserId() {
 		return _marker.getUserId();
 	}
@@ -133,6 +220,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @param userId the user ID of this marker
 	*/
+	@Override
 	public void setUserId(long userId) {
 		_marker.setUserId(userId);
 	}
@@ -143,8 +231,9 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	* @return the user uuid of this marker
 	* @throws SystemException if a system exception occurred
 	*/
-	public String getUserUuid()
-		throws SystemException {
+	@Override
+	public java.lang.String getUserUuid()
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _marker.getUserUuid();
 	}
 
@@ -153,7 +242,8 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @param userUuid the user uuid of this marker
 	*/
-	public void setUserUuid(String userUuid) {
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
 		_marker.setUserUuid(userUuid);
 	}
 
@@ -162,7 +252,8 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @return the name of this marker
 	*/
-	public String getName() {
+	@Override
+	public java.lang.String getName() {
 		return _marker.getName();
 	}
 
@@ -171,7 +262,8 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @param name the name of this marker
 	*/
-	public void setName(String name) {
+	@Override
+	public void setName(java.lang.String name) {
 		_marker.setName(name);
 	}
 
@@ -180,7 +272,8 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @return the description of this marker
 	*/
-	public String getDescription() {
+	@Override
+	public java.lang.String getDescription() {
 		return _marker.getDescription();
 	}
 
@@ -189,7 +282,8 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @param description the description of this marker
 	*/
-	public void setDescription(String description) {
+	@Override
+	public void setDescription(java.lang.String description) {
 		_marker.setDescription(description);
 	}
 
@@ -198,7 +292,8 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @return the reference url of this marker
 	*/
-	public String getReferenceUrl() {
+	@Override
+	public java.lang.String getReferenceUrl() {
 		return _marker.getReferenceUrl();
 	}
 
@@ -207,7 +302,8 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @param referenceUrl the reference url of this marker
 	*/
-	public void setReferenceUrl(String referenceUrl) {
+	@Override
+	public void setReferenceUrl(java.lang.String referenceUrl) {
 		_marker.setReferenceUrl(referenceUrl);
 	}
 
@@ -216,6 +312,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @return the background ID of this marker
 	*/
+	@Override
 	public long getBackgroundId() {
 		return _marker.getBackgroundId();
 	}
@@ -225,6 +322,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @param backgroundId the background ID of this marker
 	*/
+	@Override
 	public void setBackgroundId(long backgroundId) {
 		_marker.setBackgroundId(backgroundId);
 	}
@@ -234,6 +332,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @return the longitude of this marker
 	*/
+	@Override
 	public double getLongitude() {
 		return _marker.getLongitude();
 	}
@@ -243,6 +342,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @param longitude the longitude of this marker
 	*/
+	@Override
 	public void setLongitude(double longitude) {
 		_marker.setLongitude(longitude);
 	}
@@ -252,6 +352,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @return the latitude of this marker
 	*/
+	@Override
 	public double getLatitude() {
 		return _marker.getLatitude();
 	}
@@ -261,52 +362,75 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	*
 	* @param latitude the latitude of this marker
 	*/
+	@Override
 	public void setLatitude(double latitude) {
 		_marker.setLatitude(latitude);
 	}
 
+	@Override
 	public boolean isNew() {
 		return _marker.isNew();
 	}
 
+	@Override
 	public void setNew(boolean n) {
 		_marker.setNew(n);
 	}
 
+	@Override
 	public boolean isCachedModel() {
 		return _marker.isCachedModel();
 	}
 
+	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_marker.setCachedModel(cachedModel);
 	}
 
+	@Override
 	public boolean isEscapedModel() {
 		return _marker.isEscapedModel();
 	}
 
-	public Serializable getPrimaryKeyObj() {
+	@Override
+	public java.io.Serializable getPrimaryKeyObj() {
 		return _marker.getPrimaryKeyObj();
 	}
 
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+	@Override
+	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
 		_marker.setPrimaryKeyObj(primaryKeyObj);
 	}
 
-	public ExpandoBridge getExpandoBridge() {
+	@Override
+	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
 		return _marker.getExpandoBridge();
 	}
 
+	@Override
 	public void setExpandoBridgeAttributes(
-		ServiceContext serviceContext) {
+		com.liferay.portal.model.BaseModel<?> baseModel) {
+		_marker.setExpandoBridgeAttributes(baseModel);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portlet.expando.model.ExpandoBridge expandoBridge) {
+		_marker.setExpandoBridgeAttributes(expandoBridge);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.service.ServiceContext serviceContext) {
 		_marker.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	@Override
-	public Object clone() {
+	public java.lang.Object clone() {
 		return new MarkerWrapper((Marker)_marker.clone());
 	}
 
+	@Override
 	public int compareTo(Marker marker) {
 		return _marker.compareTo(marker);
 	}
@@ -316,49 +440,81 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 		return _marker.hashCode();
 	}
 
-	public CacheModel<Marker> toCacheModel() {
+	@Override
+	public com.liferay.portal.model.CacheModel<Marker> toCacheModel() {
 		return _marker.toCacheModel();
 	}
 
+	@Override
 	public Marker toEscapedModel() {
 		return new MarkerWrapper(_marker.toEscapedModel());
 	}
 
 	@Override
-	public String toString() {
+	public Marker toUnescapedModel() {
+		return new MarkerWrapper(_marker.toUnescapedModel());
+	}
+
+	@Override
+	public java.lang.String toString() {
 		return _marker.toString();
 	}
 
-	public String toXmlString() {
+	@Override
+	public java.lang.String toXmlString() {
 		return _marker.toXmlString();
 	}
 
+	@Override
 	public void persist()
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		_marker.persist();
 	}
 
-	public void validate() throws ValidatorException {
+	@Override
+	public void validate() throws javax.portlet.ValidatorException {
 		_marker.validate();
 	}
 
-	public String toHTMLFormatedString()
-		throws PortalException,
-			SystemException {
+	@Override
+	public java.lang.String toHTMLFormatedString()
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		return _marker.toHTMLFormatedString();
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof MarkerWrapper)) {
+			return false;
+		}
+
+		MarkerWrapper markerWrapper = (MarkerWrapper)obj;
+
+		if (Validator.equals(_marker, markerWrapper._marker)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
-	 * @deprecated Renamed to {@link #getWrappedModel}
+	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedModel}
 	 */
 	public Marker getWrappedMarker() {
 		return _marker;
 	}
 
+	@Override
 	public Marker getWrappedModel() {
 		return _marker;
 	}
 
+	@Override
 	public void resetOriginalValues() {
 		_marker.resetOriginalValues();
 	}

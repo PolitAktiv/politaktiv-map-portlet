@@ -1,15 +1,15 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.model.impl;
@@ -20,7 +20,10 @@ import com.liferay.portal.model.CacheModel;
 
 import org.politaktiv.map.infrastructure.model.Picture;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
  * The cache model class for representing Picture in entity cache.
@@ -29,7 +32,7 @@ import java.io.Serializable;
  * @see Picture
  * @generated
  */
-public class PictureCacheModel implements CacheModel<Picture>, Serializable {
+public class PictureCacheModel implements CacheModel<Picture>, Externalizable {
 	@Override
 	public String toString() {
 		StringBundler sb = new StringBundler(33);
@@ -71,6 +74,7 @@ public class PictureCacheModel implements CacheModel<Picture>, Serializable {
 		return sb.toString();
 	}
 
+	@Override
 	public Picture toEntityModel() {
 		PictureImpl pictureImpl = new PictureImpl();
 
@@ -119,6 +123,72 @@ public class PictureCacheModel implements CacheModel<Picture>, Serializable {
 		pictureImpl.resetOriginalValues();
 
 		return pictureImpl;
+	}
+
+	@Override
+	public void readExternal(ObjectInput objectInput) throws IOException {
+		pictureId = objectInput.readLong();
+		companyId = objectInput.readLong();
+		groupId = objectInput.readLong();
+		userId = objectInput.readLong();
+		name = objectInput.readUTF();
+		description = objectInput.readUTF();
+		referenceUrl = objectInput.readUTF();
+		backgroundId = objectInput.readLong();
+		rotation = objectInput.readLong();
+		width = objectInput.readDouble();
+		height = objectInput.readDouble();
+		resolution = objectInput.readDouble();
+		ocupacy = objectInput.readDouble();
+		longitude = objectInput.readDouble();
+		latitude = objectInput.readDouble();
+		fileEntryUuid = objectInput.readUTF();
+	}
+
+	@Override
+	public void writeExternal(ObjectOutput objectOutput)
+		throws IOException {
+		objectOutput.writeLong(pictureId);
+		objectOutput.writeLong(companyId);
+		objectOutput.writeLong(groupId);
+		objectOutput.writeLong(userId);
+
+		if (name == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(name);
+		}
+
+		if (description == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(description);
+		}
+
+		if (referenceUrl == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(referenceUrl);
+		}
+
+		objectOutput.writeLong(backgroundId);
+		objectOutput.writeLong(rotation);
+		objectOutput.writeDouble(width);
+		objectOutput.writeDouble(height);
+		objectOutput.writeDouble(resolution);
+		objectOutput.writeDouble(ocupacy);
+		objectOutput.writeDouble(longitude);
+		objectOutput.writeDouble(latitude);
+
+		if (fileEntryUuid == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(fileEntryUuid);
+		}
 	}
 
 	public long pictureId;

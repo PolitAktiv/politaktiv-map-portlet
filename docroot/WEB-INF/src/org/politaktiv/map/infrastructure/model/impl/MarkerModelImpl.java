@@ -1,15 +1,15 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.model.impl;
@@ -38,7 +38,9 @@ import java.io.Serializable;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The base model implementation for the Marker service. Represents a row in the &quot;politaktivmap_Marker&quot; database table, with each column mapped to a property of this class.
@@ -76,6 +78,8 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 		};
 	public static final String TABLE_SQL_CREATE = "create table politaktivmap_Marker (markerId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,name VARCHAR(75) null,description VARCHAR(75) null,referenceUrl VARCHAR(75) null,backgroundId LONG,longitude DOUBLE,latitude DOUBLE)";
 	public static final String TABLE_SQL_DROP = "drop table politaktivmap_Marker";
+	public static final String ORDER_BY_JPQL = " ORDER BY marker.markerId ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY politaktivmap_Marker.markerId ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -89,6 +93,7 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 				"value.object.column.bitmask.enabled.org.politaktiv.map.infrastructure.model.Marker"),
 			true);
 	public static long BACKGROUNDID_COLUMN_BITMASK = 1L;
+	public static long MARKERID_COLUMN_BITMASK = 2L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -97,6 +102,10 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 	 * @return the normal model instance
 	 */
 	public static Marker toModel(MarkerSoap soapModel) {
+		if (soapModel == null) {
+			return null;
+		}
+
 		Marker model = new MarkerImpl();
 
 		model.setMarkerId(soapModel.getMarkerId());
@@ -120,6 +129,10 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 	 * @return the normal model instances
 	 */
 	public static List<Marker> toModels(MarkerSoap[] soapModels) {
+		if (soapModels == null) {
+			return null;
+		}
+
 		List<Marker> models = new ArrayList<Marker>(soapModels.length);
 
 		for (MarkerSoap soapModel : soapModels) {
@@ -135,75 +148,173 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 	public MarkerModelImpl() {
 	}
 
+	@Override
 	public long getPrimaryKey() {
 		return _markerId;
 	}
 
+	@Override
 	public void setPrimaryKey(long primaryKey) {
 		setMarkerId(primaryKey);
 	}
 
+	@Override
 	public Serializable getPrimaryKeyObj() {
-		return new Long(_markerId);
+		return _markerId;
 	}
 
+	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
+	@Override
 	public Class<?> getModelClass() {
 		return Marker.class;
 	}
 
+	@Override
 	public String getModelClassName() {
 		return Marker.class.getName();
 	}
 
+	@Override
+	public Map<String, Object> getModelAttributes() {
+		Map<String, Object> attributes = new HashMap<String, Object>();
+
+		attributes.put("markerId", getMarkerId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("userId", getUserId());
+		attributes.put("name", getName());
+		attributes.put("description", getDescription());
+		attributes.put("referenceUrl", getReferenceUrl());
+		attributes.put("backgroundId", getBackgroundId());
+		attributes.put("longitude", getLongitude());
+		attributes.put("latitude", getLatitude());
+
+		return attributes;
+	}
+
+	@Override
+	public void setModelAttributes(Map<String, Object> attributes) {
+		Long markerId = (Long)attributes.get("markerId");
+
+		if (markerId != null) {
+			setMarkerId(markerId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String name = (String)attributes.get("name");
+
+		if (name != null) {
+			setName(name);
+		}
+
+		String description = (String)attributes.get("description");
+
+		if (description != null) {
+			setDescription(description);
+		}
+
+		String referenceUrl = (String)attributes.get("referenceUrl");
+
+		if (referenceUrl != null) {
+			setReferenceUrl(referenceUrl);
+		}
+
+		Long backgroundId = (Long)attributes.get("backgroundId");
+
+		if (backgroundId != null) {
+			setBackgroundId(backgroundId);
+		}
+
+		Double longitude = (Double)attributes.get("longitude");
+
+		if (longitude != null) {
+			setLongitude(longitude);
+		}
+
+		Double latitude = (Double)attributes.get("latitude");
+
+		if (latitude != null) {
+			setLatitude(latitude);
+		}
+	}
+
 	@JSON
+	@Override
 	public long getMarkerId() {
 		return _markerId;
 	}
 
+	@Override
 	public void setMarkerId(long markerId) {
 		_markerId = markerId;
 	}
 
 	@JSON
+	@Override
 	public long getCompanyId() {
 		return _companyId;
 	}
 
+	@Override
 	public void setCompanyId(long companyId) {
 		_companyId = companyId;
 	}
 
 	@JSON
+	@Override
 	public long getGroupId() {
 		return _groupId;
 	}
 
+	@Override
 	public void setGroupId(long groupId) {
 		_groupId = groupId;
 	}
 
 	@JSON
+	@Override
 	public long getUserId() {
 		return _userId;
 	}
 
+	@Override
 	public void setUserId(long userId) {
 		_userId = userId;
 	}
 
+	@Override
 	public String getUserUuid() throws SystemException {
 		return PortalUtil.getUserValue(getUserId(), "uuid", _userUuid);
 	}
 
+	@Override
 	public void setUserUuid(String userUuid) {
 		_userUuid = userUuid;
 	}
 
 	@JSON
+	@Override
 	public String getName() {
 		if (_name == null) {
 			return StringPool.BLANK;
@@ -213,11 +324,13 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 		}
 	}
 
+	@Override
 	public void setName(String name) {
 		_name = name;
 	}
 
 	@JSON
+	@Override
 	public String getDescription() {
 		if (_description == null) {
 			return StringPool.BLANK;
@@ -227,11 +340,13 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 		}
 	}
 
+	@Override
 	public void setDescription(String description) {
 		_description = description;
 	}
 
 	@JSON
+	@Override
 	public String getReferenceUrl() {
 		if (_referenceUrl == null) {
 			return StringPool.BLANK;
@@ -241,15 +356,18 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 		}
 	}
 
+	@Override
 	public void setReferenceUrl(String referenceUrl) {
 		_referenceUrl = referenceUrl;
 	}
 
 	@JSON
+	@Override
 	public long getBackgroundId() {
 		return _backgroundId;
 	}
 
+	@Override
 	public void setBackgroundId(long backgroundId) {
 		_columnBitmask |= BACKGROUNDID_COLUMN_BITMASK;
 
@@ -267,19 +385,23 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 	}
 
 	@JSON
+	@Override
 	public double getLongitude() {
 		return _longitude;
 	}
 
+	@Override
 	public void setLongitude(double longitude) {
 		_longitude = longitude;
 	}
 
 	@JSON
+	@Override
 	public double getLatitude() {
 		return _latitude;
 	}
 
+	@Override
 	public void setLatitude(double latitude) {
 		_latitude = latitude;
 	}
@@ -289,29 +411,26 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 	}
 
 	@Override
-	public Marker toEscapedModel() {
-		if (_escapedModelProxy == null) {
-			_escapedModelProxy = (Marker)ProxyUtil.newProxyInstance(_classLoader,
-					_escapedModelProxyInterfaces,
-					new AutoEscapeBeanHandler(this));
-		}
-
-		return _escapedModelProxy;
-	}
-
-	@Override
 	public ExpandoBridge getExpandoBridge() {
-		if (_expandoBridge == null) {
-			_expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
-					Marker.class.getName(), getPrimaryKey());
-		}
-
-		return _expandoBridge;
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
+			Marker.class.getName(), getPrimaryKey());
 	}
 
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		getExpandoBridge().setAttributes(serviceContext);
+		ExpandoBridge expandoBridge = getExpandoBridge();
+
+		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public Marker toEscapedModel() {
+		if (_escapedModel == null) {
+			_escapedModel = (Marker)ProxyUtil.newProxyInstance(_classLoader,
+					_escapedModelInterfaces, new AutoEscapeBeanHandler(this));
+		}
+
+		return _escapedModel;
 	}
 
 	@Override
@@ -334,6 +453,7 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 		return markerImpl;
 	}
 
+	@Override
 	public int compareTo(Marker marker) {
 		long primaryKey = marker.getPrimaryKey();
 
@@ -350,18 +470,15 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof Marker)) {
 			return false;
 		}
 
-		Marker marker = null;
-
-		try {
-			marker = (Marker)obj;
-		}
-		catch (ClassCastException cce) {
-			return false;
-		}
+		Marker marker = (Marker)obj;
 
 		long primaryKey = marker.getPrimaryKey();
 
@@ -463,6 +580,7 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 		return sb.toString();
 	}
 
+	@Override
 	public String toXmlString() {
 		StringBundler sb = new StringBundler(34);
 
@@ -517,9 +635,7 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 	}
 
 	private static ClassLoader _classLoader = Marker.class.getClassLoader();
-	private static Class<?>[] _escapedModelProxyInterfaces = new Class[] {
-			Marker.class
-		};
+	private static Class<?>[] _escapedModelInterfaces = new Class[] { Marker.class };
 	private long _markerId;
 	private long _companyId;
 	private long _groupId;
@@ -533,7 +649,6 @@ public class MarkerModelImpl extends BaseModelImpl<Marker>
 	private boolean _setOriginalBackgroundId;
 	private double _longitude;
 	private double _latitude;
-	private transient ExpandoBridge _expandoBridge;
 	private long _columnBitmask;
-	private Marker _escapedModelProxy;
+	private Marker _escapedModel;
 }

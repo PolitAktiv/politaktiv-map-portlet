@@ -1,21 +1,19 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.service.persistence;
 
-import com.liferay.portal.NoSuchModelException;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
@@ -35,11 +33,9 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnmodifiableList;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
-import com.liferay.portal.service.persistence.BatchSessionUtil;
-import com.liferay.portal.service.persistence.ResourcePersistence;
-import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
 import org.politaktiv.map.infrastructure.NoSuchBackgroundException;
@@ -77,6 +73,15 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 		".List1";
 	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
 		".List2";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
+			BackgroundModelImpl.FINDER_CACHE_ENABLED, BackgroundImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
+			BackgroundModelImpl.FINDER_CACHE_ENABLED, BackgroundImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
+	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
+			BackgroundModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANYIDANDGROUPID =
 		new FinderPath(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
 			BackgroundModelImpl.FINDER_CACHE_ENABLED, BackgroundImpl.class,
@@ -85,8 +90,8 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				
-			"java.lang.Integer", "java.lang.Integer",
-				"com.liferay.portal.kernel.util.OrderByComparator"
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
 			});
 	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYIDANDGROUPID =
 		new FinderPath(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
@@ -101,367 +106,6 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countBycompanyIdAndGroupId",
 			new String[] { Long.class.getName(), Long.class.getName() });
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
-			BackgroundModelImpl.FINDER_CACHE_ENABLED, BackgroundImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
-			BackgroundModelImpl.FINDER_CACHE_ENABLED, BackgroundImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
-			BackgroundModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-
-	/**
-	 * Caches the background in the entity cache if it is enabled.
-	 *
-	 * @param background the background
-	 */
-	public void cacheResult(Background background) {
-		EntityCacheUtil.putResult(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
-			BackgroundImpl.class, background.getPrimaryKey(), background);
-
-		background.resetOriginalValues();
-	}
-
-	/**
-	 * Caches the backgrounds in the entity cache if it is enabled.
-	 *
-	 * @param backgrounds the backgrounds
-	 */
-	public void cacheResult(List<Background> backgrounds) {
-		for (Background background : backgrounds) {
-			if (EntityCacheUtil.getResult(
-						BackgroundModelImpl.ENTITY_CACHE_ENABLED,
-						BackgroundImpl.class, background.getPrimaryKey()) == null) {
-				cacheResult(background);
-			}
-			else {
-				background.resetOriginalValues();
-			}
-		}
-	}
-
-	/**
-	 * Clears the cache for all backgrounds.
-	 *
-	 * <p>
-	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-	 * </p>
-	 */
-	@Override
-	public void clearCache() {
-		if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
-			CacheRegistryUtil.clear(BackgroundImpl.class.getName());
-		}
-
-		EntityCacheUtil.clearCache(BackgroundImpl.class.getName());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	/**
-	 * Clears the cache for the background.
-	 *
-	 * <p>
-	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-	 * </p>
-	 */
-	@Override
-	public void clearCache(Background background) {
-		EntityCacheUtil.removeResult(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
-			BackgroundImpl.class, background.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	@Override
-	public void clearCache(List<Background> backgrounds) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		for (Background background : backgrounds) {
-			EntityCacheUtil.removeResult(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
-				BackgroundImpl.class, background.getPrimaryKey());
-		}
-	}
-
-	/**
-	 * Creates a new background with the primary key. Does not add the background to the database.
-	 *
-	 * @param backgroundId the primary key for the new background
-	 * @return the new background
-	 */
-	public Background create(long backgroundId) {
-		Background background = new BackgroundImpl();
-
-		background.setNew(true);
-		background.setPrimaryKey(backgroundId);
-
-		return background;
-	}
-
-	/**
-	 * Removes the background with the primary key from the database. Also notifies the appropriate model listeners.
-	 *
-	 * @param backgroundId the primary key of the background
-	 * @return the background that was removed
-	 * @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a background with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public Background remove(long backgroundId)
-		throws NoSuchBackgroundException, SystemException {
-		return remove(Long.valueOf(backgroundId));
-	}
-
-	/**
-	 * Removes the background with the primary key from the database. Also notifies the appropriate model listeners.
-	 *
-	 * @param primaryKey the primary key of the background
-	 * @return the background that was removed
-	 * @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a background with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	@Override
-	public Background remove(Serializable primaryKey)
-		throws NoSuchBackgroundException, SystemException {
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Background background = (Background)session.get(BackgroundImpl.class,
-					primaryKey);
-
-			if (background == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
-				}
-
-				throw new NoSuchBackgroundException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
-			}
-
-			return remove(background);
-		}
-		catch (NoSuchBackgroundException nsee) {
-			throw nsee;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	@Override
-	protected Background removeImpl(Background background)
-		throws SystemException {
-		background = toUnwrappedModel(background);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			BatchSessionUtil.delete(session, background);
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		clearCache(background);
-
-		return background;
-	}
-
-	@Override
-	public Background updateImpl(
-		Background background,
-		boolean merge) throws SystemException {
-		background = toUnwrappedModel(background);
-
-		boolean isNew = background.isNew();
-
-		BackgroundModelImpl backgroundModelImpl = (BackgroundModelImpl)background;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			BatchSessionUtil.update(session, background, merge);
-
-			background.setNew(false);
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (isNew || !BackgroundModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-
-		else {
-			if ((backgroundModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYIDANDGROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						Long.valueOf(backgroundModelImpl.getOriginalCompanyId()),
-						Long.valueOf(backgroundModelImpl.getOriginalGroupId())
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COMPANYIDANDGROUPID,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYIDANDGROUPID,
-					args);
-
-				args = new Object[] {
-						Long.valueOf(backgroundModelImpl.getCompanyId()),
-						Long.valueOf(backgroundModelImpl.getGroupId())
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COMPANYIDANDGROUPID,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYIDANDGROUPID,
-					args);
-			}
-		}
-
-		EntityCacheUtil.putResult(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
-			BackgroundImpl.class, background.getPrimaryKey(), background);
-
-		return background;
-	}
-
-	protected Background toUnwrappedModel(Background background) {
-		if (background instanceof BackgroundImpl) {
-			return background;
-		}
-
-		BackgroundImpl backgroundImpl = new BackgroundImpl();
-
-		backgroundImpl.setNew(background.isNew());
-		backgroundImpl.setPrimaryKey(background.getPrimaryKey());
-
-		backgroundImpl.setBackgroundId(background.getBackgroundId());
-		backgroundImpl.setCompanyId(background.getCompanyId());
-		backgroundImpl.setGroupId(background.getGroupId());
-		backgroundImpl.setUserId(background.getUserId());
-		backgroundImpl.setName(background.getName());
-		backgroundImpl.setFileEntryUuid(background.getFileEntryUuid());
-
-		return backgroundImpl;
-	}
-
-	/**
-	 * Returns the background with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
-	 *
-	 * @param primaryKey the primary key of the background
-	 * @return the background
-	 * @throws com.liferay.portal.NoSuchModelException if a background with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	@Override
-	public Background findByPrimaryKey(Serializable primaryKey)
-		throws NoSuchModelException, SystemException {
-		return findByPrimaryKey(((Long)primaryKey).longValue());
-	}
-
-	/**
-	 * Returns the background with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchBackgroundException} if it could not be found.
-	 *
-	 * @param backgroundId the primary key of the background
-	 * @return the background
-	 * @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a background with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public Background findByPrimaryKey(long backgroundId)
-		throws NoSuchBackgroundException, SystemException {
-		Background background = fetchByPrimaryKey(backgroundId);
-
-		if (background == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + backgroundId);
-			}
-
-			throw new NoSuchBackgroundException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				backgroundId);
-		}
-
-		return background;
-	}
-
-	/**
-	 * Returns the background with the primary key or returns <code>null</code> if it could not be found.
-	 *
-	 * @param primaryKey the primary key of the background
-	 * @return the background, or <code>null</code> if a background with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	@Override
-	public Background fetchByPrimaryKey(Serializable primaryKey)
-		throws SystemException {
-		return fetchByPrimaryKey(((Long)primaryKey).longValue());
-	}
-
-	/**
-	 * Returns the background with the primary key or returns <code>null</code> if it could not be found.
-	 *
-	 * @param backgroundId the primary key of the background
-	 * @return the background, or <code>null</code> if a background with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public Background fetchByPrimaryKey(long backgroundId)
-		throws SystemException {
-		Background background = (Background)EntityCacheUtil.getResult(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
-				BackgroundImpl.class, backgroundId);
-
-		if (background == _nullBackground) {
-			return null;
-		}
-
-		if (background == null) {
-			Session session = null;
-
-			boolean hasException = false;
-
-			try {
-				session = openSession();
-
-				background = (Background)session.get(BackgroundImpl.class,
-						Long.valueOf(backgroundId));
-			}
-			catch (Exception e) {
-				hasException = true;
-
-				throw processException(e);
-			}
-			finally {
-				if (background != null) {
-					cacheResult(background);
-				}
-				else if (!hasException) {
-					EntityCacheUtil.putResult(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
-						BackgroundImpl.class, backgroundId, _nullBackground);
-				}
-
-				closeSession(session);
-			}
-		}
-
-		return background;
-	}
 
 	/**
 	 * Returns all the backgrounds where companyId = &#63; and groupId = &#63;.
@@ -471,6 +115,7 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 	 * @return the matching backgrounds
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Background> findBycompanyIdAndGroupId(long companyId,
 		long groupId) throws SystemException {
 		return findBycompanyIdAndGroupId(companyId, groupId, QueryUtil.ALL_POS,
@@ -481,7 +126,7 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 	 * Returns a range of all the backgrounds where companyId = &#63; and groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.BackgroundModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param companyId the company ID
@@ -491,6 +136,7 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 	 * @return the range of matching backgrounds
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Background> findBycompanyIdAndGroupId(long companyId,
 		long groupId, int start, int end) throws SystemException {
 		return findBycompanyIdAndGroupId(companyId, groupId, start, end, null);
@@ -500,7 +146,7 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 	 * Returns an ordered range of all the backgrounds where companyId = &#63; and groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.BackgroundModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param companyId the company ID
@@ -511,14 +157,17 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 	 * @return the ordered range of matching backgrounds
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Background> findBycompanyIdAndGroupId(long companyId,
 		long groupId, int start, int end, OrderByComparator orderByComparator)
 		throws SystemException {
+		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
+			pagination = false;
 			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYIDANDGROUPID;
 			finderArgs = new Object[] { companyId, groupId };
 		}
@@ -534,6 +183,17 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 		List<Background> list = (List<Background>)FinderCacheUtil.getResult(finderPath,
 				finderArgs, this);
 
+		if ((list != null) && !list.isEmpty()) {
+			for (Background background : list) {
+				if ((companyId != background.getCompanyId()) ||
+						(groupId != background.getGroupId())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
 		if (list == null) {
 			StringBundler query = null;
 
@@ -542,7 +202,7 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 						(orderByComparator.getOrderByFields().length * 3));
 			}
 			else {
-				query = new StringBundler(3);
+				query = new StringBundler(4);
 			}
 
 			query.append(_SQL_SELECT_BACKGROUND_WHERE);
@@ -554,6 +214,10 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
 					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(BackgroundModelImpl.ORDER_BY_JPQL);
 			}
 
 			String sql = query.toString();
@@ -571,22 +235,29 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 
 				qPos.add(groupId);
 
-				list = (List<Background>)QueryUtil.list(q, getDialect(), start,
-						end);
+				if (!pagination) {
+					list = (List<Background>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = new UnmodifiableList<Background>(list);
+				}
+				else {
+					list = (List<Background>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
 				throw processException(e);
 			}
 			finally {
-				if (list == null) {
-					FinderCacheUtil.removeResult(finderPath, finderArgs);
-				}
-				else {
-					cacheResult(list);
-
-					FinderCacheUtil.putResult(finderPath, finderArgs, list);
-				}
-
 				closeSession(session);
 			}
 		}
@@ -597,10 +268,6 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 	/**
 	 * Returns the first background in the ordered set where companyId = &#63; and groupId = &#63;.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
 	 * @param companyId the company ID
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -608,38 +275,57 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 	 * @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a matching background could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Background findBycompanyIdAndGroupId_First(long companyId,
 		long groupId, OrderByComparator orderByComparator)
 		throws NoSuchBackgroundException, SystemException {
+		Background background = fetchBycompanyIdAndGroupId_First(companyId,
+				groupId, orderByComparator);
+
+		if (background != null) {
+			return background;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchBackgroundException(msg.toString());
+	}
+
+	/**
+	 * Returns the first background in the ordered set where companyId = &#63; and groupId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching background, or <code>null</code> if a matching background could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Background fetchBycompanyIdAndGroupId_First(long companyId,
+		long groupId, OrderByComparator orderByComparator)
+		throws SystemException {
 		List<Background> list = findBycompanyIdAndGroupId(companyId, groupId,
 				0, 1, orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(6);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("companyId=");
-			msg.append(companyId);
-
-			msg.append(", groupId=");
-			msg.append(groupId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchBackgroundException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the last background in the ordered set where companyId = &#63; and groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param companyId the company ID
 	 * @param groupId the group ID
@@ -648,40 +334,63 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 	 * @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a matching background could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Background findBycompanyIdAndGroupId_Last(long companyId,
 		long groupId, OrderByComparator orderByComparator)
 		throws NoSuchBackgroundException, SystemException {
+		Background background = fetchBycompanyIdAndGroupId_Last(companyId,
+				groupId, orderByComparator);
+
+		if (background != null) {
+			return background;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchBackgroundException(msg.toString());
+	}
+
+	/**
+	 * Returns the last background in the ordered set where companyId = &#63; and groupId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching background, or <code>null</code> if a matching background could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Background fetchBycompanyIdAndGroupId_Last(long companyId,
+		long groupId, OrderByComparator orderByComparator)
+		throws SystemException {
 		int count = countBycompanyIdAndGroupId(companyId, groupId);
+
+		if (count == 0) {
+			return null;
+		}
 
 		List<Background> list = findBycompanyIdAndGroupId(companyId, groupId,
 				count - 1, count, orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(6);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("companyId=");
-			msg.append(companyId);
-
-			msg.append(", groupId=");
-			msg.append(groupId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchBackgroundException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the backgrounds before and after the current background in the ordered set where companyId = &#63; and groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param backgroundId the primary key of the current background
 	 * @param companyId the company ID
@@ -691,6 +400,7 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 	 * @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a background with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Background[] findBycompanyIdAndGroupId_PrevAndNext(
 		long backgroundId, long companyId, long groupId,
 		OrderByComparator orderByComparator)
@@ -796,6 +506,9 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 				}
 			}
 		}
+		else {
+			query.append(BackgroundModelImpl.ORDER_BY_JPQL);
+		}
 
 		String sql = query.toString();
 
@@ -829,142 +542,17 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 	}
 
 	/**
-	 * Returns all the backgrounds.
-	 *
-	 * @return the backgrounds
-	 * @throws SystemException if a system exception occurred
-	 */
-	public List<Background> findAll() throws SystemException {
-		return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-	}
-
-	/**
-	 * Returns a range of all the backgrounds.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
-	 * @param start the lower bound of the range of backgrounds
-	 * @param end the upper bound of the range of backgrounds (not inclusive)
-	 * @return the range of backgrounds
-	 * @throws SystemException if a system exception occurred
-	 */
-	public List<Background> findAll(int start, int end)
-		throws SystemException {
-		return findAll(start, end, null);
-	}
-
-	/**
-	 * Returns an ordered range of all the backgrounds.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
-	 * @param start the lower bound of the range of backgrounds
-	 * @param end the upper bound of the range of backgrounds (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of backgrounds
-	 * @throws SystemException if a system exception occurred
-	 */
-	public List<Background> findAll(int start, int end,
-		OrderByComparator orderByComparator) throws SystemException {
-		FinderPath finderPath = null;
-		Object[] finderArgs = new Object[] { start, end, orderByComparator };
-
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = FINDER_ARGS_EMPTY;
-		}
-		else {
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
-		}
-
-		List<Background> list = (List<Background>)FinderCacheUtil.getResult(finderPath,
-				finderArgs, this);
-
-		if (list == null) {
-			StringBundler query = null;
-			String sql = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 3));
-
-				query.append(_SQL_SELECT_BACKGROUND);
-
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
-
-				sql = query.toString();
-			}
-			else {
-				sql = _SQL_SELECT_BACKGROUND;
-			}
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				if (orderByComparator == null) {
-					list = (List<Background>)QueryUtil.list(q, getDialect(),
-							start, end, false);
-
-					Collections.sort(list);
-				}
-				else {
-					list = (List<Background>)QueryUtil.list(q, getDialect(),
-							start, end);
-				}
-			}
-			catch (Exception e) {
-				throw processException(e);
-			}
-			finally {
-				if (list == null) {
-					FinderCacheUtil.removeResult(finderPath, finderArgs);
-				}
-				else {
-					cacheResult(list);
-
-					FinderCacheUtil.putResult(finderPath, finderArgs, list);
-				}
-
-				closeSession(session);
-			}
-		}
-
-		return list;
-	}
-
-	/**
 	 * Removes all the backgrounds where companyId = &#63; and groupId = &#63; from the database.
 	 *
 	 * @param companyId the company ID
 	 * @param groupId the group ID
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public void removeBycompanyIdAndGroupId(long companyId, long groupId)
 		throws SystemException {
 		for (Background background : findBycompanyIdAndGroupId(companyId,
-				groupId)) {
-			remove(background);
-		}
-	}
-
-	/**
-	 * Removes all the backgrounds from the database.
-	 *
-	 * @throws SystemException if a system exception occurred
-	 */
-	public void removeAll() throws SystemException {
-		for (Background background : findAll()) {
+				groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(background);
 		}
 	}
@@ -977,12 +565,15 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 	 * @return the number of matching backgrounds
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public int countBycompanyIdAndGroupId(long companyId, long groupId)
 		throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_COMPANYIDANDGROUPID;
+
 		Object[] finderArgs = new Object[] { companyId, groupId };
 
-		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_COMPANYIDANDGROUPID,
-				finderArgs, this);
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
 
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
@@ -1009,23 +600,533 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 				qPos.add(groupId);
 
 				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
 				throw processException(e);
 			}
 			finally {
-				if (count == null) {
-					count = Long.valueOf(0);
-				}
-
-				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_COMPANYIDANDGROUPID,
-					finderArgs, count);
-
 				closeSession(session);
 			}
 		}
 
 		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_COMPANYIDANDGROUPID_COMPANYID_2 = "background.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_COMPANYIDANDGROUPID_GROUPID_2 = "background.groupId = ?";
+
+	public BackgroundPersistenceImpl() {
+		setModelClass(Background.class);
+	}
+
+	/**
+	 * Caches the background in the entity cache if it is enabled.
+	 *
+	 * @param background the background
+	 */
+	@Override
+	public void cacheResult(Background background) {
+		EntityCacheUtil.putResult(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
+			BackgroundImpl.class, background.getPrimaryKey(), background);
+
+		background.resetOriginalValues();
+	}
+
+	/**
+	 * Caches the backgrounds in the entity cache if it is enabled.
+	 *
+	 * @param backgrounds the backgrounds
+	 */
+	@Override
+	public void cacheResult(List<Background> backgrounds) {
+		for (Background background : backgrounds) {
+			if (EntityCacheUtil.getResult(
+						BackgroundModelImpl.ENTITY_CACHE_ENABLED,
+						BackgroundImpl.class, background.getPrimaryKey()) == null) {
+				cacheResult(background);
+			}
+			else {
+				background.resetOriginalValues();
+			}
+		}
+	}
+
+	/**
+	 * Clears the cache for all backgrounds.
+	 *
+	 * <p>
+	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+	 * </p>
+	 */
+	@Override
+	public void clearCache() {
+		if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
+			CacheRegistryUtil.clear(BackgroundImpl.class.getName());
+		}
+
+		EntityCacheUtil.clearCache(BackgroundImpl.class.getName());
+
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	/**
+	 * Clears the cache for the background.
+	 *
+	 * <p>
+	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+	 * </p>
+	 */
+	@Override
+	public void clearCache(Background background) {
+		EntityCacheUtil.removeResult(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
+			BackgroundImpl.class, background.getPrimaryKey());
+
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	@Override
+	public void clearCache(List<Background> backgrounds) {
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		for (Background background : backgrounds) {
+			EntityCacheUtil.removeResult(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
+				BackgroundImpl.class, background.getPrimaryKey());
+		}
+	}
+
+	/**
+	 * Creates a new background with the primary key. Does not add the background to the database.
+	 *
+	 * @param backgroundId the primary key for the new background
+	 * @return the new background
+	 */
+	@Override
+	public Background create(long backgroundId) {
+		Background background = new BackgroundImpl();
+
+		background.setNew(true);
+		background.setPrimaryKey(backgroundId);
+
+		return background;
+	}
+
+	/**
+	 * Removes the background with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param backgroundId the primary key of the background
+	 * @return the background that was removed
+	 * @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a background with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Background remove(long backgroundId)
+		throws NoSuchBackgroundException, SystemException {
+		return remove((Serializable)backgroundId);
+	}
+
+	/**
+	 * Removes the background with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param primaryKey the primary key of the background
+	 * @return the background that was removed
+	 * @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a background with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Background remove(Serializable primaryKey)
+		throws NoSuchBackgroundException, SystemException {
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Background background = (Background)session.get(BackgroundImpl.class,
+					primaryKey);
+
+			if (background == null) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				}
+
+				throw new NoSuchBackgroundException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+					primaryKey);
+			}
+
+			return remove(background);
+		}
+		catch (NoSuchBackgroundException nsee) {
+			throw nsee;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	@Override
+	protected Background removeImpl(Background background)
+		throws SystemException {
+		background = toUnwrappedModel(background);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			if (!session.contains(background)) {
+				background = (Background)session.get(BackgroundImpl.class,
+						background.getPrimaryKeyObj());
+			}
+
+			if (background != null) {
+				session.delete(background);
+			}
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+
+		if (background != null) {
+			clearCache(background);
+		}
+
+		return background;
+	}
+
+	@Override
+	public Background updateImpl(
+		org.politaktiv.map.infrastructure.model.Background background)
+		throws SystemException {
+		background = toUnwrappedModel(background);
+
+		boolean isNew = background.isNew();
+
+		BackgroundModelImpl backgroundModelImpl = (BackgroundModelImpl)background;
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			if (background.isNew()) {
+				session.save(background);
+
+				background.setNew(false);
+			}
+			else {
+				session.merge(background);
+			}
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+
+		if (isNew || !BackgroundModelImpl.COLUMN_BITMASK_ENABLED) {
+			FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+
+		else {
+			if ((backgroundModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYIDANDGROUPID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						backgroundModelImpl.getOriginalCompanyId(),
+						backgroundModelImpl.getOriginalGroupId()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COMPANYIDANDGROUPID,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYIDANDGROUPID,
+					args);
+
+				args = new Object[] {
+						backgroundModelImpl.getCompanyId(),
+						backgroundModelImpl.getGroupId()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COMPANYIDANDGROUPID,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYIDANDGROUPID,
+					args);
+			}
+		}
+
+		EntityCacheUtil.putResult(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
+			BackgroundImpl.class, background.getPrimaryKey(), background);
+
+		return background;
+	}
+
+	protected Background toUnwrappedModel(Background background) {
+		if (background instanceof BackgroundImpl) {
+			return background;
+		}
+
+		BackgroundImpl backgroundImpl = new BackgroundImpl();
+
+		backgroundImpl.setNew(background.isNew());
+		backgroundImpl.setPrimaryKey(background.getPrimaryKey());
+
+		backgroundImpl.setBackgroundId(background.getBackgroundId());
+		backgroundImpl.setCompanyId(background.getCompanyId());
+		backgroundImpl.setGroupId(background.getGroupId());
+		backgroundImpl.setUserId(background.getUserId());
+		backgroundImpl.setName(background.getName());
+		backgroundImpl.setFileEntryUuid(background.getFileEntryUuid());
+
+		return backgroundImpl;
+	}
+
+	/**
+	 * Returns the background with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 *
+	 * @param primaryKey the primary key of the background
+	 * @return the background
+	 * @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a background with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Background findByPrimaryKey(Serializable primaryKey)
+		throws NoSuchBackgroundException, SystemException {
+		Background background = fetchByPrimaryKey(primaryKey);
+
+		if (background == null) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			}
+
+			throw new NoSuchBackgroundException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+				primaryKey);
+		}
+
+		return background;
+	}
+
+	/**
+	 * Returns the background with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchBackgroundException} if it could not be found.
+	 *
+	 * @param backgroundId the primary key of the background
+	 * @return the background
+	 * @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a background with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Background findByPrimaryKey(long backgroundId)
+		throws NoSuchBackgroundException, SystemException {
+		return findByPrimaryKey((Serializable)backgroundId);
+	}
+
+	/**
+	 * Returns the background with the primary key or returns <code>null</code> if it could not be found.
+	 *
+	 * @param primaryKey the primary key of the background
+	 * @return the background, or <code>null</code> if a background with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Background fetchByPrimaryKey(Serializable primaryKey)
+		throws SystemException {
+		Background background = (Background)EntityCacheUtil.getResult(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
+				BackgroundImpl.class, primaryKey);
+
+		if (background == _nullBackground) {
+			return null;
+		}
+
+		if (background == null) {
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				background = (Background)session.get(BackgroundImpl.class,
+						primaryKey);
+
+				if (background != null) {
+					cacheResult(background);
+				}
+				else {
+					EntityCacheUtil.putResult(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
+						BackgroundImpl.class, primaryKey, _nullBackground);
+				}
+			}
+			catch (Exception e) {
+				EntityCacheUtil.removeResult(BackgroundModelImpl.ENTITY_CACHE_ENABLED,
+					BackgroundImpl.class, primaryKey);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return background;
+	}
+
+	/**
+	 * Returns the background with the primary key or returns <code>null</code> if it could not be found.
+	 *
+	 * @param backgroundId the primary key of the background
+	 * @return the background, or <code>null</code> if a background with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Background fetchByPrimaryKey(long backgroundId)
+		throws SystemException {
+		return fetchByPrimaryKey((Serializable)backgroundId);
+	}
+
+	/**
+	 * Returns all the backgrounds.
+	 *
+	 * @return the backgrounds
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Background> findAll() throws SystemException {
+		return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the backgrounds.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.BackgroundModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of backgrounds
+	 * @param end the upper bound of the range of backgrounds (not inclusive)
+	 * @return the range of backgrounds
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Background> findAll(int start, int end)
+		throws SystemException {
+		return findAll(start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the backgrounds.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.BackgroundModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of backgrounds
+	 * @param end the upper bound of the range of backgrounds (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of backgrounds
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<Background> findAll(int start, int end,
+		OrderByComparator orderByComparator) throws SystemException {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderArgs = FINDER_ARGS_EMPTY;
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
+			finderArgs = new Object[] { start, end, orderByComparator };
+		}
+
+		List<Background> list = (List<Background>)FinderCacheUtil.getResult(finderPath,
+				finderArgs, this);
+
+		if (list == null) {
+			StringBundler query = null;
+			String sql = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(2 +
+						(orderByComparator.getOrderByFields().length * 3));
+
+				query.append(_SQL_SELECT_BACKGROUND);
+
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+
+				sql = query.toString();
+			}
+			else {
+				sql = _SQL_SELECT_BACKGROUND;
+
+				if (pagination) {
+					sql = sql.concat(BackgroundModelImpl.ORDER_BY_JPQL);
+				}
+			}
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				if (!pagination) {
+					list = (List<Background>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = new UnmodifiableList<Background>(list);
+				}
+				else {
+					list = (List<Background>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Removes all the backgrounds from the database.
+	 *
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public void removeAll() throws SystemException {
+		for (Background background : findAll()) {
+			remove(background);
+		}
 	}
 
 	/**
@@ -1034,6 +1135,7 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 	 * @return the number of backgrounds
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public int countAll() throws SystemException {
 		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
 				FINDER_ARGS_EMPTY, this);
@@ -1047,18 +1149,17 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 				Query q = session.createQuery(_SQL_COUNT_BACKGROUND);
 
 				count = (Long)q.uniqueResult();
-			}
-			catch (Exception e) {
-				throw processException(e);
-			}
-			finally {
-				if (count == null) {
-					count = Long.valueOf(0);
-				}
 
 				FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL,
 					FINDER_ARGS_EMPTY, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
+					FINDER_ARGS_EMPTY);
 
+				throw processException(e);
+			}
+			finally {
 				closeSession(session);
 			}
 		}
@@ -1080,7 +1181,7 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 
 				for (String listenerClassName : listenerClassNames) {
 					listenersList.add((ModelListener<Background>)InstanceFactory.newInstance(
-							listenerClassName));
+							getClassLoader(), listenerClassName));
 				}
 
 				listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
@@ -1094,25 +1195,14 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 	public void destroy() {
 		EntityCacheUtil.removeCache(BackgroundImpl.class.getName());
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
+		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@BeanReference(type = BackgroundPersistence.class)
-	protected BackgroundPersistence backgroundPersistence;
-	@BeanReference(type = MarkerPersistence.class)
-	protected MarkerPersistence markerPersistence;
-	@BeanReference(type = PicturePersistence.class)
-	protected PicturePersistence picturePersistence;
-	@BeanReference(type = ResourcePersistence.class)
-	protected ResourcePersistence resourcePersistence;
-	@BeanReference(type = UserPersistence.class)
-	protected UserPersistence userPersistence;
 	private static final String _SQL_SELECT_BACKGROUND = "SELECT background FROM Background background";
 	private static final String _SQL_SELECT_BACKGROUND_WHERE = "SELECT background FROM Background background WHERE ";
 	private static final String _SQL_COUNT_BACKGROUND = "SELECT COUNT(background) FROM Background background";
 	private static final String _SQL_COUNT_BACKGROUND_WHERE = "SELECT COUNT(background) FROM Background background WHERE ";
-	private static final String _FINDER_COLUMN_COMPANYIDANDGROUPID_COMPANYID_2 = "background.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_COMPANYIDANDGROUPID_GROUPID_2 = "background.groupId = ?";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "background.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Background exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Background exists with the key {";
@@ -1132,6 +1222,7 @@ public class BackgroundPersistenceImpl extends BasePersistenceImpl<Background>
 		};
 
 	private static CacheModel<Background> _nullBackgroundCacheModel = new CacheModel<Background>() {
+			@Override
 			public Background toEntityModel() {
 				return _nullBackground;
 			}

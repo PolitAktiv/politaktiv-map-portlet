@@ -1,15 +1,15 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.service.http;
@@ -22,13 +22,11 @@ import org.politaktiv.map.infrastructure.service.PictureServiceUtil;
 import java.rmi.RemoteException;
 
 /**
- * <p>
- * This class provides a SOAP utility for the
+ * Provides the SOAP utility for the
  * {@link org.politaktiv.map.infrastructure.service.PictureServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
- * </p>
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
@@ -48,9 +46,8 @@ import java.rmi.RemoteException;
  * </p>
  *
  * <p>
- * You can see a list of services at
- * http://localhost:8080/api/secure/axis. Set the property
- * <b>axis.servlet.hosts.allowed</b> in portal.properties to configure
+ * You can see a list of services at http://localhost:8080/api/axis. Set the
+ * property <b>axis.servlet.hosts.allowed</b> in portal.properties to configure
  * security.
  * </p>
  *
@@ -58,19 +55,19 @@ import java.rmi.RemoteException;
  * The SOAP utility is only generated for remote services.
  * </p>
  *
- * @author    eichi
- * @see       PictureServiceHttp
- * @see       org.politaktiv.map.infrastructure.model.PictureSoap
- * @see       org.politaktiv.map.infrastructure.service.PictureServiceUtil
+ * @author eichi
+ * @see PictureServiceHttp
+ * @see org.politaktiv.map.infrastructure.model.PictureSoap
+ * @see org.politaktiv.map.infrastructure.service.PictureServiceUtil
  * @generated
  */
 public class PictureServiceSoap {
 	public static org.politaktiv.map.infrastructure.model.PictureSoap addPicture(
-		org.politaktiv.map.infrastructure.model.Picture picture, long groupId)
-		throws RemoteException {
+		org.politaktiv.map.infrastructure.model.PictureSoap picture,
+		long groupId) throws RemoteException {
 		try {
-			org.politaktiv.map.infrastructure.model.Picture returnValue = PictureServiceUtil.addPicture(picture,
-					groupId);
+			org.politaktiv.map.infrastructure.model.Picture returnValue = PictureServiceUtil.addPicture(org.politaktiv.map.infrastructure.model.impl.PictureModelImpl.toModel(
+						picture), groupId);
 
 			return org.politaktiv.map.infrastructure.model.PictureSoap.toSoapModel(returnValue);
 		}
@@ -81,13 +78,13 @@ public class PictureServiceSoap {
 		}
 	}
 
-	public static org.politaktiv.map.infrastructure.model.Picture[] findByBackgroundId(
+	public static org.politaktiv.map.infrastructure.model.PictureSoap[] findByBackgroundId(
 		long backgroundId) throws RemoteException {
 		try {
 			java.util.List<org.politaktiv.map.infrastructure.model.Picture> returnValue =
 				PictureServiceUtil.findByBackgroundId(backgroundId);
 
-			return returnValue.toArray(new org.politaktiv.map.infrastructure.model.Picture[returnValue.size()]);
+			return org.politaktiv.map.infrastructure.model.PictureSoap.toSoapModels(returnValue);
 		}
 		catch (Exception e) {
 			_log.error(e, e);

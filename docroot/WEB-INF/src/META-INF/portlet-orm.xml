@@ -15,6 +15,7 @@
 			<basic name="userId" />
 			<basic name="name" />
 			<basic name="fileEntryUuid" />
+			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
 			<transient name="userUuid" />
@@ -32,6 +33,7 @@
 			<basic name="backgroundId" />
 			<basic name="longitude" />
 			<basic name="latitude" />
+			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
 			<transient name="userUuid" />
@@ -55,6 +57,7 @@
 			<basic name="longitude" />
 			<basic name="latitude" />
 			<basic name="fileEntryUuid" />
+			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
 			<transient name="userUuid" />

@@ -1,29 +1,36 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.model;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.util.PortalUtil;
+
 import org.politaktiv.map.infrastructure.service.BackgroundLocalServiceUtil;
+import org.politaktiv.map.infrastructure.service.ClpSerializer;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author eichi
@@ -33,94 +40,325 @@ public class BackgroundClp extends BaseModelImpl<Background>
 	public BackgroundClp() {
 	}
 
+	@Override
 	public Class<?> getModelClass() {
 		return Background.class;
 	}
 
+	@Override
 	public String getModelClassName() {
 		return Background.class.getName();
 	}
 
+	@Override
 	public long getPrimaryKey() {
 		return _backgroundId;
 	}
 
+	@Override
 	public void setPrimaryKey(long primaryKey) {
 		setBackgroundId(primaryKey);
 	}
 
+	@Override
 	public Serializable getPrimaryKeyObj() {
-		return new Long(_backgroundId);
+		return _backgroundId;
 	}
 
+	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
+	@Override
+	public Map<String, Object> getModelAttributes() {
+		Map<String, Object> attributes = new HashMap<String, Object>();
+
+		attributes.put("backgroundId", getBackgroundId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("userId", getUserId());
+		attributes.put("name", getName());
+		attributes.put("fileEntryUuid", getFileEntryUuid());
+
+		return attributes;
+	}
+
+	@Override
+	public void setModelAttributes(Map<String, Object> attributes) {
+		Long backgroundId = (Long)attributes.get("backgroundId");
+
+		if (backgroundId != null) {
+			setBackgroundId(backgroundId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String name = (String)attributes.get("name");
+
+		if (name != null) {
+			setName(name);
+		}
+
+		String fileEntryUuid = (String)attributes.get("fileEntryUuid");
+
+		if (fileEntryUuid != null) {
+			setFileEntryUuid(fileEntryUuid);
+		}
+	}
+
+	@Override
 	public long getBackgroundId() {
 		return _backgroundId;
 	}
 
+	@Override
 	public void setBackgroundId(long backgroundId) {
 		_backgroundId = backgroundId;
+
+		if (_backgroundRemoteModel != null) {
+			try {
+				Class<?> clazz = _backgroundRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setBackgroundId", long.class);
+
+				method.invoke(_backgroundRemoteModel, backgroundId);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
 	}
 
+	@Override
 	public long getCompanyId() {
 		return _companyId;
 	}
 
+	@Override
 	public void setCompanyId(long companyId) {
 		_companyId = companyId;
+
+		if (_backgroundRemoteModel != null) {
+			try {
+				Class<?> clazz = _backgroundRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setCompanyId", long.class);
+
+				method.invoke(_backgroundRemoteModel, companyId);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
 	}
 
+	@Override
 	public long getGroupId() {
 		return _groupId;
 	}
 
+	@Override
 	public void setGroupId(long groupId) {
 		_groupId = groupId;
+
+		if (_backgroundRemoteModel != null) {
+			try {
+				Class<?> clazz = _backgroundRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setGroupId", long.class);
+
+				method.invoke(_backgroundRemoteModel, groupId);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
 	}
 
+	@Override
 	public long getUserId() {
 		return _userId;
 	}
 
+	@Override
 	public void setUserId(long userId) {
 		_userId = userId;
+
+		if (_backgroundRemoteModel != null) {
+			try {
+				Class<?> clazz = _backgroundRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setUserId", long.class);
+
+				method.invoke(_backgroundRemoteModel, userId);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
 	}
 
+	@Override
 	public String getUserUuid() throws SystemException {
 		return PortalUtil.getUserValue(getUserId(), "uuid", _userUuid);
 	}
 
+	@Override
 	public void setUserUuid(String userUuid) {
 		_userUuid = userUuid;
 	}
 
+	@Override
 	public String getName() {
 		return _name;
 	}
 
+	@Override
 	public void setName(String name) {
 		_name = name;
+
+		if (_backgroundRemoteModel != null) {
+			try {
+				Class<?> clazz = _backgroundRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setName", String.class);
+
+				method.invoke(_backgroundRemoteModel, name);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
 	}
 
+	@Override
 	public String getFileEntryUuid() {
 		return _fileEntryUuid;
 	}
 
+	@Override
 	public void setFileEntryUuid(String fileEntryUuid) {
 		_fileEntryUuid = fileEntryUuid;
+
+		if (_backgroundRemoteModel != null) {
+			try {
+				Class<?> clazz = _backgroundRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setFileEntryUuid", String.class);
+
+				method.invoke(_backgroundRemoteModel, fileEntryUuid);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
 	}
 
-	public java.lang.String getPictureUrl() {
-		throw new UnsupportedOperationException();
-	}
-
+	@Override
 	public boolean isMap() {
-		throw new UnsupportedOperationException();
+		try {
+			String methodName = "isMap";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			Boolean returnObj = (Boolean)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
 	}
 
+	@Override
+	public java.lang.String getPictureUrl() {
+		try {
+			String methodName = "getPictureUrl";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	public BaseModel<?> getBackgroundRemoteModel() {
+		return _backgroundRemoteModel;
+	}
+
+	public void setBackgroundRemoteModel(BaseModel<?> backgroundRemoteModel) {
+		_backgroundRemoteModel = backgroundRemoteModel;
+	}
+
+	public Object invokeOnRemoteModel(String methodName,
+		Class<?>[] parameterTypes, Object[] parameterValues)
+		throws Exception {
+		Object[] remoteParameterValues = new Object[parameterValues.length];
+
+		for (int i = 0; i < parameterValues.length; i++) {
+			if (parameterValues[i] != null) {
+				remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+			}
+		}
+
+		Class<?> remoteModelClass = _backgroundRemoteModel.getClass();
+
+		ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+		Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+		for (int i = 0; i < parameterTypes.length; i++) {
+			if (parameterTypes[i].isPrimitive()) {
+				remoteParameterTypes[i] = parameterTypes[i];
+			}
+			else {
+				String parameterTypeName = parameterTypes[i].getName();
+
+				remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+			}
+		}
+
+		Method method = remoteModelClass.getMethod(methodName,
+				remoteParameterTypes);
+
+		Object returnValue = method.invoke(_backgroundRemoteModel,
+				remoteParameterValues);
+
+		if (returnValue != null) {
+			returnValue = ClpSerializer.translateOutput(returnValue);
+		}
+
+		return returnValue;
+	}
+
+	@Override
 	public void persist() throws SystemException {
 		if (this.isNew()) {
 			BackgroundLocalServiceUtil.addBackground(this);
@@ -132,7 +370,7 @@ public class BackgroundClp extends BaseModelImpl<Background>
 
 	@Override
 	public Background toEscapedModel() {
-		return (Background)Proxy.newProxyInstance(Background.class.getClassLoader(),
+		return (Background)ProxyUtil.newProxyInstance(Background.class.getClassLoader(),
 			new Class[] { Background.class }, new AutoEscapeBeanHandler(this));
 	}
 
@@ -150,6 +388,7 @@ public class BackgroundClp extends BaseModelImpl<Background>
 		return clone;
 	}
 
+	@Override
 	public int compareTo(Background background) {
 		long primaryKey = background.getPrimaryKey();
 
@@ -166,18 +405,15 @@ public class BackgroundClp extends BaseModelImpl<Background>
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof BackgroundClp)) {
 			return false;
 		}
 
-		BackgroundClp background = null;
-
-		try {
-			background = (BackgroundClp)obj;
-		}
-		catch (ClassCastException cce) {
-			return false;
-		}
+		BackgroundClp background = (BackgroundClp)obj;
 
 		long primaryKey = background.getPrimaryKey();
 
@@ -215,6 +451,7 @@ public class BackgroundClp extends BaseModelImpl<Background>
 		return sb.toString();
 	}
 
+	@Override
 	public String toXmlString() {
 		StringBundler sb = new StringBundler(22);
 
@@ -259,4 +496,5 @@ public class BackgroundClp extends BaseModelImpl<Background>
 	private String _userUuid;
 	private String _name;
 	private String _fileEntryUuid;
+	private BaseModel<?> _backgroundRemoteModel;
 }

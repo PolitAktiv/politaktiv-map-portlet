@@ -1,15 +1,15 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.model.impl;
@@ -38,7 +38,9 @@ import java.io.Serializable;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The base model implementation for the Picture service. Represents a row in the &quot;politaktivmap_Picture&quot; database table, with each column mapped to a property of this class.
@@ -82,6 +84,8 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 		};
 	public static final String TABLE_SQL_CREATE = "create table politaktivmap_Picture (pictureId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,name VARCHAR(75) null,description VARCHAR(75) null,referenceUrl VARCHAR(75) null,backgroundId LONG,rotation LONG,width DOUBLE,height DOUBLE,resolution DOUBLE,ocupacy DOUBLE,longitude DOUBLE,latitude DOUBLE,fileEntryUuid VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table politaktivmap_Picture";
+	public static final String ORDER_BY_JPQL = " ORDER BY picture.pictureId ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY politaktivmap_Picture.pictureId ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -96,6 +100,7 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 			true);
 	public static long BACKGROUNDID_COLUMN_BITMASK = 1L;
 	public static long NAME_COLUMN_BITMASK = 2L;
+	public static long PICTUREID_COLUMN_BITMASK = 4L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -104,6 +109,10 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 	 * @return the normal model instance
 	 */
 	public static Picture toModel(PictureSoap soapModel) {
+		if (soapModel == null) {
+			return null;
+		}
+
 		Picture model = new PictureImpl();
 
 		model.setPictureId(soapModel.getPictureId());
@@ -133,6 +142,10 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 	 * @return the normal model instances
 	 */
 	public static List<Picture> toModels(PictureSoap[] soapModels) {
+		if (soapModels == null) {
+			return null;
+		}
+
 		List<Picture> models = new ArrayList<Picture>(soapModels.length);
 
 		for (PictureSoap soapModel : soapModels) {
@@ -148,75 +161,215 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 	public PictureModelImpl() {
 	}
 
+	@Override
 	public long getPrimaryKey() {
 		return _pictureId;
 	}
 
+	@Override
 	public void setPrimaryKey(long primaryKey) {
 		setPictureId(primaryKey);
 	}
 
+	@Override
 	public Serializable getPrimaryKeyObj() {
-		return new Long(_pictureId);
+		return _pictureId;
 	}
 
+	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
+	@Override
 	public Class<?> getModelClass() {
 		return Picture.class;
 	}
 
+	@Override
 	public String getModelClassName() {
 		return Picture.class.getName();
 	}
 
+	@Override
+	public Map<String, Object> getModelAttributes() {
+		Map<String, Object> attributes = new HashMap<String, Object>();
+
+		attributes.put("pictureId", getPictureId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("userId", getUserId());
+		attributes.put("name", getName());
+		attributes.put("description", getDescription());
+		attributes.put("referenceUrl", getReferenceUrl());
+		attributes.put("backgroundId", getBackgroundId());
+		attributes.put("rotation", getRotation());
+		attributes.put("width", getWidth());
+		attributes.put("height", getHeight());
+		attributes.put("resolution", getResolution());
+		attributes.put("ocupacy", getOcupacy());
+		attributes.put("longitude", getLongitude());
+		attributes.put("latitude", getLatitude());
+		attributes.put("fileEntryUuid", getFileEntryUuid());
+
+		return attributes;
+	}
+
+	@Override
+	public void setModelAttributes(Map<String, Object> attributes) {
+		Long pictureId = (Long)attributes.get("pictureId");
+
+		if (pictureId != null) {
+			setPictureId(pictureId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
+		String name = (String)attributes.get("name");
+
+		if (name != null) {
+			setName(name);
+		}
+
+		String description = (String)attributes.get("description");
+
+		if (description != null) {
+			setDescription(description);
+		}
+
+		String referenceUrl = (String)attributes.get("referenceUrl");
+
+		if (referenceUrl != null) {
+			setReferenceUrl(referenceUrl);
+		}
+
+		Long backgroundId = (Long)attributes.get("backgroundId");
+
+		if (backgroundId != null) {
+			setBackgroundId(backgroundId);
+		}
+
+		Long rotation = (Long)attributes.get("rotation");
+
+		if (rotation != null) {
+			setRotation(rotation);
+		}
+
+		Double width = (Double)attributes.get("width");
+
+		if (width != null) {
+			setWidth(width);
+		}
+
+		Double height = (Double)attributes.get("height");
+
+		if (height != null) {
+			setHeight(height);
+		}
+
+		Double resolution = (Double)attributes.get("resolution");
+
+		if (resolution != null) {
+			setResolution(resolution);
+		}
+
+		Double ocupacy = (Double)attributes.get("ocupacy");
+
+		if (ocupacy != null) {
+			setOcupacy(ocupacy);
+		}
+
+		Double longitude = (Double)attributes.get("longitude");
+
+		if (longitude != null) {
+			setLongitude(longitude);
+		}
+
+		Double latitude = (Double)attributes.get("latitude");
+
+		if (latitude != null) {
+			setLatitude(latitude);
+		}
+
+		String fileEntryUuid = (String)attributes.get("fileEntryUuid");
+
+		if (fileEntryUuid != null) {
+			setFileEntryUuid(fileEntryUuid);
+		}
+	}
+
 	@JSON
+	@Override
 	public long getPictureId() {
 		return _pictureId;
 	}
 
+	@Override
 	public void setPictureId(long pictureId) {
 		_pictureId = pictureId;
 	}
 
 	@JSON
+	@Override
 	public long getCompanyId() {
 		return _companyId;
 	}
 
+	@Override
 	public void setCompanyId(long companyId) {
 		_companyId = companyId;
 	}
 
 	@JSON
+	@Override
 	public long getGroupId() {
 		return _groupId;
 	}
 
+	@Override
 	public void setGroupId(long groupId) {
 		_groupId = groupId;
 	}
 
 	@JSON
+	@Override
 	public long getUserId() {
 		return _userId;
 	}
 
+	@Override
 	public void setUserId(long userId) {
 		_userId = userId;
 	}
 
+	@Override
 	public String getUserUuid() throws SystemException {
 		return PortalUtil.getUserValue(getUserId(), "uuid", _userUuid);
 	}
 
+	@Override
 	public void setUserUuid(String userUuid) {
 		_userUuid = userUuid;
 	}
 
 	@JSON
+	@Override
 	public String getName() {
 		if (_name == null) {
 			return StringPool.BLANK;
@@ -226,6 +379,7 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 		}
 	}
 
+	@Override
 	public void setName(String name) {
 		_columnBitmask |= NAME_COLUMN_BITMASK;
 
@@ -241,6 +395,7 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 	}
 
 	@JSON
+	@Override
 	public String getDescription() {
 		if (_description == null) {
 			return StringPool.BLANK;
@@ -250,11 +405,13 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 		}
 	}
 
+	@Override
 	public void setDescription(String description) {
 		_description = description;
 	}
 
 	@JSON
+	@Override
 	public String getReferenceUrl() {
 		if (_referenceUrl == null) {
 			return StringPool.BLANK;
@@ -264,15 +421,18 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 		}
 	}
 
+	@Override
 	public void setReferenceUrl(String referenceUrl) {
 		_referenceUrl = referenceUrl;
 	}
 
 	@JSON
+	@Override
 	public long getBackgroundId() {
 		return _backgroundId;
 	}
 
+	@Override
 	public void setBackgroundId(long backgroundId) {
 		_columnBitmask |= BACKGROUNDID_COLUMN_BITMASK;
 
@@ -290,69 +450,84 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 	}
 
 	@JSON
+	@Override
 	public long getRotation() {
 		return _rotation;
 	}
 
+	@Override
 	public void setRotation(long rotation) {
 		_rotation = rotation;
 	}
 
 	@JSON
+	@Override
 	public double getWidth() {
 		return _width;
 	}
 
+	@Override
 	public void setWidth(double width) {
 		_width = width;
 	}
 
 	@JSON
+	@Override
 	public double getHeight() {
 		return _height;
 	}
 
+	@Override
 	public void setHeight(double height) {
 		_height = height;
 	}
 
 	@JSON
+	@Override
 	public double getResolution() {
 		return _resolution;
 	}
 
+	@Override
 	public void setResolution(double resolution) {
 		_resolution = resolution;
 	}
 
 	@JSON
+	@Override
 	public double getOcupacy() {
 		return _ocupacy;
 	}
 
+	@Override
 	public void setOcupacy(double ocupacy) {
 		_ocupacy = ocupacy;
 	}
 
 	@JSON
+	@Override
 	public double getLongitude() {
 		return _longitude;
 	}
 
+	@Override
 	public void setLongitude(double longitude) {
 		_longitude = longitude;
 	}
 
 	@JSON
+	@Override
 	public double getLatitude() {
 		return _latitude;
 	}
 
+	@Override
 	public void setLatitude(double latitude) {
 		_latitude = latitude;
 	}
 
 	@JSON
+	@Override
 	public String getFileEntryUuid() {
 		if (_fileEntryUuid == null) {
 			return StringPool.BLANK;
@@ -362,6 +537,7 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 		}
 	}
 
+	@Override
 	public void setFileEntryUuid(String fileEntryUuid) {
 		_fileEntryUuid = fileEntryUuid;
 	}
@@ -371,29 +547,26 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 	}
 
 	@Override
-	public Picture toEscapedModel() {
-		if (_escapedModelProxy == null) {
-			_escapedModelProxy = (Picture)ProxyUtil.newProxyInstance(_classLoader,
-					_escapedModelProxyInterfaces,
-					new AutoEscapeBeanHandler(this));
-		}
-
-		return _escapedModelProxy;
-	}
-
-	@Override
 	public ExpandoBridge getExpandoBridge() {
-		if (_expandoBridge == null) {
-			_expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
-					Picture.class.getName(), getPrimaryKey());
-		}
-
-		return _expandoBridge;
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
+			Picture.class.getName(), getPrimaryKey());
 	}
 
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		getExpandoBridge().setAttributes(serviceContext);
+		ExpandoBridge expandoBridge = getExpandoBridge();
+
+		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public Picture toEscapedModel() {
+		if (_escapedModel == null) {
+			_escapedModel = (Picture)ProxyUtil.newProxyInstance(_classLoader,
+					_escapedModelInterfaces, new AutoEscapeBeanHandler(this));
+		}
+
+		return _escapedModel;
 	}
 
 	@Override
@@ -422,6 +595,7 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 		return pictureImpl;
 	}
 
+	@Override
 	public int compareTo(Picture picture) {
 		long primaryKey = picture.getPrimaryKey();
 
@@ -438,18 +612,15 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof Picture)) {
 			return false;
 		}
 
-		Picture picture = null;
-
-		try {
-			picture = (Picture)obj;
-		}
-		catch (ClassCastException cce) {
-			return false;
-		}
+		Picture picture = (Picture)obj;
 
 		long primaryKey = picture.getPrimaryKey();
 
@@ -583,6 +754,7 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 		return sb.toString();
 	}
 
+	@Override
 	public String toXmlString() {
 		StringBundler sb = new StringBundler(52);
 
@@ -661,7 +833,7 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 	}
 
 	private static ClassLoader _classLoader = Picture.class.getClassLoader();
-	private static Class<?>[] _escapedModelProxyInterfaces = new Class[] {
+	private static Class<?>[] _escapedModelInterfaces = new Class[] {
 			Picture.class
 		};
 	private long _pictureId;
@@ -684,7 +856,6 @@ public class PictureModelImpl extends BaseModelImpl<Picture>
 	private double _longitude;
 	private double _latitude;
 	private String _fileEntryUuid;
-	private transient ExpandoBridge _expandoBridge;
 	private long _columnBitmask;
-	private Picture _escapedModelProxy;
+	private Picture _escapedModel;
 }

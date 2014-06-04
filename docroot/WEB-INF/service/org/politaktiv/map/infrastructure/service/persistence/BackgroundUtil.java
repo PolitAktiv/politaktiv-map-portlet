@@ -1,15 +1,15 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.service.persistence;
@@ -21,9 +21,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
 import com.liferay.portal.service.ServiceContext;
 
-import org.politaktiv.map.infrastructure.NoSuchBackgroundException;
 import org.politaktiv.map.infrastructure.model.Background;
-import org.politaktiv.map.infrastructure.service.ClpSerializer;
 
 import java.util.List;
 
@@ -63,7 +61,7 @@ public class BackgroundUtil {
 	/**
 	 * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
 	 */
-	public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+	public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
 		throws SystemException {
 		return getPersistence().countWithDynamicQuery(dynamicQuery);
 	}
@@ -97,100 +95,19 @@ public class BackgroundUtil {
 	}
 
 	/**
-	 * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+	 * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
 	 */
-	public static Background update(Background background, boolean merge)
+	public static Background update(Background background)
 		throws SystemException {
-		return getPersistence().update(background, merge);
+		return getPersistence().update(background);
 	}
 
 	/**
-	 * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
+	 * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
 	 */
-	public static Background update(Background background, boolean merge,
+	public static Background update(Background background,
 		ServiceContext serviceContext) throws SystemException {
-		return getPersistence().update(background, merge, serviceContext);
-	}
-
-	/**
-	* Caches the background in the entity cache if it is enabled.
-	*
-	* @param background the background
-	*/
-	public static void cacheResult(
-		Background background) {
-		getPersistence().cacheResult(background);
-	}
-
-	/**
-	* Caches the backgrounds in the entity cache if it is enabled.
-	*
-	* @param backgrounds the backgrounds
-	*/
-	public static void cacheResult(
-		List<Background> backgrounds) {
-		getPersistence().cacheResult(backgrounds);
-	}
-
-	/**
-	* Creates a new background with the primary key. Does not add the background to the database.
-	*
-	* @param backgroundId the primary key for the new background
-	* @return the new background
-	*/
-	public static Background create(
-		long backgroundId) {
-		return getPersistence().create(backgroundId);
-	}
-
-	/**
-	* Removes the background with the primary key from the database. Also notifies the appropriate model listeners.
-	*
-	* @param backgroundId the primary key of the background
-	* @return the background that was removed
-	* @throws NoSuchBackgroundException if a background with the primary key could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	public static Background remove(
-		long backgroundId)
-		throws SystemException,
-			NoSuchBackgroundException {
-		return getPersistence().remove(backgroundId);
-	}
-
-	public static Background updateImpl(
-		Background background,
-		boolean merge)
-		throws SystemException {
-		return getPersistence().updateImpl(background, merge);
-	}
-
-	/**
-	* Returns the background with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchBackgroundException} if it could not be found.
-	*
-	* @param backgroundId the primary key of the background
-	* @return the background
-	* @throws NoSuchBackgroundException if a background with the primary key could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	public static Background findByPrimaryKey(
-		long backgroundId)
-		throws SystemException,
-			NoSuchBackgroundException {
-		return getPersistence().findByPrimaryKey(backgroundId);
-	}
-
-	/**
-	* Returns the background with the primary key or returns <code>null</code> if it could not be found.
-	*
-	* @param backgroundId the primary key of the background
-	* @return the background, or <code>null</code> if a background with the primary key could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	public static Background fetchByPrimaryKey(
-		long backgroundId)
-		throws SystemException {
-		return getPersistence().fetchByPrimaryKey(backgroundId);
+		return getPersistence().update(background, serviceContext);
 	}
 
 	/**
@@ -201,9 +118,9 @@ public class BackgroundUtil {
 	* @return the matching backgrounds
 	* @throws SystemException if a system exception occurred
 	*/
-	public static List<Background> findBycompanyIdAndGroupId(
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Background> findBycompanyIdAndGroupId(
 		long companyId, long groupId)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence().findBycompanyIdAndGroupId(companyId, groupId);
 	}
 
@@ -211,7 +128,7 @@ public class BackgroundUtil {
 	* Returns a range of all the backgrounds where companyId = &#63; and groupId = &#63;.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.BackgroundModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param companyId the company ID
@@ -221,9 +138,9 @@ public class BackgroundUtil {
 	* @return the range of matching backgrounds
 	* @throws SystemException if a system exception occurred
 	*/
-	public static List<Background> findBycompanyIdAndGroupId(
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Background> findBycompanyIdAndGroupId(
 		long companyId, long groupId, int start, int end)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence()
 				   .findBycompanyIdAndGroupId(companyId, groupId, start, end);
 	}
@@ -232,7 +149,7 @@ public class BackgroundUtil {
 	* Returns an ordered range of all the backgrounds where companyId = &#63; and groupId = &#63;.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.BackgroundModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param companyId the company ID
@@ -243,10 +160,10 @@ public class BackgroundUtil {
 	* @return the ordered range of matching backgrounds
 	* @throws SystemException if a system exception occurred
 	*/
-	public static List<Background> findBycompanyIdAndGroupId(
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Background> findBycompanyIdAndGroupId(
 		long companyId, long groupId, int start, int end,
-		OrderByComparator orderByComparator)
-		throws SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence()
 				   .findBycompanyIdAndGroupId(companyId, groupId, start, end,
 			orderByComparator);
@@ -255,123 +172,98 @@ public class BackgroundUtil {
 	/**
 	* Returns the first background in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
 	* @param companyId the company ID
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching background
-	* @throws NoSuchBackgroundException if a matching background could not be found
+	* @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a matching background could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static Background findBycompanyIdAndGroupId_First(
+	public static org.politaktiv.map.infrastructure.model.Background findBycompanyIdAndGroupId_First(
 		long companyId, long groupId,
-		OrderByComparator orderByComparator)
-		throws SystemException,
-			NoSuchBackgroundException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			org.politaktiv.map.infrastructure.NoSuchBackgroundException {
 		return getPersistence()
 				   .findBycompanyIdAndGroupId_First(companyId, groupId,
 			orderByComparator);
 	}
 
 	/**
-	* Returns the last background in the ordered set where companyId = &#63; and groupId = &#63;.
+	* Returns the first background in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching background, or <code>null</code> if a matching background could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static org.politaktiv.map.infrastructure.model.Background fetchBycompanyIdAndGroupId_First(
+		long companyId, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchBycompanyIdAndGroupId_First(companyId, groupId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last background in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
 	* @param companyId the company ID
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching background
-	* @throws NoSuchBackgroundException if a matching background could not be found
+	* @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a matching background could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static Background findBycompanyIdAndGroupId_Last(
+	public static org.politaktiv.map.infrastructure.model.Background findBycompanyIdAndGroupId_Last(
 		long companyId, long groupId,
-		OrderByComparator orderByComparator)
-		throws SystemException,
-			NoSuchBackgroundException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			org.politaktiv.map.infrastructure.NoSuchBackgroundException {
 		return getPersistence()
 				   .findBycompanyIdAndGroupId_Last(companyId, groupId,
 			orderByComparator);
 	}
 
 	/**
-	* Returns the backgrounds before and after the current background in the ordered set where companyId = &#63; and groupId = &#63;.
+	* Returns the last background in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching background, or <code>null</code> if a matching background could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static org.politaktiv.map.infrastructure.model.Background fetchBycompanyIdAndGroupId_Last(
+		long companyId, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchBycompanyIdAndGroupId_Last(companyId, groupId,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the backgrounds before and after the current background in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
 	* @param backgroundId the primary key of the current background
 	* @param companyId the company ID
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next background
-	* @throws NoSuchBackgroundException if a background with the primary key could not be found
+	* @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a background with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static Background[] findBycompanyIdAndGroupId_PrevAndNext(
+	public static org.politaktiv.map.infrastructure.model.Background[] findBycompanyIdAndGroupId_PrevAndNext(
 		long backgroundId, long companyId, long groupId,
-		OrderByComparator orderByComparator)
-		throws SystemException,
-			NoSuchBackgroundException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			org.politaktiv.map.infrastructure.NoSuchBackgroundException {
 		return getPersistence()
 				   .findBycompanyIdAndGroupId_PrevAndNext(backgroundId,
 			companyId, groupId, orderByComparator);
-	}
-
-	/**
-	* Returns all the backgrounds.
-	*
-	* @return the backgrounds
-	* @throws SystemException if a system exception occurred
-	*/
-	public static List<Background> findAll()
-		throws SystemException {
-		return getPersistence().findAll();
-	}
-
-	/**
-	* Returns a range of all the backgrounds.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param start the lower bound of the range of backgrounds
-	* @param end the upper bound of the range of backgrounds (not inclusive)
-	* @return the range of backgrounds
-	* @throws SystemException if a system exception occurred
-	*/
-	public static List<Background> findAll(
-		int start, int end)
-		throws SystemException {
-		return getPersistence().findAll(start, end);
-	}
-
-	/**
-	* Returns an ordered range of all the backgrounds.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param start the lower bound of the range of backgrounds
-	* @param end the upper bound of the range of backgrounds (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of backgrounds
-	* @throws SystemException if a system exception occurred
-	*/
-	public static List<Background> findAll(
-		int start, int end,
-		OrderByComparator orderByComparator)
-		throws SystemException {
-		return getPersistence().findAll(start, end, orderByComparator);
 	}
 
 	/**
@@ -382,18 +274,8 @@ public class BackgroundUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeBycompanyIdAndGroupId(long companyId, long groupId)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		getPersistence().removeBycompanyIdAndGroupId(companyId, groupId);
-	}
-
-	/**
-	* Removes all the backgrounds from the database.
-	*
-	* @throws SystemException if a system exception occurred
-	*/
-	public static void removeAll()
-		throws SystemException {
-		getPersistence().removeAll();
 	}
 
 	/**
@@ -405,8 +287,147 @@ public class BackgroundUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static int countBycompanyIdAndGroupId(long companyId, long groupId)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence().countBycompanyIdAndGroupId(companyId, groupId);
+	}
+
+	/**
+	* Caches the background in the entity cache if it is enabled.
+	*
+	* @param background the background
+	*/
+	public static void cacheResult(
+		org.politaktiv.map.infrastructure.model.Background background) {
+		getPersistence().cacheResult(background);
+	}
+
+	/**
+	* Caches the backgrounds in the entity cache if it is enabled.
+	*
+	* @param backgrounds the backgrounds
+	*/
+	public static void cacheResult(
+		java.util.List<org.politaktiv.map.infrastructure.model.Background> backgrounds) {
+		getPersistence().cacheResult(backgrounds);
+	}
+
+	/**
+	* Creates a new background with the primary key. Does not add the background to the database.
+	*
+	* @param backgroundId the primary key for the new background
+	* @return the new background
+	*/
+	public static org.politaktiv.map.infrastructure.model.Background create(
+		long backgroundId) {
+		return getPersistence().create(backgroundId);
+	}
+
+	/**
+	* Removes the background with the primary key from the database. Also notifies the appropriate model listeners.
+	*
+	* @param backgroundId the primary key of the background
+	* @return the background that was removed
+	* @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a background with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static org.politaktiv.map.infrastructure.model.Background remove(
+		long backgroundId)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			org.politaktiv.map.infrastructure.NoSuchBackgroundException {
+		return getPersistence().remove(backgroundId);
+	}
+
+	public static org.politaktiv.map.infrastructure.model.Background updateImpl(
+		org.politaktiv.map.infrastructure.model.Background background)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().updateImpl(background);
+	}
+
+	/**
+	* Returns the background with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchBackgroundException} if it could not be found.
+	*
+	* @param backgroundId the primary key of the background
+	* @return the background
+	* @throws org.politaktiv.map.infrastructure.NoSuchBackgroundException if a background with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static org.politaktiv.map.infrastructure.model.Background findByPrimaryKey(
+		long backgroundId)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			org.politaktiv.map.infrastructure.NoSuchBackgroundException {
+		return getPersistence().findByPrimaryKey(backgroundId);
+	}
+
+	/**
+	* Returns the background with the primary key or returns <code>null</code> if it could not be found.
+	*
+	* @param backgroundId the primary key of the background
+	* @return the background, or <code>null</code> if a background with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static org.politaktiv.map.infrastructure.model.Background fetchByPrimaryKey(
+		long backgroundId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().fetchByPrimaryKey(backgroundId);
+	}
+
+	/**
+	* Returns all the backgrounds.
+	*
+	* @return the backgrounds
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Background> findAll()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findAll();
+	}
+
+	/**
+	* Returns a range of all the backgrounds.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.BackgroundModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of backgrounds
+	* @param end the upper bound of the range of backgrounds (not inclusive)
+	* @return the range of backgrounds
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Background> findAll(
+		int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findAll(start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the backgrounds.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.BackgroundModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of backgrounds
+	* @param end the upper bound of the range of backgrounds (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of backgrounds
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Background> findAll(
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findAll(start, end, orderByComparator);
+	}
+
+	/**
+	* Removes all the backgrounds from the database.
+	*
+	* @throws SystemException if a system exception occurred
+	*/
+	public static void removeAll()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getPersistence().removeAll();
 	}
 
 	/**
@@ -416,13 +437,13 @@ public class BackgroundUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static int countAll()
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence().countAll();
 	}
 
 	public static BackgroundPersistence getPersistence() {
 		if (_persistence == null) {
-			_persistence = (BackgroundPersistence)PortletBeanLocatorUtil.locate(ClpSerializer.getServletContextName(),
+			_persistence = (BackgroundPersistence)PortletBeanLocatorUtil.locate(org.politaktiv.map.infrastructure.service.ClpSerializer.getServletContextName(),
 					BackgroundPersistence.class.getName());
 
 			ReferenceRegistry.registerReference(BackgroundUtil.class,
@@ -432,10 +453,10 @@ public class BackgroundUtil {
 		return _persistence;
 	}
 
+	/**
+	 * @deprecated As of 6.2.0
+	 */
 	public void setPersistence(BackgroundPersistence persistence) {
-		_persistence = persistence;
-
-		ReferenceRegistry.registerReference(BackgroundUtil.class, "_persistence");
 	}
 
 	private static BackgroundPersistence _persistence;

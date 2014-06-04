@@ -1,38 +1,26 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.service;
 
-import java.io.Serializable;
-import java.util.List;
-
-import org.politaktiv.map.infrastructure.model.Picture;
-
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.model.PersistedModel;
 import com.liferay.portal.service.ServiceWrapper;
 
 /**
- * <p>
- * This class is a wrapper for {@link PictureLocalService}.
- * </p>
+ * Provides a wrapper for {@link PictureLocalService}.
  *
- * @author    eichi
- * @see       PictureLocalService
+ * @author eichi
+ * @see PictureLocalService
  * @generated
  */
 public class PictureLocalServiceWrapper implements PictureLocalService,
@@ -48,9 +36,10 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* @return the picture that was added
 	* @throws SystemException if a system exception occurred
 	*/
-	public Picture addPicture(
-		Picture picture)
-		throws SystemException {
+	@Override
+	public org.politaktiv.map.infrastructure.model.Picture addPicture(
+		org.politaktiv.map.infrastructure.model.Picture picture)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _pictureLocalService.addPicture(picture);
 	}
 
@@ -60,7 +49,8 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* @param pictureId the primary key for the new picture
 	* @return the new picture
 	*/
-	public Picture createPicture(
+	@Override
+	public org.politaktiv.map.infrastructure.model.Picture createPicture(
 		long pictureId) {
 		return _pictureLocalService.createPicture(pictureId);
 	}
@@ -69,25 +59,35 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* Deletes the picture with the primary key from the database. Also notifies the appropriate model listeners.
 	*
 	* @param pictureId the primary key of the picture
+	* @return the picture that was removed
 	* @throws PortalException if a picture with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public void deletePicture(long pictureId)
-		throws PortalException,
-			SystemException {
-		_pictureLocalService.deletePicture(pictureId);
+	@Override
+	public org.politaktiv.map.infrastructure.model.Picture deletePicture(
+		long pictureId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _pictureLocalService.deletePicture(pictureId);
 	}
 
 	/**
 	* Deletes the picture from the database. Also notifies the appropriate model listeners.
 	*
 	* @param picture the picture
+	* @return the picture that was removed
 	* @throws SystemException if a system exception occurred
 	*/
-	public void deletePicture(
-		Picture picture)
-		throws SystemException {
-		_pictureLocalService.deletePicture(picture);
+	@Override
+	public org.politaktiv.map.infrastructure.model.Picture deletePicture(
+		org.politaktiv.map.infrastructure.model.Picture picture)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _pictureLocalService.deletePicture(picture);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
+		return _pictureLocalService.dynamicQuery();
 	}
 
 	/**
@@ -97,10 +97,11 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* @return the matching rows
 	* @throws SystemException if a system exception occurred
 	*/
+	@Override
 	@SuppressWarnings("rawtypes")
-	public List dynamicQuery(
-		DynamicQuery dynamicQuery)
-		throws SystemException {
+	public java.util.List dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _pictureLocalService.dynamicQuery(dynamicQuery);
 	}
 
@@ -108,7 +109,7 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* Performs a dynamic query on the database and returns a range of the matching rows.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.PictureModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param dynamicQuery the dynamic query
@@ -117,10 +118,11 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* @return the range of matching rows
 	* @throws SystemException if a system exception occurred
 	*/
+	@Override
 	@SuppressWarnings("rawtypes")
-	public List dynamicQuery(
-		DynamicQuery dynamicQuery, int start,
-		int end) throws SystemException {
+	public java.util.List dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
 		return _pictureLocalService.dynamicQuery(dynamicQuery, start, end);
 	}
 
@@ -128,7 +130,7 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.PictureModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param dynamicQuery the dynamic query
@@ -138,12 +140,13 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* @return the ordered range of matching rows
 	* @throws SystemException if a system exception occurred
 	*/
+	@Override
 	@SuppressWarnings("rawtypes")
-	public List dynamicQuery(
-		DynamicQuery dynamicQuery, int start,
+	public java.util.List dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
 		int end,
-		OrderByComparator orderByComparator)
-		throws SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _pictureLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
 	}
@@ -155,15 +158,33 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* @return the number of rows that match the dynamic query
 	* @throws SystemException if a system exception occurred
 	*/
+	@Override
 	public long dynamicQueryCount(
-		DynamicQuery dynamicQuery)
-		throws SystemException {
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _pictureLocalService.dynamicQueryCount(dynamicQuery);
 	}
 
-	public Picture fetchPicture(
+	/**
+	* Returns the number of rows that match the dynamic query.
+	*
+	* @param dynamicQuery the dynamic query
+	* @param projection the projection to apply to the query
+	* @return the number of rows that match the dynamic query
+	* @throws SystemException if a system exception occurred
+	*/
+	@Override
+	public long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.Projection projection)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _pictureLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	@Override
+	public org.politaktiv.map.infrastructure.model.Picture fetchPicture(
 		long pictureId)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _pictureLocalService.fetchPicture(pictureId);
 	}
 
@@ -175,17 +196,19 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* @throws PortalException if a picture with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public Picture getPicture(
+	@Override
+	public org.politaktiv.map.infrastructure.model.Picture getPicture(
 		long pictureId)
-		throws PortalException,
-			SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		return _pictureLocalService.getPicture(pictureId);
 	}
 
-	public PersistedModel getPersistedModel(
-		Serializable primaryKeyObj)
-		throws PortalException,
-			SystemException {
+	@Override
+	public com.liferay.portal.model.PersistedModel getPersistedModel(
+		java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		return _pictureLocalService.getPersistedModel(primaryKeyObj);
 	}
 
@@ -193,7 +216,7 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* Returns a range of all the pictures.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.PictureModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param start the lower bound of the range of pictures
@@ -201,9 +224,10 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* @return the range of pictures
 	* @throws SystemException if a system exception occurred
 	*/
-	public List<Picture> getPictures(
+	@Override
+	public java.util.List<org.politaktiv.map.infrastructure.model.Picture> getPictures(
 		int start, int end)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _pictureLocalService.getPictures(start, end);
 	}
 
@@ -213,8 +237,9 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* @return the number of pictures
 	* @throws SystemException if a system exception occurred
 	*/
+	@Override
 	public int getPicturesCount()
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _pictureLocalService.getPicturesCount();
 	}
 
@@ -225,24 +250,11 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	* @return the picture that was updated
 	* @throws SystemException if a system exception occurred
 	*/
-	public Picture updatePicture(
-		Picture picture)
-		throws SystemException {
+	@Override
+	public org.politaktiv.map.infrastructure.model.Picture updatePicture(
+		org.politaktiv.map.infrastructure.model.Picture picture)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _pictureLocalService.updatePicture(picture);
-	}
-
-	/**
-	* Updates the picture in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
-	*
-	* @param picture the picture
-	* @param merge whether to merge the picture with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
-	* @return the picture that was updated
-	* @throws SystemException if a system exception occurred
-	*/
-	public Picture updatePicture(
-		Picture picture, boolean merge)
-		throws SystemException {
-		return _pictureLocalService.updatePicture(picture, merge);
 	}
 
 	/**
@@ -250,7 +262,8 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	*
 	* @return the Spring bean ID for this bean
 	*/
-	public String getBeanIdentifier() {
+	@Override
+	public java.lang.String getBeanIdentifier() {
 		return _pictureLocalService.getBeanIdentifier();
 	}
 
@@ -259,35 +272,46 @@ public class PictureLocalServiceWrapper implements PictureLocalService,
 	*
 	* @param beanIdentifier the Spring bean ID for this bean
 	*/
-	public void setBeanIdentifier(String beanIdentifier) {
+	@Override
+	public void setBeanIdentifier(java.lang.String beanIdentifier) {
 		_pictureLocalService.setBeanIdentifier(beanIdentifier);
 	}
 
-	public List<Picture> findByBackgroundId(
+	@Override
+	public java.lang.Object invokeMethod(java.lang.String name,
+		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
+		throws java.lang.Throwable {
+		return _pictureLocalService.invokeMethod(name, parameterTypes, arguments);
+	}
+
+	@Override
+	public java.util.List<org.politaktiv.map.infrastructure.model.Picture> findByBackgroundId(
 		long backgroundId)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _pictureLocalService.findByBackgroundId(backgroundId);
 	}
 
 	/**
-	 * @deprecated Renamed to {@link #getWrappedService}
+	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
 	public PictureLocalService getWrappedPictureLocalService() {
 		return _pictureLocalService;
 	}
 
 	/**
-	 * @deprecated Renamed to {@link #setWrappedService}
+	 * @deprecated As of 6.1.0, replaced by {@link #setWrappedService}
 	 */
 	public void setWrappedPictureLocalService(
 		PictureLocalService pictureLocalService) {
 		_pictureLocalService = pictureLocalService;
 	}
 
+	@Override
 	public PictureLocalService getWrappedService() {
 		return _pictureLocalService;
 	}
 
+	@Override
 	public void setWrappedService(PictureLocalService pictureLocalService) {
 		_pictureLocalService = pictureLocalService;
 	}

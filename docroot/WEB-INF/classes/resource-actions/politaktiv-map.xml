@@ -9,9 +9,9 @@
                 <action-key>VIEW</action-key>
                 <action-key>EDIT</action-key>
             </supports>
-            <community-defaults>
+            <site-member-defaults>
                 <action-key>VIEW</action-key>
-            </community-defaults>
+            </site-member-defaults>
             <guest-defaults>
                 <action-key>VIEW</action-key>
             </guest-defaults>
@@ -34,12 +34,12 @@
     		<action-key>DELETE</action-key>
     	</supports>
     	
-    	<community-defaults>
+    	<site-member-defaults>
     		<action-key>VIEW</action-key>
     		<action-key>ADD</action-key>
     		<action-key>UPDATE</action-key>
     		<action-key>DELETE</action-key>
-    	</community-defaults>
+    	</site-member-defaults>
     	
     	<guest-defaults>
     		<action-key>VIEW</action-key>
@@ -61,12 +61,12 @@
     		<action-key>UPDATE</action-key>
     		<action-key>DELETE</action-key>
     	</supports>	
-    	<community-defaults>
+    	<site-member-defaults>
     		<action-key>VIEW</action-key>
     		<action-key>ADD</action-key>
     		<action-key>UPDATE</action-key>
     		<action-key>DELETE</action-key>
-    	</community-defaults>	
+    	</site-member-defaults>	
     	<guest-defaults>
     		<action-key>VIEW</action-key>
     	</guest-defaults>
@@ -88,9 +88,9 @@
     		<action-key>UPDATE</action-key>
     		<action-key>DELETE</action-key>
     	</supports>	
-    	<community-defaults>
+    	<site-member-defaults>
     		<action-key>VIEW</action-key>
-    	</community-defaults>	
+    	</site-member-defaults>	
     	<guest-defaults>
     		<action-key>VIEW</action-key>
     	</guest-defaults>

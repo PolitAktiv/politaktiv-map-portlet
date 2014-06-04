@@ -1,15 +1,15 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.service.http;
@@ -17,21 +17,16 @@ package org.politaktiv.map.infrastructure.service.http;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
-import org.politaktiv.map.infrastructure.model.Background;
-import org.politaktiv.map.infrastructure.model.BackgroundSoap;
 import org.politaktiv.map.infrastructure.service.BackgroundServiceUtil;
 
 import java.rmi.RemoteException;
-import java.util.List;
 
 /**
- * <p>
- * This class provides a SOAP utility for the
+ * Provides the SOAP utility for the
  * {@link org.politaktiv.map.infrastructure.service.BackgroundServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
- * </p>
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
@@ -51,9 +46,8 @@ import java.util.List;
  * </p>
  *
  * <p>
- * You can see a list of services at
- * http://localhost:8080/api/secure/axis. Set the property
- * <b>axis.servlet.hosts.allowed</b> in portal.properties to configure
+ * You can see a list of services at http://localhost:8080/api/axis. Set the
+ * property <b>axis.servlet.hosts.allowed</b> in portal.properties to configure
  * security.
  * </p>
  *
@@ -61,21 +55,21 @@ import java.util.List;
  * The SOAP utility is only generated for remote services.
  * </p>
  *
- * @author    eichi
- * @see       BackgroundServiceHttp
- * @see       org.politaktiv.map.infrastructure.model.BackgroundSoap
- * @see       org.politaktiv.map.infrastructure.service.BackgroundServiceUtil
+ * @author eichi
+ * @see BackgroundServiceHttp
+ * @see org.politaktiv.map.infrastructure.model.BackgroundSoap
+ * @see org.politaktiv.map.infrastructure.service.BackgroundServiceUtil
  * @generated
  */
 public class BackgroundServiceSoap {
-	public static Background[] findBycompanyIdAndGroupId(
+	public static org.politaktiv.map.infrastructure.model.BackgroundSoap[] findBycompanyIdAndGroupId(
 		long companyId, long groupId) throws RemoteException {
 		try {
-			List<Background> returnValue =
+			java.util.List<org.politaktiv.map.infrastructure.model.Background> returnValue =
 				BackgroundServiceUtil.findBycompanyIdAndGroupId(companyId,
 					groupId);
 
-			return returnValue.toArray(new Background[returnValue.size()]);
+			return org.politaktiv.map.infrastructure.model.BackgroundSoap.toSoapModels(returnValue);
 		}
 		catch (Exception e) {
 			_log.error(e, e);
@@ -84,14 +78,14 @@ public class BackgroundServiceSoap {
 		}
 	}
 
-	public static BackgroundSoap addBackground(
-		Background background,
+	public static org.politaktiv.map.infrastructure.model.BackgroundSoap addBackground(
+		org.politaktiv.map.infrastructure.model.BackgroundSoap background,
 		long groupId) throws RemoteException {
 		try {
-			Background returnValue = BackgroundServiceUtil.addBackground(background,
-					groupId);
+			org.politaktiv.map.infrastructure.model.Background returnValue = BackgroundServiceUtil.addBackground(org.politaktiv.map.infrastructure.model.impl.BackgroundModelImpl.toModel(
+						background), groupId);
 
-			return BackgroundSoap.toSoapModel(returnValue);
+			return org.politaktiv.map.infrastructure.model.BackgroundSoap.toSoapModel(returnValue);
 		}
 		catch (Exception e) {
 			_log.error(e, e);

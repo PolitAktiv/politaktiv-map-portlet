@@ -1,15 +1,15 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.service.persistence;
@@ -21,9 +21,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
 import com.liferay.portal.service.ServiceContext;
 
-import org.politaktiv.map.infrastructure.NoSuchMarkerException;
 import org.politaktiv.map.infrastructure.model.Marker;
-import org.politaktiv.map.infrastructure.service.ClpSerializer;
 
 import java.util.List;
 
@@ -63,7 +61,7 @@ public class MarkerUtil {
 	/**
 	 * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
 	 */
-	public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+	public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
 		throws SystemException {
 		return getPersistence().countWithDynamicQuery(dynamicQuery);
 	}
@@ -96,99 +94,18 @@ public class MarkerUtil {
 	}
 
 	/**
-	 * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+	 * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
 	 */
-	public static Marker update(Marker marker, boolean merge)
-		throws SystemException {
-		return getPersistence().update(marker, merge);
+	public static Marker update(Marker marker) throws SystemException {
+		return getPersistence().update(marker);
 	}
 
 	/**
-	 * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
+	 * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
 	 */
-	public static Marker update(Marker marker, boolean merge,
-		ServiceContext serviceContext) throws SystemException {
-		return getPersistence().update(marker, merge, serviceContext);
-	}
-
-	/**
-	* Caches the marker in the entity cache if it is enabled.
-	*
-	* @param marker the marker
-	*/
-	public static void cacheResult(
-		Marker marker) {
-		getPersistence().cacheResult(marker);
-	}
-
-	/**
-	* Caches the markers in the entity cache if it is enabled.
-	*
-	* @param markers the markers
-	*/
-	public static void cacheResult(
-		List<Marker> markers) {
-		getPersistence().cacheResult(markers);
-	}
-
-	/**
-	* Creates a new marker with the primary key. Does not add the marker to the database.
-	*
-	* @param markerId the primary key for the new marker
-	* @return the new marker
-	*/
-	public static Marker create(
-		long markerId) {
-		return getPersistence().create(markerId);
-	}
-
-	/**
-	* Removes the marker with the primary key from the database. Also notifies the appropriate model listeners.
-	*
-	* @param markerId the primary key of the marker
-	* @return the marker that was removed
-	* @throws NoSuchMarkerException if a marker with the primary key could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	public static Marker remove(
-		long markerId)
-		throws SystemException,
-			NoSuchMarkerException {
-		return getPersistence().remove(markerId);
-	}
-
-	public static Marker updateImpl(
-		Marker marker, boolean merge)
+	public static Marker update(Marker marker, ServiceContext serviceContext)
 		throws SystemException {
-		return getPersistence().updateImpl(marker, merge);
-	}
-
-	/**
-	* Returns the marker with the primary key or throws a {@link NoSuchMarkerException} if it could not be found.
-	*
-	* @param markerId the primary key of the marker
-	* @return the marker
-	* @throws NoSuchMarkerException if a marker with the primary key could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	public static Marker findByPrimaryKey(
-		long markerId)
-		throws SystemException,
-			NoSuchMarkerException {
-		return getPersistence().findByPrimaryKey(markerId);
-	}
-
-	/**
-	* Returns the marker with the primary key or returns <code>null</code> if it could not be found.
-	*
-	* @param markerId the primary key of the marker
-	* @return the marker, or <code>null</code> if a marker with the primary key could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	public static Marker fetchByPrimaryKey(
-		long markerId)
-		throws SystemException {
-		return getPersistence().fetchByPrimaryKey(markerId);
+		return getPersistence().update(marker, serviceContext);
 	}
 
 	/**
@@ -198,9 +115,9 @@ public class MarkerUtil {
 	* @return the matching markers
 	* @throws SystemException if a system exception occurred
 	*/
-	public static List<Marker> findBybackgroundId(
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Marker> findBybackgroundId(
 		long backgroundId)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence().findBybackgroundId(backgroundId);
 	}
 
@@ -208,7 +125,7 @@ public class MarkerUtil {
 	* Returns a range of all the markers where backgroundId = &#63;.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.MarkerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param backgroundId the background ID
@@ -217,9 +134,9 @@ public class MarkerUtil {
 	* @return the range of matching markers
 	* @throws SystemException if a system exception occurred
 	*/
-	public static List<Marker> findBybackgroundId(
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Marker> findBybackgroundId(
 		long backgroundId, int start, int end)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence().findBybackgroundId(backgroundId, start, end);
 	}
 
@@ -227,7 +144,7 @@ public class MarkerUtil {
 	* Returns an ordered range of all the markers where backgroundId = &#63;.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.MarkerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param backgroundId the background ID
@@ -237,10 +154,10 @@ public class MarkerUtil {
 	* @return the ordered range of matching markers
 	* @throws SystemException if a system exception occurred
 	*/
-	public static List<Marker> findBybackgroundId(
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Marker> findBybackgroundId(
 		long backgroundId, int start, int end,
-		OrderByComparator orderByComparator)
-		throws SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence()
 				   .findBybackgroundId(backgroundId, start, end,
 			orderByComparator);
@@ -249,118 +166,89 @@ public class MarkerUtil {
 	/**
 	* Returns the first marker in the ordered set where backgroundId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
 	* @param backgroundId the background ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching marker
-	* @throws NoSuchMarkerException if a matching marker could not be found
+	* @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a matching marker could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static Marker findBybackgroundId_First(
+	public static org.politaktiv.map.infrastructure.model.Marker findBybackgroundId_First(
 		long backgroundId,
-		OrderByComparator orderByComparator)
-		throws SystemException,
-			NoSuchMarkerException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			org.politaktiv.map.infrastructure.NoSuchMarkerException {
 		return getPersistence()
 				   .findBybackgroundId_First(backgroundId, orderByComparator);
 	}
 
 	/**
-	* Returns the last marker in the ordered set where backgroundId = &#63;.
+	* Returns the first marker in the ordered set where backgroundId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param backgroundId the background ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching marker, or <code>null</code> if a matching marker could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static org.politaktiv.map.infrastructure.model.Marker fetchBybackgroundId_First(
+		long backgroundId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchBybackgroundId_First(backgroundId, orderByComparator);
+	}
+
+	/**
+	* Returns the last marker in the ordered set where backgroundId = &#63;.
 	*
 	* @param backgroundId the background ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching marker
-	* @throws NoSuchMarkerException if a matching marker could not be found
+	* @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a matching marker could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static Marker findBybackgroundId_Last(
+	public static org.politaktiv.map.infrastructure.model.Marker findBybackgroundId_Last(
 		long backgroundId,
-		OrderByComparator orderByComparator)
-		throws SystemException,
-			NoSuchMarkerException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			org.politaktiv.map.infrastructure.NoSuchMarkerException {
 		return getPersistence()
 				   .findBybackgroundId_Last(backgroundId, orderByComparator);
 	}
 
 	/**
-	* Returns the markers before and after the current marker in the ordered set where backgroundId = &#63;.
+	* Returns the last marker in the ordered set where backgroundId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param backgroundId the background ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching marker, or <code>null</code> if a matching marker could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static org.politaktiv.map.infrastructure.model.Marker fetchBybackgroundId_Last(
+		long backgroundId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchBybackgroundId_Last(backgroundId, orderByComparator);
+	}
+
+	/**
+	* Returns the markers before and after the current marker in the ordered set where backgroundId = &#63;.
 	*
 	* @param markerId the primary key of the current marker
 	* @param backgroundId the background ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next marker
-	* @throws NoSuchMarkerException if a marker with the primary key could not be found
+	* @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a marker with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
-	public static Marker[] findBybackgroundId_PrevAndNext(
+	public static org.politaktiv.map.infrastructure.model.Marker[] findBybackgroundId_PrevAndNext(
 		long markerId, long backgroundId,
-		OrderByComparator orderByComparator)
-		throws SystemException,
-			NoSuchMarkerException {
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			org.politaktiv.map.infrastructure.NoSuchMarkerException {
 		return getPersistence()
 				   .findBybackgroundId_PrevAndNext(markerId, backgroundId,
 			orderByComparator);
-	}
-
-	/**
-	* Returns all the markers.
-	*
-	* @return the markers
-	* @throws SystemException if a system exception occurred
-	*/
-	public static List<Marker> findAll()
-		throws SystemException {
-		return getPersistence().findAll();
-	}
-
-	/**
-	* Returns a range of all the markers.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param start the lower bound of the range of markers
-	* @param end the upper bound of the range of markers (not inclusive)
-	* @return the range of markers
-	* @throws SystemException if a system exception occurred
-	*/
-	public static List<Marker> findAll(
-		int start, int end)
-		throws SystemException {
-		return getPersistence().findAll(start, end);
-	}
-
-	/**
-	* Returns an ordered range of all the markers.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
-	* @param start the lower bound of the range of markers
-	* @param end the upper bound of the range of markers (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of markers
-	* @throws SystemException if a system exception occurred
-	*/
-	public static List<Marker> findAll(
-		int start, int end,
-		OrderByComparator orderByComparator)
-		throws SystemException {
-		return getPersistence().findAll(start, end, orderByComparator);
 	}
 
 	/**
@@ -370,18 +258,8 @@ public class MarkerUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static void removeBybackgroundId(long backgroundId)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		getPersistence().removeBybackgroundId(backgroundId);
-	}
-
-	/**
-	* Removes all the markers from the database.
-	*
-	* @throws SystemException if a system exception occurred
-	*/
-	public static void removeAll()
-		throws SystemException {
-		getPersistence().removeAll();
 	}
 
 	/**
@@ -392,8 +270,147 @@ public class MarkerUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static int countBybackgroundId(long backgroundId)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence().countBybackgroundId(backgroundId);
+	}
+
+	/**
+	* Caches the marker in the entity cache if it is enabled.
+	*
+	* @param marker the marker
+	*/
+	public static void cacheResult(
+		org.politaktiv.map.infrastructure.model.Marker marker) {
+		getPersistence().cacheResult(marker);
+	}
+
+	/**
+	* Caches the markers in the entity cache if it is enabled.
+	*
+	* @param markers the markers
+	*/
+	public static void cacheResult(
+		java.util.List<org.politaktiv.map.infrastructure.model.Marker> markers) {
+		getPersistence().cacheResult(markers);
+	}
+
+	/**
+	* Creates a new marker with the primary key. Does not add the marker to the database.
+	*
+	* @param markerId the primary key for the new marker
+	* @return the new marker
+	*/
+	public static org.politaktiv.map.infrastructure.model.Marker create(
+		long markerId) {
+		return getPersistence().create(markerId);
+	}
+
+	/**
+	* Removes the marker with the primary key from the database. Also notifies the appropriate model listeners.
+	*
+	* @param markerId the primary key of the marker
+	* @return the marker that was removed
+	* @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a marker with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static org.politaktiv.map.infrastructure.model.Marker remove(
+		long markerId)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			org.politaktiv.map.infrastructure.NoSuchMarkerException {
+		return getPersistence().remove(markerId);
+	}
+
+	public static org.politaktiv.map.infrastructure.model.Marker updateImpl(
+		org.politaktiv.map.infrastructure.model.Marker marker)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().updateImpl(marker);
+	}
+
+	/**
+	* Returns the marker with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchMarkerException} if it could not be found.
+	*
+	* @param markerId the primary key of the marker
+	* @return the marker
+	* @throws org.politaktiv.map.infrastructure.NoSuchMarkerException if a marker with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static org.politaktiv.map.infrastructure.model.Marker findByPrimaryKey(
+		long markerId)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			org.politaktiv.map.infrastructure.NoSuchMarkerException {
+		return getPersistence().findByPrimaryKey(markerId);
+	}
+
+	/**
+	* Returns the marker with the primary key or returns <code>null</code> if it could not be found.
+	*
+	* @param markerId the primary key of the marker
+	* @return the marker, or <code>null</code> if a marker with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static org.politaktiv.map.infrastructure.model.Marker fetchByPrimaryKey(
+		long markerId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().fetchByPrimaryKey(markerId);
+	}
+
+	/**
+	* Returns all the markers.
+	*
+	* @return the markers
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Marker> findAll()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findAll();
+	}
+
+	/**
+	* Returns a range of all the markers.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.MarkerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of markers
+	* @param end the upper bound of the range of markers (not inclusive)
+	* @return the range of markers
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Marker> findAll(
+		int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findAll(start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the markers.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.MarkerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of markers
+	* @param end the upper bound of the range of markers (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of markers
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<org.politaktiv.map.infrastructure.model.Marker> findAll(
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findAll(start, end, orderByComparator);
+	}
+
+	/**
+	* Removes all the markers from the database.
+	*
+	* @throws SystemException if a system exception occurred
+	*/
+	public static void removeAll()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getPersistence().removeAll();
 	}
 
 	/**
@@ -403,13 +420,13 @@ public class MarkerUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static int countAll()
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence().countAll();
 	}
 
 	public static MarkerPersistence getPersistence() {
 		if (_persistence == null) {
-			_persistence = (MarkerPersistence)PortletBeanLocatorUtil.locate(ClpSerializer.getServletContextName(),
+			_persistence = (MarkerPersistence)PortletBeanLocatorUtil.locate(org.politaktiv.map.infrastructure.service.ClpSerializer.getServletContextName(),
 					MarkerPersistence.class.getName());
 
 			ReferenceRegistry.registerReference(MarkerUtil.class, "_persistence");
@@ -418,10 +435,10 @@ public class MarkerUtil {
 		return _persistence;
 	}
 
+	/**
+	 * @deprecated As of 6.2.0
+	 */
 	public void setPersistence(MarkerPersistence persistence) {
-		_persistence = persistence;
-
-		ReferenceRegistry.registerReference(MarkerUtil.class, "_persistence");
 	}
 
 	private static MarkerPersistence _persistence;

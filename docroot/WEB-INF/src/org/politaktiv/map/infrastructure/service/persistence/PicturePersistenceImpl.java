@@ -1,21 +1,19 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.service.persistence;
 
-import com.liferay.portal.NoSuchModelException;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
@@ -35,11 +33,10 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnmodifiableList;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
-import com.liferay.portal.service.persistence.BatchSessionUtil;
-import com.liferay.portal.service.persistence.ResourcePersistence;
-import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
 import org.politaktiv.map.infrastructure.NoSuchPictureException;
@@ -77,6 +74,15 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 		".List1";
 	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
 		".List2";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
+			PictureModelImpl.FINDER_CACHE_ENABLED, PictureImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
+			PictureModelImpl.FINDER_CACHE_ENABLED, PictureImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
+	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
+			PictureModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_BACKGROUNDID =
 		new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
 			PictureModelImpl.FINDER_CACHE_ENABLED, PictureImpl.class,
@@ -84,8 +90,8 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 			new String[] {
 				Long.class.getName(),
 				
-			"java.lang.Integer", "java.lang.Integer",
-				"com.liferay.portal.kernel.util.OrderByComparator"
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
 			});
 	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID =
 		new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
@@ -97,405 +103,6 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 			PictureModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBybackgroundId",
 			new String[] { Long.class.getName() });
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_NAME = new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
-			PictureModelImpl.FINDER_CACHE_ENABLED, PictureImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByname",
-			new String[] {
-				String.class.getName(),
-				
-			"java.lang.Integer", "java.lang.Integer",
-				"com.liferay.portal.kernel.util.OrderByComparator"
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_NAME = new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
-			PictureModelImpl.FINDER_CACHE_ENABLED, PictureImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByname",
-			new String[] { String.class.getName() },
-			PictureModelImpl.NAME_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_NAME = new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
-			PictureModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByname",
-			new String[] { String.class.getName() });
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
-			PictureModelImpl.FINDER_CACHE_ENABLED, PictureImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
-			PictureModelImpl.FINDER_CACHE_ENABLED, PictureImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
-			PictureModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-
-	/**
-	 * Caches the picture in the entity cache if it is enabled.
-	 *
-	 * @param picture the picture
-	 */
-	public void cacheResult(Picture picture) {
-		EntityCacheUtil.putResult(PictureModelImpl.ENTITY_CACHE_ENABLED,
-			PictureImpl.class, picture.getPrimaryKey(), picture);
-
-		picture.resetOriginalValues();
-	}
-
-	/**
-	 * Caches the pictures in the entity cache if it is enabled.
-	 *
-	 * @param pictures the pictures
-	 */
-	public void cacheResult(List<Picture> pictures) {
-		for (Picture picture : pictures) {
-			if (EntityCacheUtil.getResult(
-						PictureModelImpl.ENTITY_CACHE_ENABLED,
-						PictureImpl.class, picture.getPrimaryKey()) == null) {
-				cacheResult(picture);
-			}
-			else {
-				picture.resetOriginalValues();
-			}
-		}
-	}
-
-	/**
-	 * Clears the cache for all pictures.
-	 *
-	 * <p>
-	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-	 * </p>
-	 */
-	@Override
-	public void clearCache() {
-		if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
-			CacheRegistryUtil.clear(PictureImpl.class.getName());
-		}
-
-		EntityCacheUtil.clearCache(PictureImpl.class.getName());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	/**
-	 * Clears the cache for the picture.
-	 *
-	 * <p>
-	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-	 * </p>
-	 */
-	@Override
-	public void clearCache(Picture picture) {
-		EntityCacheUtil.removeResult(PictureModelImpl.ENTITY_CACHE_ENABLED,
-			PictureImpl.class, picture.getPrimaryKey());
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	@Override
-	public void clearCache(List<Picture> pictures) {
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		for (Picture picture : pictures) {
-			EntityCacheUtil.removeResult(PictureModelImpl.ENTITY_CACHE_ENABLED,
-				PictureImpl.class, picture.getPrimaryKey());
-		}
-	}
-
-	/**
-	 * Creates a new picture with the primary key. Does not add the picture to the database.
-	 *
-	 * @param pictureId the primary key for the new picture
-	 * @return the new picture
-	 */
-	public Picture create(long pictureId) {
-		Picture picture = new PictureImpl();
-
-		picture.setNew(true);
-		picture.setPrimaryKey(pictureId);
-
-		return picture;
-	}
-
-	/**
-	 * Removes the picture with the primary key from the database. Also notifies the appropriate model listeners.
-	 *
-	 * @param pictureId the primary key of the picture
-	 * @return the picture that was removed
-	 * @throws org.politaktiv.map.infrastructure.NoSuchPictureException if a picture with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public Picture remove(long pictureId)
-		throws NoSuchPictureException, SystemException {
-		return remove(Long.valueOf(pictureId));
-	}
-
-	/**
-	 * Removes the picture with the primary key from the database. Also notifies the appropriate model listeners.
-	 *
-	 * @param primaryKey the primary key of the picture
-	 * @return the picture that was removed
-	 * @throws org.politaktiv.map.infrastructure.NoSuchPictureException if a picture with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	@Override
-	public Picture remove(Serializable primaryKey)
-		throws NoSuchPictureException, SystemException {
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Picture picture = (Picture)session.get(PictureImpl.class, primaryKey);
-
-			if (picture == null) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
-				}
-
-				throw new NoSuchPictureException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
-			}
-
-			return remove(picture);
-		}
-		catch (NoSuchPictureException nsee) {
-			throw nsee;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	@Override
-	protected Picture removeImpl(Picture picture) throws SystemException {
-		picture = toUnwrappedModel(picture);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			BatchSessionUtil.delete(session, picture);
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		clearCache(picture);
-
-		return picture;
-	}
-
-	@Override
-	public Picture updateImpl(
-		Picture picture, boolean merge)
-		throws SystemException {
-		picture = toUnwrappedModel(picture);
-
-		boolean isNew = picture.isNew();
-
-		PictureModelImpl pictureModelImpl = (PictureModelImpl)picture;
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			BatchSessionUtil.update(session, picture, merge);
-
-			picture.setNew(false);
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (isNew || !PictureModelImpl.COLUMN_BITMASK_ENABLED) {
-			FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-
-		else {
-			if ((pictureModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						Long.valueOf(pictureModelImpl.getOriginalBackgroundId())
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_BACKGROUNDID,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID,
-					args);
-
-				args = new Object[] {
-						Long.valueOf(pictureModelImpl.getBackgroundId())
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_BACKGROUNDID,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID,
-					args);
-			}
-
-			if ((pictureModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_NAME.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { pictureModelImpl.getOriginalName() };
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_NAME, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_NAME,
-					args);
-
-				args = new Object[] { pictureModelImpl.getName() };
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_NAME, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_NAME,
-					args);
-			}
-		}
-
-		EntityCacheUtil.putResult(PictureModelImpl.ENTITY_CACHE_ENABLED,
-			PictureImpl.class, picture.getPrimaryKey(), picture);
-
-		return picture;
-	}
-
-	protected Picture toUnwrappedModel(Picture picture) {
-		if (picture instanceof PictureImpl) {
-			return picture;
-		}
-
-		PictureImpl pictureImpl = new PictureImpl();
-
-		pictureImpl.setNew(picture.isNew());
-		pictureImpl.setPrimaryKey(picture.getPrimaryKey());
-
-		pictureImpl.setPictureId(picture.getPictureId());
-		pictureImpl.setCompanyId(picture.getCompanyId());
-		pictureImpl.setGroupId(picture.getGroupId());
-		pictureImpl.setUserId(picture.getUserId());
-		pictureImpl.setName(picture.getName());
-		pictureImpl.setDescription(picture.getDescription());
-		pictureImpl.setReferenceUrl(picture.getReferenceUrl());
-		pictureImpl.setBackgroundId(picture.getBackgroundId());
-		pictureImpl.setRotation(picture.getRotation());
-		pictureImpl.setWidth(picture.getWidth());
-		pictureImpl.setHeight(picture.getHeight());
-		pictureImpl.setResolution(picture.getResolution());
-		pictureImpl.setOcupacy(picture.getOcupacy());
-		pictureImpl.setLongitude(picture.getLongitude());
-		pictureImpl.setLatitude(picture.getLatitude());
-		pictureImpl.setFileEntryUuid(picture.getFileEntryUuid());
-
-		return pictureImpl;
-	}
-
-	/**
-	 * Returns the picture with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
-	 *
-	 * @param primaryKey the primary key of the picture
-	 * @return the picture
-	 * @throws com.liferay.portal.NoSuchModelException if a picture with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	@Override
-	public Picture findByPrimaryKey(Serializable primaryKey)
-		throws NoSuchModelException, SystemException {
-		return findByPrimaryKey(((Long)primaryKey).longValue());
-	}
-
-	/**
-	 * Returns the picture with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchPictureException} if it could not be found.
-	 *
-	 * @param pictureId the primary key of the picture
-	 * @return the picture
-	 * @throws org.politaktiv.map.infrastructure.NoSuchPictureException if a picture with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public Picture findByPrimaryKey(long pictureId)
-		throws NoSuchPictureException, SystemException {
-		Picture picture = fetchByPrimaryKey(pictureId);
-
-		if (picture == null) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + pictureId);
-			}
-
-			throw new NoSuchPictureException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				pictureId);
-		}
-
-		return picture;
-	}
-
-	/**
-	 * Returns the picture with the primary key or returns <code>null</code> if it could not be found.
-	 *
-	 * @param primaryKey the primary key of the picture
-	 * @return the picture, or <code>null</code> if a picture with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	@Override
-	public Picture fetchByPrimaryKey(Serializable primaryKey)
-		throws SystemException {
-		return fetchByPrimaryKey(((Long)primaryKey).longValue());
-	}
-
-	/**
-	 * Returns the picture with the primary key or returns <code>null</code> if it could not be found.
-	 *
-	 * @param pictureId the primary key of the picture
-	 * @return the picture, or <code>null</code> if a picture with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public Picture fetchByPrimaryKey(long pictureId) throws SystemException {
-		Picture picture = (Picture)EntityCacheUtil.getResult(PictureModelImpl.ENTITY_CACHE_ENABLED,
-				PictureImpl.class, pictureId);
-
-		if (picture == _nullPicture) {
-			return null;
-		}
-
-		if (picture == null) {
-			Session session = null;
-
-			boolean hasException = false;
-
-			try {
-				session = openSession();
-
-				picture = (Picture)session.get(PictureImpl.class,
-						Long.valueOf(pictureId));
-			}
-			catch (Exception e) {
-				hasException = true;
-
-				throw processException(e);
-			}
-			finally {
-				if (picture != null) {
-					cacheResult(picture);
-				}
-				else if (!hasException) {
-					EntityCacheUtil.putResult(PictureModelImpl.ENTITY_CACHE_ENABLED,
-						PictureImpl.class, pictureId, _nullPicture);
-				}
-
-				closeSession(session);
-			}
-		}
-
-		return picture;
-	}
 
 	/**
 	 * Returns all the pictures where backgroundId = &#63;.
@@ -504,6 +111,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * @return the matching pictures
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Picture> findBybackgroundId(long backgroundId)
 		throws SystemException {
 		return findBybackgroundId(backgroundId, QueryUtil.ALL_POS,
@@ -514,7 +122,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * Returns a range of all the pictures where backgroundId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.PictureModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param backgroundId the background ID
@@ -523,6 +131,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * @return the range of matching pictures
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Picture> findBybackgroundId(long backgroundId, int start,
 		int end) throws SystemException {
 		return findBybackgroundId(backgroundId, start, end, null);
@@ -532,7 +141,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * Returns an ordered range of all the pictures where backgroundId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.PictureModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param backgroundId the background ID
@@ -542,13 +151,16 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * @return the ordered range of matching pictures
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Picture> findBybackgroundId(long backgroundId, int start,
 		int end, OrderByComparator orderByComparator) throws SystemException {
+		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
+			pagination = false;
 			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID;
 			finderArgs = new Object[] { backgroundId };
 		}
@@ -564,6 +176,16 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 		List<Picture> list = (List<Picture>)FinderCacheUtil.getResult(finderPath,
 				finderArgs, this);
 
+		if ((list != null) && !list.isEmpty()) {
+			for (Picture picture : list) {
+				if ((backgroundId != picture.getBackgroundId())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
 		if (list == null) {
 			StringBundler query = null;
 
@@ -572,7 +194,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 						(orderByComparator.getOrderByFields().length * 3));
 			}
 			else {
-				query = new StringBundler(2);
+				query = new StringBundler(3);
 			}
 
 			query.append(_SQL_SELECT_PICTURE_WHERE);
@@ -582,6 +204,10 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
 					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(PictureModelImpl.ORDER_BY_JPQL);
 			}
 
 			String sql = query.toString();
@@ -597,21 +223,29 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 
 				qPos.add(backgroundId);
 
-				list = (List<Picture>)QueryUtil.list(q, getDialect(), start, end);
+				if (!pagination) {
+					list = (List<Picture>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = new UnmodifiableList<Picture>(list);
+				}
+				else {
+					list = (List<Picture>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
 				throw processException(e);
 			}
 			finally {
-				if (list == null) {
-					FinderCacheUtil.removeResult(finderPath, finderArgs);
-				}
-				else {
-					cacheResult(list);
-
-					FinderCacheUtil.putResult(finderPath, finderArgs, list);
-				}
-
 				closeSession(session);
 			}
 		}
@@ -622,45 +256,58 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	/**
 	 * Returns the first picture in the ordered set where backgroundId = &#63;.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
 	 * @param backgroundId the background ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching picture
 	 * @throws org.politaktiv.map.infrastructure.NoSuchPictureException if a matching picture could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Picture findBybackgroundId_First(long backgroundId,
 		OrderByComparator orderByComparator)
 		throws NoSuchPictureException, SystemException {
+		Picture picture = fetchBybackgroundId_First(backgroundId,
+				orderByComparator);
+
+		if (picture != null) {
+			return picture;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("backgroundId=");
+		msg.append(backgroundId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchPictureException(msg.toString());
+	}
+
+	/**
+	 * Returns the first picture in the ordered set where backgroundId = &#63;.
+	 *
+	 * @param backgroundId the background ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching picture, or <code>null</code> if a matching picture could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Picture fetchBybackgroundId_First(long backgroundId,
+		OrderByComparator orderByComparator) throws SystemException {
 		List<Picture> list = findBybackgroundId(backgroundId, 0, 1,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("backgroundId=");
-			msg.append(backgroundId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchPictureException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the last picture in the ordered set where backgroundId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param backgroundId the background ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -668,37 +315,58 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * @throws org.politaktiv.map.infrastructure.NoSuchPictureException if a matching picture could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Picture findBybackgroundId_Last(long backgroundId,
 		OrderByComparator orderByComparator)
 		throws NoSuchPictureException, SystemException {
+		Picture picture = fetchBybackgroundId_Last(backgroundId,
+				orderByComparator);
+
+		if (picture != null) {
+			return picture;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("backgroundId=");
+		msg.append(backgroundId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchPictureException(msg.toString());
+	}
+
+	/**
+	 * Returns the last picture in the ordered set where backgroundId = &#63;.
+	 *
+	 * @param backgroundId the background ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching picture, or <code>null</code> if a matching picture could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Picture fetchBybackgroundId_Last(long backgroundId,
+		OrderByComparator orderByComparator) throws SystemException {
 		int count = countBybackgroundId(backgroundId);
+
+		if (count == 0) {
+			return null;
+		}
 
 		List<Picture> list = findBybackgroundId(backgroundId, count - 1, count,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("backgroundId=");
-			msg.append(backgroundId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchPictureException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the pictures before and after the current picture in the ordered set where backgroundId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param pictureId the primary key of the current picture
 	 * @param backgroundId the background ID
@@ -707,6 +375,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * @throws org.politaktiv.map.infrastructure.NoSuchPictureException if a picture with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Picture[] findBybackgroundId_PrevAndNext(long pictureId,
 		long backgroundId, OrderByComparator orderByComparator)
 		throws NoSuchPictureException, SystemException {
@@ -809,6 +478,9 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 				}
 			}
 		}
+		else {
+			query.append(PictureModelImpl.ORDER_BY_JPQL);
+		}
 
 		String sql = query.toString();
 
@@ -840,12 +512,101 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	}
 
 	/**
+	 * Removes all the pictures where backgroundId = &#63; from the database.
+	 *
+	 * @param backgroundId the background ID
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public void removeBybackgroundId(long backgroundId)
+		throws SystemException {
+		for (Picture picture : findBybackgroundId(backgroundId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(picture);
+		}
+	}
+
+	/**
+	 * Returns the number of pictures where backgroundId = &#63;.
+	 *
+	 * @param backgroundId the background ID
+	 * @return the number of matching pictures
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countBybackgroundId(long backgroundId) throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_BACKGROUNDID;
+
+		Object[] finderArgs = new Object[] { backgroundId };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_PICTURE_WHERE);
+
+			query.append(_FINDER_COLUMN_BACKGROUNDID_BACKGROUNDID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(backgroundId);
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_BACKGROUNDID_BACKGROUNDID_2 = "picture.backgroundId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_NAME = new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
+			PictureModelImpl.FINDER_CACHE_ENABLED, PictureImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByname",
+			new String[] {
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_NAME = new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
+			PictureModelImpl.FINDER_CACHE_ENABLED, PictureImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByname",
+			new String[] { String.class.getName() },
+			PictureModelImpl.NAME_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_NAME = new FinderPath(PictureModelImpl.ENTITY_CACHE_ENABLED,
+			PictureModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByname",
+			new String[] { String.class.getName() });
+
+	/**
 	 * Returns all the pictures where name = &#63;.
 	 *
 	 * @param name the name
 	 * @return the matching pictures
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Picture> findByname(String name) throws SystemException {
 		return findByname(name, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
@@ -854,7 +615,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * Returns a range of all the pictures where name = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.PictureModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param name the name
@@ -863,6 +624,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * @return the range of matching pictures
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Picture> findByname(String name, int start, int end)
 		throws SystemException {
 		return findByname(name, start, end, null);
@@ -872,7 +634,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * Returns an ordered range of all the pictures where name = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.PictureModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param name the name
@@ -882,13 +644,16 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * @return the ordered range of matching pictures
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Picture> findByname(String name, int start, int end,
 		OrderByComparator orderByComparator) throws SystemException {
+		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
+			pagination = false;
 			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_NAME;
 			finderArgs = new Object[] { name };
 		}
@@ -900,6 +665,16 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 		List<Picture> list = (List<Picture>)FinderCacheUtil.getResult(finderPath,
 				finderArgs, this);
 
+		if ((list != null) && !list.isEmpty()) {
+			for (Picture picture : list) {
+				if (!Validator.equals(name, picture.getName())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
 		if (list == null) {
 			StringBundler query = null;
 
@@ -908,26 +683,32 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 						(orderByComparator.getOrderByFields().length * 3));
 			}
 			else {
-				query = new StringBundler(2);
+				query = new StringBundler(3);
 			}
 
 			query.append(_SQL_SELECT_PICTURE_WHERE);
 
+			boolean bindName = false;
+
 			if (name == null) {
 				query.append(_FINDER_COLUMN_NAME_NAME_1);
 			}
+			else if (name.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_NAME_NAME_3);
+			}
 			else {
-				if (name.equals(StringPool.BLANK)) {
-					query.append(_FINDER_COLUMN_NAME_NAME_3);
-				}
-				else {
-					query.append(_FINDER_COLUMN_NAME_NAME_2);
-				}
+				bindName = true;
+
+				query.append(_FINDER_COLUMN_NAME_NAME_2);
 			}
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
 					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(PictureModelImpl.ORDER_BY_JPQL);
 			}
 
 			String sql = query.toString();
@@ -941,25 +722,33 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (name != null) {
+				if (bindName) {
 					qPos.add(name);
 				}
 
-				list = (List<Picture>)QueryUtil.list(q, getDialect(), start, end);
+				if (!pagination) {
+					list = (List<Picture>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = new UnmodifiableList<Picture>(list);
+				}
+				else {
+					list = (List<Picture>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
 				throw processException(e);
 			}
 			finally {
-				if (list == null) {
-					FinderCacheUtil.removeResult(finderPath, finderArgs);
-				}
-				else {
-					cacheResult(list);
-
-					FinderCacheUtil.putResult(finderPath, finderArgs, list);
-				}
-
 				closeSession(session);
 			}
 		}
@@ -970,44 +759,56 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	/**
 	 * Returns the first picture in the ordered set where name = &#63;.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
 	 * @param name the name
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching picture
 	 * @throws org.politaktiv.map.infrastructure.NoSuchPictureException if a matching picture could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Picture findByname_First(String name,
 		OrderByComparator orderByComparator)
 		throws NoSuchPictureException, SystemException {
+		Picture picture = fetchByname_First(name, orderByComparator);
+
+		if (picture != null) {
+			return picture;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("name=");
+		msg.append(name);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchPictureException(msg.toString());
+	}
+
+	/**
+	 * Returns the first picture in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching picture, or <code>null</code> if a matching picture could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Picture fetchByname_First(String name,
+		OrderByComparator orderByComparator) throws SystemException {
 		List<Picture> list = findByname(name, 0, 1, orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("name=");
-			msg.append(name);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchPictureException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the last picture in the ordered set where name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param name the name
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -1015,37 +816,57 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * @throws org.politaktiv.map.infrastructure.NoSuchPictureException if a matching picture could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Picture findByname_Last(String name,
 		OrderByComparator orderByComparator)
 		throws NoSuchPictureException, SystemException {
+		Picture picture = fetchByname_Last(name, orderByComparator);
+
+		if (picture != null) {
+			return picture;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("name=");
+		msg.append(name);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchPictureException(msg.toString());
+	}
+
+	/**
+	 * Returns the last picture in the ordered set where name = &#63;.
+	 *
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching picture, or <code>null</code> if a matching picture could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Picture fetchByname_Last(String name,
+		OrderByComparator orderByComparator) throws SystemException {
 		int count = countByname(name);
+
+		if (count == 0) {
+			return null;
+		}
 
 		List<Picture> list = findByname(name, count - 1, count,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("name=");
-			msg.append(name);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchPictureException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the pictures before and after the current picture in the ordered set where name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param pictureId the primary key of the current picture
 	 * @param name the name
@@ -1054,6 +875,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * @throws org.politaktiv.map.infrastructure.NoSuchPictureException if a picture with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public Picture[] findByname_PrevAndNext(long pictureId, String name,
 		OrderByComparator orderByComparator)
 		throws NoSuchPictureException, SystemException {
@@ -1098,16 +920,18 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 
 		query.append(_SQL_SELECT_PICTURE_WHERE);
 
+		boolean bindName = false;
+
 		if (name == null) {
 			query.append(_FINDER_COLUMN_NAME_NAME_1);
 		}
+		else if (name.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_NAME_NAME_3);
+		}
 		else {
-			if (name.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_NAME_NAME_3);
-			}
-			else {
-				query.append(_FINDER_COLUMN_NAME_NAME_2);
-			}
+			bindName = true;
+
+			query.append(_FINDER_COLUMN_NAME_NAME_2);
 		}
 
 		if (orderByComparator != null) {
@@ -1165,6 +989,9 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 				}
 			}
 		}
+		else {
+			query.append(PictureModelImpl.ORDER_BY_JPQL);
+		}
 
 		String sql = query.toString();
 
@@ -1175,7 +1002,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		if (name != null) {
+		if (bindName) {
 			qPos.add(name);
 		}
 
@@ -1198,11 +1025,489 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	}
 
 	/**
+	 * Removes all the pictures where name = &#63; from the database.
+	 *
+	 * @param name the name
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public void removeByname(String name) throws SystemException {
+		for (Picture picture : findByname(name, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(picture);
+		}
+	}
+
+	/**
+	 * Returns the number of pictures where name = &#63;.
+	 *
+	 * @param name the name
+	 * @return the number of matching pictures
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countByname(String name) throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_NAME;
+
+		Object[] finderArgs = new Object[] { name };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_PICTURE_WHERE);
+
+			boolean bindName = false;
+
+			if (name == null) {
+				query.append(_FINDER_COLUMN_NAME_NAME_1);
+			}
+			else if (name.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_NAME_NAME_3);
+			}
+			else {
+				bindName = true;
+
+				query.append(_FINDER_COLUMN_NAME_NAME_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindName) {
+					qPos.add(name);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_NAME_NAME_1 = "picture.name IS NULL";
+	private static final String _FINDER_COLUMN_NAME_NAME_2 = "picture.name = ?";
+	private static final String _FINDER_COLUMN_NAME_NAME_3 = "(picture.name IS NULL OR picture.name = '')";
+
+	public PicturePersistenceImpl() {
+		setModelClass(Picture.class);
+	}
+
+	/**
+	 * Caches the picture in the entity cache if it is enabled.
+	 *
+	 * @param picture the picture
+	 */
+	@Override
+	public void cacheResult(Picture picture) {
+		EntityCacheUtil.putResult(PictureModelImpl.ENTITY_CACHE_ENABLED,
+			PictureImpl.class, picture.getPrimaryKey(), picture);
+
+		picture.resetOriginalValues();
+	}
+
+	/**
+	 * Caches the pictures in the entity cache if it is enabled.
+	 *
+	 * @param pictures the pictures
+	 */
+	@Override
+	public void cacheResult(List<Picture> pictures) {
+		for (Picture picture : pictures) {
+			if (EntityCacheUtil.getResult(
+						PictureModelImpl.ENTITY_CACHE_ENABLED,
+						PictureImpl.class, picture.getPrimaryKey()) == null) {
+				cacheResult(picture);
+			}
+			else {
+				picture.resetOriginalValues();
+			}
+		}
+	}
+
+	/**
+	 * Clears the cache for all pictures.
+	 *
+	 * <p>
+	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+	 * </p>
+	 */
+	@Override
+	public void clearCache() {
+		if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
+			CacheRegistryUtil.clear(PictureImpl.class.getName());
+		}
+
+		EntityCacheUtil.clearCache(PictureImpl.class.getName());
+
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	/**
+	 * Clears the cache for the picture.
+	 *
+	 * <p>
+	 * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+	 * </p>
+	 */
+	@Override
+	public void clearCache(Picture picture) {
+		EntityCacheUtil.removeResult(PictureModelImpl.ENTITY_CACHE_ENABLED,
+			PictureImpl.class, picture.getPrimaryKey());
+
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+	}
+
+	@Override
+	public void clearCache(List<Picture> pictures) {
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		for (Picture picture : pictures) {
+			EntityCacheUtil.removeResult(PictureModelImpl.ENTITY_CACHE_ENABLED,
+				PictureImpl.class, picture.getPrimaryKey());
+		}
+	}
+
+	/**
+	 * Creates a new picture with the primary key. Does not add the picture to the database.
+	 *
+	 * @param pictureId the primary key for the new picture
+	 * @return the new picture
+	 */
+	@Override
+	public Picture create(long pictureId) {
+		Picture picture = new PictureImpl();
+
+		picture.setNew(true);
+		picture.setPrimaryKey(pictureId);
+
+		return picture;
+	}
+
+	/**
+	 * Removes the picture with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param pictureId the primary key of the picture
+	 * @return the picture that was removed
+	 * @throws org.politaktiv.map.infrastructure.NoSuchPictureException if a picture with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Picture remove(long pictureId)
+		throws NoSuchPictureException, SystemException {
+		return remove((Serializable)pictureId);
+	}
+
+	/**
+	 * Removes the picture with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param primaryKey the primary key of the picture
+	 * @return the picture that was removed
+	 * @throws org.politaktiv.map.infrastructure.NoSuchPictureException if a picture with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Picture remove(Serializable primaryKey)
+		throws NoSuchPictureException, SystemException {
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Picture picture = (Picture)session.get(PictureImpl.class, primaryKey);
+
+			if (picture == null) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				}
+
+				throw new NoSuchPictureException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+					primaryKey);
+			}
+
+			return remove(picture);
+		}
+		catch (NoSuchPictureException nsee) {
+			throw nsee;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	@Override
+	protected Picture removeImpl(Picture picture) throws SystemException {
+		picture = toUnwrappedModel(picture);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			if (!session.contains(picture)) {
+				picture = (Picture)session.get(PictureImpl.class,
+						picture.getPrimaryKeyObj());
+			}
+
+			if (picture != null) {
+				session.delete(picture);
+			}
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+
+		if (picture != null) {
+			clearCache(picture);
+		}
+
+		return picture;
+	}
+
+	@Override
+	public Picture updateImpl(
+		org.politaktiv.map.infrastructure.model.Picture picture)
+		throws SystemException {
+		picture = toUnwrappedModel(picture);
+
+		boolean isNew = picture.isNew();
+
+		PictureModelImpl pictureModelImpl = (PictureModelImpl)picture;
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			if (picture.isNew()) {
+				session.save(picture);
+
+				picture.setNew(false);
+			}
+			else {
+				session.merge(picture);
+			}
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+
+		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+
+		if (isNew || !PictureModelImpl.COLUMN_BITMASK_ENABLED) {
+			FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
+
+		else {
+			if ((pictureModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						pictureModelImpl.getOriginalBackgroundId()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_BACKGROUNDID,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID,
+					args);
+
+				args = new Object[] { pictureModelImpl.getBackgroundId() };
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_BACKGROUNDID,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BACKGROUNDID,
+					args);
+			}
+
+			if ((pictureModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_NAME.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { pictureModelImpl.getOriginalName() };
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_NAME, args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_NAME,
+					args);
+
+				args = new Object[] { pictureModelImpl.getName() };
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_NAME, args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_NAME,
+					args);
+			}
+		}
+
+		EntityCacheUtil.putResult(PictureModelImpl.ENTITY_CACHE_ENABLED,
+			PictureImpl.class, picture.getPrimaryKey(), picture);
+
+		return picture;
+	}
+
+	protected Picture toUnwrappedModel(Picture picture) {
+		if (picture instanceof PictureImpl) {
+			return picture;
+		}
+
+		PictureImpl pictureImpl = new PictureImpl();
+
+		pictureImpl.setNew(picture.isNew());
+		pictureImpl.setPrimaryKey(picture.getPrimaryKey());
+
+		pictureImpl.setPictureId(picture.getPictureId());
+		pictureImpl.setCompanyId(picture.getCompanyId());
+		pictureImpl.setGroupId(picture.getGroupId());
+		pictureImpl.setUserId(picture.getUserId());
+		pictureImpl.setName(picture.getName());
+		pictureImpl.setDescription(picture.getDescription());
+		pictureImpl.setReferenceUrl(picture.getReferenceUrl());
+		pictureImpl.setBackgroundId(picture.getBackgroundId());
+		pictureImpl.setRotation(picture.getRotation());
+		pictureImpl.setWidth(picture.getWidth());
+		pictureImpl.setHeight(picture.getHeight());
+		pictureImpl.setResolution(picture.getResolution());
+		pictureImpl.setOcupacy(picture.getOcupacy());
+		pictureImpl.setLongitude(picture.getLongitude());
+		pictureImpl.setLatitude(picture.getLatitude());
+		pictureImpl.setFileEntryUuid(picture.getFileEntryUuid());
+
+		return pictureImpl;
+	}
+
+	/**
+	 * Returns the picture with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+	 *
+	 * @param primaryKey the primary key of the picture
+	 * @return the picture
+	 * @throws org.politaktiv.map.infrastructure.NoSuchPictureException if a picture with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Picture findByPrimaryKey(Serializable primaryKey)
+		throws NoSuchPictureException, SystemException {
+		Picture picture = fetchByPrimaryKey(primaryKey);
+
+		if (picture == null) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			}
+
+			throw new NoSuchPictureException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+				primaryKey);
+		}
+
+		return picture;
+	}
+
+	/**
+	 * Returns the picture with the primary key or throws a {@link org.politaktiv.map.infrastructure.NoSuchPictureException} if it could not be found.
+	 *
+	 * @param pictureId the primary key of the picture
+	 * @return the picture
+	 * @throws org.politaktiv.map.infrastructure.NoSuchPictureException if a picture with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Picture findByPrimaryKey(long pictureId)
+		throws NoSuchPictureException, SystemException {
+		return findByPrimaryKey((Serializable)pictureId);
+	}
+
+	/**
+	 * Returns the picture with the primary key or returns <code>null</code> if it could not be found.
+	 *
+	 * @param primaryKey the primary key of the picture
+	 * @return the picture, or <code>null</code> if a picture with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Picture fetchByPrimaryKey(Serializable primaryKey)
+		throws SystemException {
+		Picture picture = (Picture)EntityCacheUtil.getResult(PictureModelImpl.ENTITY_CACHE_ENABLED,
+				PictureImpl.class, primaryKey);
+
+		if (picture == _nullPicture) {
+			return null;
+		}
+
+		if (picture == null) {
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				picture = (Picture)session.get(PictureImpl.class, primaryKey);
+
+				if (picture != null) {
+					cacheResult(picture);
+				}
+				else {
+					EntityCacheUtil.putResult(PictureModelImpl.ENTITY_CACHE_ENABLED,
+						PictureImpl.class, primaryKey, _nullPicture);
+				}
+			}
+			catch (Exception e) {
+				EntityCacheUtil.removeResult(PictureModelImpl.ENTITY_CACHE_ENABLED,
+					PictureImpl.class, primaryKey);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return picture;
+	}
+
+	/**
+	 * Returns the picture with the primary key or returns <code>null</code> if it could not be found.
+	 *
+	 * @param pictureId the primary key of the picture
+	 * @return the picture, or <code>null</code> if a picture with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Picture fetchByPrimaryKey(long pictureId) throws SystemException {
+		return fetchByPrimaryKey((Serializable)pictureId);
+	}
+
+	/**
 	 * Returns all the pictures.
 	 *
 	 * @return the pictures
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Picture> findAll() throws SystemException {
 		return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
@@ -1211,7 +1516,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * Returns a range of all the pictures.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.PictureModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of pictures
@@ -1219,6 +1524,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * @return the range of pictures
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Picture> findAll(int start, int end) throws SystemException {
 		return findAll(start, end, null);
 	}
@@ -1227,7 +1533,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * Returns an ordered range of all the pictures.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.politaktiv.map.infrastructure.model.impl.PictureModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of pictures
@@ -1236,18 +1542,21 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * @return the ordered range of pictures
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public List<Picture> findAll(int start, int end,
 		OrderByComparator orderByComparator) throws SystemException {
+		boolean pagination = true;
 		FinderPath finderPath = null;
-		Object[] finderArgs = new Object[] { start, end, orderByComparator };
+		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
 			finderArgs = new Object[] { start, end, orderByComparator };
 		}
 
@@ -1271,6 +1580,10 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 			}
 			else {
 				sql = _SQL_SELECT_PICTURE;
+
+				if (pagination) {
+					sql = sql.concat(PictureModelImpl.ORDER_BY_JPQL);
+				}
 			}
 
 			Session session = null;
@@ -1280,30 +1593,29 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 
 				Query q = session.createQuery(sql);
 
-				if (orderByComparator == null) {
+				if (!pagination) {
 					list = (List<Picture>)QueryUtil.list(q, getDialect(),
 							start, end, false);
 
 					Collections.sort(list);
+
+					list = new UnmodifiableList<Picture>(list);
 				}
 				else {
 					list = (List<Picture>)QueryUtil.list(q, getDialect(),
 							start, end);
 				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
 				throw processException(e);
 			}
 			finally {
-				if (list == null) {
-					FinderCacheUtil.removeResult(finderPath, finderArgs);
-				}
-				else {
-					cacheResult(list);
-
-					FinderCacheUtil.putResult(finderPath, finderArgs, list);
-				}
-
 				closeSession(session);
 			}
 		}
@@ -1312,157 +1624,15 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	}
 
 	/**
-	 * Removes all the pictures where backgroundId = &#63; from the database.
-	 *
-	 * @param backgroundId the background ID
-	 * @throws SystemException if a system exception occurred
-	 */
-	public void removeBybackgroundId(long backgroundId)
-		throws SystemException {
-		for (Picture picture : findBybackgroundId(backgroundId)) {
-			remove(picture);
-		}
-	}
-
-	/**
-	 * Removes all the pictures where name = &#63; from the database.
-	 *
-	 * @param name the name
-	 * @throws SystemException if a system exception occurred
-	 */
-	public void removeByname(String name) throws SystemException {
-		for (Picture picture : findByname(name)) {
-			remove(picture);
-		}
-	}
-
-	/**
 	 * Removes all the pictures from the database.
 	 *
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public void removeAll() throws SystemException {
 		for (Picture picture : findAll()) {
 			remove(picture);
 		}
-	}
-
-	/**
-	 * Returns the number of pictures where backgroundId = &#63;.
-	 *
-	 * @param backgroundId the background ID
-	 * @return the number of matching pictures
-	 * @throws SystemException if a system exception occurred
-	 */
-	public int countBybackgroundId(long backgroundId) throws SystemException {
-		Object[] finderArgs = new Object[] { backgroundId };
-
-		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_BACKGROUNDID,
-				finderArgs, this);
-
-		if (count == null) {
-			StringBundler query = new StringBundler(2);
-
-			query.append(_SQL_COUNT_PICTURE_WHERE);
-
-			query.append(_FINDER_COLUMN_BACKGROUNDID_BACKGROUNDID_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				qPos.add(backgroundId);
-
-				count = (Long)q.uniqueResult();
-			}
-			catch (Exception e) {
-				throw processException(e);
-			}
-			finally {
-				if (count == null) {
-					count = Long.valueOf(0);
-				}
-
-				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_BACKGROUNDID,
-					finderArgs, count);
-
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	/**
-	 * Returns the number of pictures where name = &#63;.
-	 *
-	 * @param name the name
-	 * @return the number of matching pictures
-	 * @throws SystemException if a system exception occurred
-	 */
-	public int countByname(String name) throws SystemException {
-		Object[] finderArgs = new Object[] { name };
-
-		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_NAME,
-				finderArgs, this);
-
-		if (count == null) {
-			StringBundler query = new StringBundler(2);
-
-			query.append(_SQL_COUNT_PICTURE_WHERE);
-
-			if (name == null) {
-				query.append(_FINDER_COLUMN_NAME_NAME_1);
-			}
-			else {
-				if (name.equals(StringPool.BLANK)) {
-					query.append(_FINDER_COLUMN_NAME_NAME_3);
-				}
-				else {
-					query.append(_FINDER_COLUMN_NAME_NAME_2);
-				}
-			}
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (name != null) {
-					qPos.add(name);
-				}
-
-				count = (Long)q.uniqueResult();
-			}
-			catch (Exception e) {
-				throw processException(e);
-			}
-			finally {
-				if (count == null) {
-					count = Long.valueOf(0);
-				}
-
-				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_NAME,
-					finderArgs, count);
-
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
 	}
 
 	/**
@@ -1471,6 +1641,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	 * @return the number of pictures
 	 * @throws SystemException if a system exception occurred
 	 */
+	@Override
 	public int countAll() throws SystemException {
 		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
 				FINDER_ARGS_EMPTY, this);
@@ -1484,18 +1655,17 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 				Query q = session.createQuery(_SQL_COUNT_PICTURE);
 
 				count = (Long)q.uniqueResult();
-			}
-			catch (Exception e) {
-				throw processException(e);
-			}
-			finally {
-				if (count == null) {
-					count = Long.valueOf(0);
-				}
 
 				FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL,
 					FINDER_ARGS_EMPTY, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
+					FINDER_ARGS_EMPTY);
 
+				throw processException(e);
+			}
+			finally {
 				closeSession(session);
 			}
 		}
@@ -1517,7 +1687,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 
 				for (String listenerClassName : listenerClassNames) {
 					listenersList.add((ModelListener<Picture>)InstanceFactory.newInstance(
-							listenerClassName));
+							getClassLoader(), listenerClassName));
 				}
 
 				listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
@@ -1531,27 +1701,14 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 	public void destroy() {
 		EntityCacheUtil.removeCache(PictureImpl.class.getName());
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
+		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@BeanReference(type = BackgroundPersistence.class)
-	protected BackgroundPersistence backgroundPersistence;
-	@BeanReference(type = MarkerPersistence.class)
-	protected MarkerPersistence markerPersistence;
-	@BeanReference(type = PicturePersistence.class)
-	protected PicturePersistence picturePersistence;
-	@BeanReference(type = ResourcePersistence.class)
-	protected ResourcePersistence resourcePersistence;
-	@BeanReference(type = UserPersistence.class)
-	protected UserPersistence userPersistence;
 	private static final String _SQL_SELECT_PICTURE = "SELECT picture FROM Picture picture";
 	private static final String _SQL_SELECT_PICTURE_WHERE = "SELECT picture FROM Picture picture WHERE ";
 	private static final String _SQL_COUNT_PICTURE = "SELECT COUNT(picture) FROM Picture picture";
 	private static final String _SQL_COUNT_PICTURE_WHERE = "SELECT COUNT(picture) FROM Picture picture WHERE ";
-	private static final String _FINDER_COLUMN_BACKGROUNDID_BACKGROUNDID_2 = "picture.backgroundId = ?";
-	private static final String _FINDER_COLUMN_NAME_NAME_1 = "picture.name IS NULL";
-	private static final String _FINDER_COLUMN_NAME_NAME_2 = "picture.name = ?";
-	private static final String _FINDER_COLUMN_NAME_NAME_3 = "(picture.name IS NULL OR picture.name = ?)";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "picture.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Picture exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Picture exists with the key {";
@@ -1571,6 +1728,7 @@ public class PicturePersistenceImpl extends BasePersistenceImpl<Picture>
 		};
 
 	private static CacheModel<Picture> _nullPictureCacheModel = new CacheModel<Picture>() {
+			@Override
 			public Picture toEntityModel() {
 				return _nullPicture;
 			}

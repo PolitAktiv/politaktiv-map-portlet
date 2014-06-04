@@ -1,15 +1,15 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.service.http;
@@ -17,21 +17,16 @@ package org.politaktiv.map.infrastructure.service.http;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
-import org.politaktiv.map.infrastructure.model.Marker;
-import org.politaktiv.map.infrastructure.model.MarkerSoap;
 import org.politaktiv.map.infrastructure.service.MarkerServiceUtil;
 
 import java.rmi.RemoteException;
-import java.util.List;
 
 /**
- * <p>
- * This class provides a SOAP utility for the
+ * Provides the SOAP utility for the
  * {@link org.politaktiv.map.infrastructure.service.MarkerServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
- * </p>
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
@@ -51,9 +46,8 @@ import java.util.List;
  * </p>
  *
  * <p>
- * You can see a list of services at
- * http://localhost:8080/api/secure/axis. Set the property
- * <b>axis.servlet.hosts.allowed</b> in portal.properties to configure
+ * You can see a list of services at http://localhost:8080/api/axis. Set the
+ * property <b>axis.servlet.hosts.allowed</b> in portal.properties to configure
  * security.
  * </p>
  *
@@ -61,21 +55,21 @@ import java.util.List;
  * The SOAP utility is only generated for remote services.
  * </p>
  *
- * @author    eichi
- * @see       MarkerServiceHttp
- * @see       org.politaktiv.map.infrastructure.model.MarkerSoap
- * @see       org.politaktiv.map.infrastructure.service.MarkerServiceUtil
+ * @author eichi
+ * @see MarkerServiceHttp
+ * @see org.politaktiv.map.infrastructure.model.MarkerSoap
+ * @see org.politaktiv.map.infrastructure.service.MarkerServiceUtil
  * @generated
  */
 public class MarkerServiceSoap {
-	public static MarkerSoap addMarker(
-		Marker marker, long groupId)
+	public static org.politaktiv.map.infrastructure.model.MarkerSoap addMarker(
+		org.politaktiv.map.infrastructure.model.MarkerSoap marker, long groupId)
 		throws RemoteException {
 		try {
-			Marker returnValue = MarkerServiceUtil.addMarker(marker,
-					groupId);
+			org.politaktiv.map.infrastructure.model.Marker returnValue = MarkerServiceUtil.addMarker(org.politaktiv.map.infrastructure.model.impl.MarkerModelImpl.toModel(
+						marker), groupId);
 
-			return MarkerSoap.toSoapModel(returnValue);
+			return org.politaktiv.map.infrastructure.model.MarkerSoap.toSoapModel(returnValue);
 		}
 		catch (Exception e) {
 			_log.error(e, e);
@@ -84,13 +78,13 @@ public class MarkerServiceSoap {
 		}
 	}
 
-	public static Marker[] findMarkerByBackgroundId(
+	public static org.politaktiv.map.infrastructure.model.MarkerSoap[] findMarkerByBackgroundId(
 		long backgroundId) throws RemoteException {
 		try {
-			List<Marker> returnValue =
+			java.util.List<org.politaktiv.map.infrastructure.model.Marker> returnValue =
 				MarkerServiceUtil.findMarkerByBackgroundId(backgroundId);
 
-			return returnValue.toArray(new Marker[returnValue.size()]);
+			return org.politaktiv.map.infrastructure.model.MarkerSoap.toSoapModels(returnValue);
 		}
 		catch (Exception e) {
 			_log.error(e, e);
@@ -100,7 +94,7 @@ public class MarkerServiceSoap {
 	}
 
 	public static void deleteMarker(long markerId, long userId, long groupId,
-		String portletId) throws RemoteException {
+		java.lang.String portletId) throws RemoteException {
 		try {
 			MarkerServiceUtil.deleteMarker(markerId, userId, groupId, portletId);
 		}

@@ -305,7 +305,7 @@ public class PolitaktivMapPortlet extends MVCPortlet {
 	private void saveCenterAndZoom(ResourceRequest request) throws ValidatorException, SystemException, ReadOnlyException,	IOException {
 		 double lon_center = PaParamUtil.getDouble(request,"lon_center");
 		 double lat_center = PaParamUtil.getDouble(request,"lat_center");
-		 int zoom_center = ParamUtil.getInteger(request,"zoom_center"); //TODO: use PaParamUtil
+		 int zoom_center = ParamUtil.getInteger(request, "zoom_center"); //TODO: use PaParamUtil
 		 long backround_id = PaParamUtil.getLong(request, "background_id");
 		 
 		 System.out.println("saveCenterAndZoom: " + lon_center + lat_center + zoom_center + backround_id);

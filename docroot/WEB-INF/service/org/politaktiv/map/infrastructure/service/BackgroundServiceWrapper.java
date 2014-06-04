@@ -1,35 +1,26 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *        http://www.apache.org/licenses/LICENSE-2.0
- *        
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package org.politaktiv.map.infrastructure.service;
 
-import java.util.List;
-
-import org.politaktiv.map.infrastructure.model.Background;
-
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.security.auth.PrincipalException;
 import com.liferay.portal.service.ServiceWrapper;
 
 /**
- * <p>
- * This class is a wrapper for {@link BackgroundService}.
- * </p>
+ * Provides a wrapper for {@link BackgroundService}.
  *
- * @author    eichi
- * @see       BackgroundService
+ * @author eichi
+ * @see BackgroundService
  * @generated
  */
 public class BackgroundServiceWrapper implements BackgroundService,
@@ -38,44 +29,76 @@ public class BackgroundServiceWrapper implements BackgroundService,
 		_backgroundService = backgroundService;
 	}
 
-	public List<Background> findBycompanyIdAndGroupId(
+	/**
+	* Returns the Spring bean ID for this bean.
+	*
+	* @return the Spring bean ID for this bean
+	*/
+	@Override
+	public java.lang.String getBeanIdentifier() {
+		return _backgroundService.getBeanIdentifier();
+	}
+
+	/**
+	* Sets the Spring bean ID for this bean.
+	*
+	* @param beanIdentifier the Spring bean ID for this bean
+	*/
+	@Override
+	public void setBeanIdentifier(java.lang.String beanIdentifier) {
+		_backgroundService.setBeanIdentifier(beanIdentifier);
+	}
+
+	@Override
+	public java.lang.Object invokeMethod(java.lang.String name,
+		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
+		throws java.lang.Throwable {
+		return _backgroundService.invokeMethod(name, parameterTypes, arguments);
+	}
+
+	@Override
+	public java.util.List<org.politaktiv.map.infrastructure.model.Background> findBycompanyIdAndGroupId(
 		long companyId, long groupId)
-		throws SystemException {
+		throws com.liferay.portal.kernel.exception.SystemException {
 		return _backgroundService.findBycompanyIdAndGroupId(companyId, groupId);
 	}
 
-	public Background addBackground(
-		Background background,
+	@Override
+	public org.politaktiv.map.infrastructure.model.Background addBackground(
+		org.politaktiv.map.infrastructure.model.Background background,
 		long groupId)
-		throws SystemException,
-			PrincipalException {
+		throws com.liferay.portal.kernel.exception.SystemException,
+			com.liferay.portal.security.auth.PrincipalException {
 		return _backgroundService.addBackground(background, groupId);
 	}
 
+	@Override
 	public void deleteBackground(long backgroundId, long groupId)
-		throws PortalException,
-			SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		_backgroundService.deleteBackground(backgroundId, groupId);
 	}
 
 	/**
-	 * @deprecated Renamed to {@link #getWrappedService}
+	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
 	public BackgroundService getWrappedBackgroundService() {
 		return _backgroundService;
 	}
 
 	/**
-	 * @deprecated Renamed to {@link #setWrappedService}
+	 * @deprecated As of 6.1.0, replaced by {@link #setWrappedService}
 	 */
 	public void setWrappedBackgroundService(BackgroundService backgroundService) {
 		_backgroundService = backgroundService;
 	}
 
+	@Override
 	public BackgroundService getWrappedService() {
 		return _backgroundService;
 	}
 
+	@Override
 	public void setWrappedService(BackgroundService backgroundService) {
 		_backgroundService = backgroundService;
 	}
