@@ -593,7 +593,8 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	}
 
 	@Override
-	public int compareTo(Picture picture) {
+	public int compareTo(
+		org.politaktiv.map.infrastructure.model.Picture picture) {
 		return _picture.compareTo(picture);
 	}
 
@@ -603,17 +604,17 @@ public class PictureWrapper implements Picture, ModelWrapper<Picture> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Picture> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<org.politaktiv.map.infrastructure.model.Picture> toCacheModel() {
 		return _picture.toCacheModel();
 	}
 
 	@Override
-	public Picture toEscapedModel() {
+	public org.politaktiv.map.infrastructure.model.Picture toEscapedModel() {
 		return new PictureWrapper(_picture.toEscapedModel());
 	}
 
 	@Override
-	public Picture toUnescapedModel() {
+	public org.politaktiv.map.infrastructure.model.Picture toUnescapedModel() {
 		return new PictureWrapper(_picture.toUnescapedModel());
 	}
 

@@ -431,7 +431,7 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	}
 
 	@Override
-	public int compareTo(Marker marker) {
+	public int compareTo(org.politaktiv.map.infrastructure.model.Marker marker) {
 		return _marker.compareTo(marker);
 	}
 
@@ -441,17 +441,17 @@ public class MarkerWrapper implements Marker, ModelWrapper<Marker> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Marker> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<org.politaktiv.map.infrastructure.model.Marker> toCacheModel() {
 		return _marker.toCacheModel();
 	}
 
 	@Override
-	public Marker toEscapedModel() {
+	public org.politaktiv.map.infrastructure.model.Marker toEscapedModel() {
 		return new MarkerWrapper(_marker.toEscapedModel());
 	}
 
 	@Override
-	public Marker toUnescapedModel() {
+	public org.politaktiv.map.infrastructure.model.Marker toUnescapedModel() {
 		return new MarkerWrapper(_marker.toUnescapedModel());
 	}
 

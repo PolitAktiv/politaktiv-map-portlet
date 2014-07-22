@@ -323,7 +323,8 @@ public class BackgroundWrapper implements Background, ModelWrapper<Background> {
 	}
 
 	@Override
-	public int compareTo(Background background) {
+	public int compareTo(
+		org.politaktiv.map.infrastructure.model.Background background) {
 		return _background.compareTo(background);
 	}
 
@@ -333,17 +334,17 @@ public class BackgroundWrapper implements Background, ModelWrapper<Background> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Background> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<org.politaktiv.map.infrastructure.model.Background> toCacheModel() {
 		return _background.toCacheModel();
 	}
 
 	@Override
-	public Background toEscapedModel() {
+	public org.politaktiv.map.infrastructure.model.Background toEscapedModel() {
 		return new BackgroundWrapper(_background.toEscapedModel());
 	}
 
 	@Override
-	public Background toUnescapedModel() {
+	public org.politaktiv.map.infrastructure.model.Background toUnescapedModel() {
 		return new BackgroundWrapper(_background.toUnescapedModel());
 	}
 
