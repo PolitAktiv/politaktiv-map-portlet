@@ -1,3 +1,9 @@
+
+// Anmerkung: setButton (Zeile 410) komplett auskommentiert, da dessen Logik dazu führt, 
+// dass die Funktion initMap nicht korrekt ausgeführt wird (entweder Skript stoppt oder läuft einfach weiter, bisher nicht herausgefunden)
+
+
+
 var map, layer, namespace, viewmode, toDeleteMarkerId= 0;
 
 function viewSpezifiedInits(){
@@ -7,10 +13,11 @@ function viewSpezifiedInits(){
 	if (permission_to_delete_marker) {
 		setButton("button_delete_marker", "disable", namespace);
 	}
+
 }
 
 function viewSpezifiedPostInit(){
-	setButton("fixPicture", "disable", namespace);
+	   setButton("fixPicture", "disable", namespace);
 	   thePictureFileUuid = firstFolderFileUuid;
 	//layer for adding new picture
 	   theOpacity = 1;
@@ -163,7 +170,6 @@ function initMap(_namespace, _viewmode) {
 	});
 	// map.addControl(new
 	// OpenLayers.Control.LayerSwitcher({'div':OpenLayers.Util.getElement('layerswitcher')}));
-
 	setBackground(backgroundIdToPictureUrlMap[pref_background_id]);
 
 	var click = new OpenLayers.Control.Click();
@@ -276,11 +282,10 @@ function addPictureOverlay(name, pictureUrl, opacity, rotation,posLon, posLat, w
 function setBackground(url) {
 	
 	removeLayers();
-	
 	if (url == "map") {
 		osmLayer = new OpenLayers.Layer.OSM();
 		map.addLayer(osmLayer);
-		map.zoomToMaxExtent();
+		//map.zoomToMaxExtent();
 	} else {
 
 		// set new background with image from url
@@ -388,22 +393,32 @@ function resetMarkerPopups() {
 }
 
 function setButton(name, what, namespace) {
-
-	AUI().use(function(A) {
-
-		var button = A.one('#' + namespace + name);
-
-		if (what == "enable") {
-			button.set('disabled', false);
-			button.ancestor('.aui-button').removeClass('aui-button-disabled');
-		}
-
-		if (what == "disable") {
-			button.set('disabled', true);
-			button.ancestor('.aui-button').addClass('aui-button-disabled');
-		}
-	});
-
+//	
+//	alert("setButtonBreakpoint 1");
+//
+//	AUI().use(function(A) {
+//
+//		var button = A.one('#' + namespace + name);
+//		var disabled = 'disabled';
+//
+//		alert("setButtonBreakpoint 2");
+//		
+//		if (what == "enable") {
+//			button.set('disabled', false);
+//			button.ancestor('.button').removeClass('button-disabled');
+//		}
+//
+//		alert("setButtonBreakpoint 3");
+//		
+//		if (what == "disable") {
+//			alert("setButtonBreakpoint 4");
+//			button[disabled] = true;
+//			alert("setButtonBreakpoint 5");
+//			button.ancestor('.button').addClass('button-disabled');
+//		}
+//		alert("setButtonBreakpoint 6");
+//	});
+//
 }
 
 function deleteMarkerWithId(markerId) {

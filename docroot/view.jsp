@@ -15,47 +15,16 @@
 --%>
 
 <%@ include file="jsp/viewInit.jsp" %>
+<%@ include file="jsp/buttons-javascript.jsp" %> <!-- Das Funktionsauslagerungs-File -->
+<script type="text/javascript" src="buttons.js"></script>
 
 
+<!-------------------------------------- BUTTON MAP MANUAL ----------------------------->
+<% if(permission_to_add_picture || permission_to_add_marker){ %>
+<aui:button name="button_show_map_manual" id="button_show_map_manual" value="help" style="width: 80px;"/>
+<% } %>
 
-<% if(permission_to_add_picture || permission_to_add_marker){  %>
-
- <portlet:renderURL var="manualRenderURL"
-windowState="<%=LiferayWindowState.EXCLUSIVE.toString()%>">
-<portlet:param name="mvcPath" <!--  don not change the name, something strange will happen -->
-value="/jsp/mapPortletManual.jsp"/>
-<portlet:param name="message" value="Hello welcome"/>
-</portlet:renderURL>
-
-
-<aui:button name="button_show_map_manual" id="button_show_map_manual" value="help" style="width: 80px;"/> 
-
-<aui:script>
-AUI().use('aui-base',
-'aui-io-plugin-deprecated',
-'liferay-util-window',
-function(A) {
-A.one('#<portlet:namespace />button_show_map_manual').on('click', function(event){
-var popUpWindow=Liferay.Util.Window.getWindow(
-{
-dialog: {
-	            width: document.documentElement.clientWidth/2.5, 
-	    		height: document.documentElement.clientHeight/2, 
-	            centered: true,
-	            draggable: true,
-	            resizable: true,
-	            modal: false
-}}).plug(A.Plugin.IO,{autoLoad: false}).render();
-popUpWindow.show();
-popUpWindow.titleNode.html("Hilfe für Karte");
-popUpWindow.io.set('uri','<%= manualRenderURL %>');
-popUpWindow.io.start();
-
-});
-});
-</aui:script>
-<% } 
-
+<!-- 
 <script>
 
 function hideAllActionControls(){
@@ -87,8 +56,10 @@ A.one('#<portlet:namespace />image-controls').show();
 });
 }
 </script>
+ -->
 
 <!-------------------------------------- BUTTON DO MARKER ----------------------------->
+<!--  
 <div id="<portlet:namespace />button-do-marker" style="display:inline-block;" >
 <aui:button name="button_do_marker" value="Marker" style="width: 80px;"/>
 </div>
@@ -104,8 +75,9 @@ map.updateSize();
 
 });
 </aui:script>
-
+-->
 <!-------------------------------------- BUTTON DO IMAGE --------------------------------->
+<!-- 
 <div id="<portlet:namespace />button-do-image" style="display:inline-block;">
 <aui:button name="button_do_image" value="Overlay" style="width: 80px;"/>
 </div>
@@ -115,17 +87,17 @@ button.on('click',function(){
 hideAllActionControls();
 A.one('#<portlet:namespace />button-do-image').show();
 A.one('#<portlet:namespace />picture-controls').show();
-<!-- show layer only if one files exists --> e
+
 if(firstFolderFileUuid != "0"){
 pictureAddVectorLayer.setVisibility(true);
 }
 });
 </aui:script>
-
+ -->
 <!-------------------------------------- BUTTON set MARKER ----------------------------->
+<!-- 
 <br />
 <div id="<portlet:namespace />marker-controls-set" style="display:inline-block;"/>
-<!-- TODO: internationalize -->
 <aui:button name="button_set_marker" value="setzen" style="width: 80px;"/>
 </div>
 <aui:script use="aui-button">
@@ -138,7 +110,7 @@ setInitAddMarker();
 addMarkersView.setVisibility(true);
 button.set('value','stop');
 
-} else { <!-- if button is stop -->
+} else { 
 setButton("button_fix_marker", "disable", namespace);
 addMarkersView.setVisibility(false);
 button.set('value','setzen');
@@ -146,10 +118,10 @@ button.set('value','setzen');
 
 });
 </aui:script>
-
+ -->
 <!-------------------------------------- BUTTON fix MARKER ----------------------------->
+<!-- 
 <div id="<portlet:namespace />marker-controls-fix" style="display:inline-block;"/>
-<!-- TODO: internationalize -->
 <aui:button name="button_fix_marker" value="fixieren" style="width: 80px;"/>
 </div>
 <aui:script use="aui-dialog,liferay-portlet-url">
@@ -177,8 +149,10 @@ id: '<portlet:namespace />dialog_add_marker',
         dialog.show();
 });
 </aui:script>
+ -->
 
 <!-------------------------------------- BUTTON delete MARKER ----------------------------->
+<!-- 
 <div id="<portlet:namespace />marker-controls-delete" style="display:inline-block;">
 <aui:button name="button_delete_marker" value="löschen" style="width: 80px;"/>
 </div>
@@ -209,8 +183,9 @@ method: 'POST',
          });
      });
 </aui:script>
-
+ -->
 <!-------------------------------------- BUTTON END for MARKER ----------------------------->
+<!-- 
 <div id="<portlet:namespace />marker-controls-end" style="display:inline-block;">
 <aui:button name="button_end_marker" value="&lt;&lt; zur&uuml;ck" style="width: 80px;"/>
 </div>
@@ -227,16 +202,17 @@ setButton("button_fix_marker", "disable", namespace);
 
      });
 </aui:script>
-
-
+ -->
+<!-- 
 <portlet:actionURL name="fileUpload" var="fileUploadURL" />
 <%
     String fileUploadURLString = fileUploadURL.toString();
 %>
 
 <div id="<portlet:namespace />picture-controls">
-
+ -->
 <!-------------------------------------- BUTTON END for PICTURE ----------------------------->
+<!-- 
 <aui:button name="button_end_picture" value="&lt;&lt; zur&uuml;ck" style="width: 80px;"/>
 <aui:script use="aui-button">
 
@@ -251,7 +227,9 @@ pictureAddVectorLayer.setVisibility(false);
      });
 </aui:script>
 <br />
+ -->
 <!-------------------------------------- FILE upload ----------------------------->
+<!-- 
 1. <%= LanguageUtil.get(pageContext, "upload-picture-drawing") %>:
 <aui:form name="fm" action="<%= fileUploadURLString %>" method="post" enctype="multipart/form-data">
 <aui:input type="file" name="form_file" label="" size="40"/>
@@ -445,22 +423,12 @@ dialog.show();
 </a>
 <% } %>
 <% } %>
-
+ -->
+ 
+ <!-------------------------------------- VIEW MAP  ----------------------------->
 <div id="viewMap" style="width:100%; height:600px;"></div>
 <aui:script>
 
-hideAllActionControls();
-
-<%if(permission_to_add_marker){ %>
-AUI().use(function(A){A.one('#<portlet:namespace />button-do-marker').show();});
-<% } %>
-<%if(permission_to_add_picture){ %>
-AUI().use(function(A){A.one('#<portlet:namespace />button-do-image').show();});
-<% } %>
-
-
-
-<!-- init the map + transfer namespace to javascript -->
 initMap('<portlet:namespace />','view');
 
 <% for(Picture picture: backgroundPictureList){ %>
@@ -486,10 +454,4 @@ addMarkerToDatabaseLayer('<%= marker.getMarkerId() %>',
 
 <% } %>
 
-
-
 </aui:script>
-
-
-
-
