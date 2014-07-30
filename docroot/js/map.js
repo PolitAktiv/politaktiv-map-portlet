@@ -1,5 +1,5 @@
 
-// Anmerkung: setButton (Zeile 410) komplett auskommentiert, da dessen Logik dazu führt, 
+// Anmerkung: Zeilen 413/18  auskommentiert, da dessen Logik dazu führt, 
 // dass die Funktion initMap nicht korrekt ausgeführt wird (entweder Skript stoppt oder läuft einfach weiter, bisher nicht herausgefunden)
 
 
@@ -10,9 +10,11 @@ function viewSpezifiedInits(){
 	if (permission_to_add_marker) {
 		setButton("button_fix_marker", "disable", namespace);
 	}
+	alert("passed fix disable");
 	if (permission_to_delete_marker) {
 		setButton("button_delete_marker", "disable", namespace);
 	}
+	alert("passed delete disable");
 
 }
 
@@ -106,6 +108,8 @@ function initMap(_namespace, _viewmode) {
 	if(viewmode=="view"){
 		viewSpezifiedInits();
 	}
+	
+	alert("passed specified init");
 
 	// der klickhandler
 	OpenLayers.Control.Click = OpenLayers
@@ -155,6 +159,7 @@ function initMap(_namespace, _viewmode) {
 						}
 
 					});
+	alert("passed klickhandler");
 
 	// THE MAP itself
 	map = new OpenLayers.Map(viewmode+'Map', {
@@ -168,6 +173,8 @@ function initMap(_namespace, _viewmode) {
 		numZoomLevels : 19,
 		units : 'm'
 	});
+	alert("passed map itself");
+	
 	// map.addControl(new
 	// OpenLayers.Control.LayerSwitcher({'div':OpenLayers.Util.getElement('layerswitcher')}));
 	setBackground(backgroundIdToPictureUrlMap[pref_background_id]);
@@ -188,10 +195,12 @@ function initMap(_namespace, _viewmode) {
 			return false;
 		};
 	};
+	alert("passed context menu");
 	
 	if(viewmode=="view"){
 		viewSpezifiedPostInit();
 	}
+	alert("passed all");
 	
 }
 
@@ -393,32 +402,24 @@ function resetMarkerPopups() {
 }
 
 function setButton(name, what, namespace) {
-//	
-//	alert("setButtonBreakpoint 1");
-//
-//	AUI().use(function(A) {
-//
-//		var button = A.one('#' + namespace + name);
-//		var disabled = 'disabled';
-//
-//		alert("setButtonBreakpoint 2");
-//		
-//		if (what == "enable") {
-//			button.set('disabled', false);
-//			button.ancestor('.button').removeClass('button-disabled');
-//		}
-//
-//		alert("setButtonBreakpoint 3");
-//		
-//		if (what == "disable") {
-//			alert("setButtonBreakpoint 4");
-//			button[disabled] = true;
-//			alert("setButtonBreakpoint 5");
-//			button.ancestor('.button').addClass('button-disabled');
-//		}
-//		alert("setButtonBreakpoint 6");
-//	});
-//
+	
+
+	AUI().use(function(A) {
+
+		var button = A.one('#' + namespace + name);
+		
+		if (what == "enable") {
+			button.set('disabled', false);
+		//	button.ancestor('.button').removeClass('button-disabled');
+		}
+		
+		if (what == "disable") {
+			button.set('disabled', true);
+		//	button.ancestor('.button').addClass('button-disabled');
+		}
+
+	});
+
 }
 
 function deleteMarkerWithId(markerId) {
