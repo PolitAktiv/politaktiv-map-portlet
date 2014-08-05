@@ -503,9 +503,7 @@
 	<%}%>
 
 	<!-- 	init the map + transfer namespace to javascript -->
-	alert('vor init');
 	initMap('<portlet:namespace />','view');
-	alert('nach init');
 	
 	<%for (Picture picture : backgroundPictureList) {%>
 		addPictureOverlay('<%=picture.getName()%>', 

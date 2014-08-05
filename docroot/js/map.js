@@ -389,7 +389,7 @@ function resetMarkerPopups() {
 
 function setButton(name, what, namespace) {
 
-	AUI().use(function(A) {
+	AUI().use('aui-base', function(A) {
 
 		var button = A.one('#' + namespace + name);
 
@@ -400,6 +400,7 @@ function setButton(name, what, namespace) {
 
 		if (what == "disable") {
 			button.set('disabled', true);
+			alert('anchestor is null');
 			button.ancestor('.aui-button').addClass('aui-button-disabled');
 		}
 	});
