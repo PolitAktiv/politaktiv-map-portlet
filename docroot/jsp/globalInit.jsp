@@ -83,5 +83,4 @@ var portalUrl;
 	var pref_saved_zoom_center = '<%= portletPreferences.getValue("zoom_center", "ERROR_should_not_happend") %>';
 	var pref_background_id = '<%= portletPreferences.getValue("background_id", "ERROR_should_not_happend") %>';
 	var contentPath = "<%=request.getContextPath()%>";
-	
 </aui:script> 
