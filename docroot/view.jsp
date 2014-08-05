@@ -16,8 +16,6 @@
 
 <%@ include file="jsp/viewInit.jsp" %>
 
-
-
 <% if(permission_to_add_picture || permission_to_add_marker){  %>
 <aui:button name="button_show_map_manual" value="help" style="width: 80px;"/> 
 <aui:script use="aui-dialog,liferay-portlet-url">
