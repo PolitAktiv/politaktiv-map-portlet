@@ -30,6 +30,7 @@
 		portletURL.setWindowState('<%=LiferayWindowState.EXCLUSIVE.toString()%>');
 		portletURL.setParameter('jspPage','/jsp/mapPortletManual.jsp');
 		
+		alert('A.Dialog is not a constructor');
 		var dialog = new A.Dialog({
 				id: '<portlet:namespace />dialog_show_map_manual',
 	            title: 'Hilfe für Karte',
