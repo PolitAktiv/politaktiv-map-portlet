@@ -16,34 +16,41 @@
 
 <%@ include file="jsp/viewInit.jsp"%>
 
+<!-------------------------------------- BUTTON DO HELP ----------------------------->
+
+
+ <portlet:renderURL var="manualRenderURL" windowState="<%=LiferayWindowState.EXCLUSIVE.toString()%>">
+	<portlet:param name="mvcPath" value="/jsp/mapPortletManual.jsp"/> <!-- Do not change the name! -->
+	<portlet:param name="message" value="Karten-Portlet"/> <!-- TODO param löschen, Überreste von Code-Kopie aus Internet -->
+</portlet:renderURL>
+
 <%if(permission_to_add_picture || permission_to_add_marker){%>
 	<aui:button name="button_show_map_manual" value="help"
 		style="width: 80px;" />
-	<aui:script use="aui-dialog,liferay-portlet-url">
-		var button = A.one('#<portlet:namespace />button_show_map_manual');
-		button.on('click', function() {
-		
-		var portletURL = new Liferay.PortletURL('RENDER_PHASE');
-		portletURL.setPortletId('<%=portletDisplay.getId()%>');
-		portletURL.setPortletMode('VIEW');
-		portletURL.setSecure(window.location.protocol == 'https:');
-		portletURL.setWindowState('<%=LiferayWindowState.EXCLUSIVE.toString()%>');
-		portletURL.setParameter('jspPage','/jsp/mapPortletManual.jsp');
-		
-		alert('A.Dialog is not a constructor');
-		var dialog = new A.Dialog({
-				id: '<portlet:namespace />dialog_show_map_manual',
-	            title: 'Hilfe für Karte',
-	            width: document.documentElement.clientWidth/2.5, 
-	    		height: document.documentElement.clientHeight/2, 
-	            centered: true,
-	            draggable: true,
-	            resizable: true,
-	            modal: false
-	        }).plug(A.Plugin.IO, {uri: portletURL.toString()}).render();
-	        dialog.show();
-		});
-  </aui:script>
+	<aui:script>
+		AUI().use('aui-base','aui-io-plugin-deprecated','liferay-util-window',
+			function(A) {
+				A.one('#<portlet:namespace />button_show_map_manual').on('click', function(event){
+						var popUpWindow=Liferay.Util.Window.getWindow(
+							{
+								dialog: {
+								width: document.documentElement.clientWidth/2.5,
+								height: document.documentElement.clientHeight/2,
+								centered: true,
+								draggable: true,
+								resizable: true,
+								modal: false
+								}
+							}).plug(A.Plugin.IO,{autoLoad: false}).render();
+						popUpWindow.show();
+						popUpWindow.titleNode.html("Hilfe für Karte");
+						popUpWindow.io.set('uri','<%= manualRenderURL %>');
+						popUpWindow.io.start();
+					}
+				);
+			}
+		);
+</aui:script>
 <%}%>
 
 <script>
@@ -446,7 +453,7 @@
 			portletURL.setPortletMode('VIEW');
 			portletURL.setSecure(window.location.protocol == 'https:');
 			portletURL.setWindowState('<%=LiferayWindowState.EXCLUSIVE.toString()%>
-	');
+			');
 							portletURL.setParameter('jspPage',
 									'/jsp/pictureDetailsPopup.jsp');
 							portletURL.setParameter('userName', userName);
