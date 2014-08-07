@@ -188,32 +188,28 @@
 	<aui:button name="button_delete_marker" value="löschen"
 		style="width: 80px;" />
 </div>
-<aui:script use="aui-dialog">
-	
-	var button = A.one('#<portlet:namespace />button_delete_marker');
-	
-	button.on('click', function() {
-	
-		A.io.request('<%=eventHandlerURL%>', {
-						method: 'POST',
-                        dataType: 'json',
-                        data: {
-                        		action: 'deleteMarker',
-                            	markerId: toDeleteMarkerId
-                        },
-                        on: {
-                            	success: function() {
-                            		var result = this.get('responseData');
-                            		if(result == "success"){
-                            			deleteMarkerWithId(toDeleteMarkerId);
-                            		} else {
-                            			
-                            			alert('Es ist ein Fehler aufgetreten:' + result);
-                            		}
-                            	}
-                        }
-         });
-     });
+<aui:script use="aui-io-request-deprecate">	
+	var button = A.one('#<portlet:namespace />button_delete_marker');	
+	button.on('click', function() {	
+    A.io.request('<%=eventHandlerURL%>', {
+      method: 'POST',
+      dataType: 'json',
+      data: {
+        <portlet:namespace/>action: 'deleteMarker',
+        <portlet:namespace/>markerId: toDeleteMarkerId
+      },
+      on: {
+        success: function() {
+          var result = this.get('responseData');
+          if(result == "success"){
+            deleteMarkerWithId(toDeleteMarkerId);
+          } else {
+	         alert('Es ist ein Fehler aufgetreten:' + result);
+          }
+        }
+      }
+    });
+  });
 </aui:script>
 
 <!-------------------------------------- BUTTON END for MARKER ----------------------------->
