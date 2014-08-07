@@ -452,8 +452,7 @@
 			portletURL.setPortletId('<%=portletDisplay.getId()%>');
 			portletURL.setPortletMode('VIEW');
 			portletURL.setSecure(window.location.protocol == 'https:');
-			portletURL.setWindowState('<%=LiferayWindowState.EXCLUSIVE.toString()%>
-			');
+			portletURL.setWindowState('<%=LiferayWindowState.EXCLUSIVE.toString()%>');
 							portletURL.setParameter('jspPage',
 									'/jsp/pictureDetailsPopup.jsp');
 							portletURL.setParameter('userName', userName);
