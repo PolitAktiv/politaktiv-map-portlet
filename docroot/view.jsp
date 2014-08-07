@@ -188,7 +188,7 @@
 	<aui:button name="button_delete_marker" value="löschen"
 		style="width: 80px;" />
 </div>
-<aui:script use="aui-io-request-deprecate">	
+<aui:script use="aui-io-request-deprecated">	
 	var button = A.one('#<portlet:namespace />button_delete_marker');	
 	button.on('click', function() {	
     A.io.request('<%=eventHandlerURL%>', {
@@ -265,25 +265,24 @@
 		<aui:button type="submit" name="form_upload_button" value="Hochladen" />
 	</aui:form>
 
-	<aui:script use="aui-oi-request">
+	<aui:script use="aui-io-request-deprecated">
 	A.one('#<portlet:namespace />form_upload_button').on('click',function(){
 	
 		var file_path =A.one('#<portlet:namespace />form_file_path').get('value');
 		A.io.request('<%=fileUploadURL%>', {
-						method: 'POST',
-						dataType:'json',
-                        contentType:'multipart/form-data',
-                        data: {
-                        		file: form_file,
-                        },
-                        on: {
-                            	success: function() {
-                            		alert('upload successful');
-                            	}
-                        }
-                    });
-     });
-     
+			method: 'POST',
+			dataType:'json',
+	      contentType:'multipart/form-data',
+	      data: {
+	       <portlet:namespace/>file: form_file,
+	      },
+	      on: {
+	       	success: function() {
+	       		alert('upload successful');
+	       	}
+	      }
+	  });
+  });     
 </aui:script>
 
 
@@ -412,7 +411,7 @@
 
 	<aui:button type="submit" name="button_remove_picture" value="remove" />
 
-	<aui:script use="aui-oi-request">
+	<aui:script use="aui-io-request-deprecated">
 	
 	var pictureIDtoPictureName = {};
 	<%
@@ -427,19 +426,19 @@
 	
 		var remove_picture_id =A.one('#<portlet:namespace />remove_picture').get('value');
 		A.io.request('<%=eventHandlerURL%>', {
-							method: 'POST',
-	                        dataType: 'json',
-                        data: {
-                        		action: 'deletePicture',
-                        		remove_picture_id: remove_picture_id,
-                        },
-                        on: {
-                            	success: function() {
-                            		Liferay.Portlet.refresh('#p_p_id<portlet:namespace />');
-                            	}
-                        }
-                    });
-     });
+			method: 'POST',
+      dataType: 'json',
+      data: {
+    		<portlet:namespace/>action: 'deletePicture',
+    		<portlet:namespace/>remove_picture_id: remove_picture_id,
+      },
+      on: {
+        success: function() {
+          Liferay.Portlet.refresh('#p_p_id<portlet:namespace />');
+        }
+      }
+    });
+	});
      
 </aui:script>
 </div>

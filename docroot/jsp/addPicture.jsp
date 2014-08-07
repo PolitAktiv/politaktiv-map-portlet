@@ -32,7 +32,7 @@
 	
 
 
-<aui:script use="aui-oi-request">
+<aui:script use="aui-oi-request-deprecated">
 	A.one('#<portlet:namespace />button_add_picture').on('click',function(){
 	
 		var map_picture_width = A.one('#<portlet:namespace />map_picture_width').get('value');
@@ -48,39 +48,36 @@
 		var input_description = A.one('#<portlet:namespace />form_input_description').get('value');
 		var input_link = A.one('#<portlet:namespace />form_input_link').get('value');
 		A.io.request('<%= eventHandlerURL %>', {
-						method: 'POST',
-                        dataType: 'json',
-                        data: {
-                        		action: 'addPicture',
-                            	map_picture_width : map_picture_width,
-                            	map_picture_height : map_picture_height,
-                            	map_picture_xpos : map_picture_ypos,
-                            	map_picture_ypos : map_picture_xpos,
-                            	map_picture_resolution : 5.5,
-                            	map_picture_rotation : map_picture_rotation,
-                            	map_picture_opacity : map_picture_opacity,
-                            	map_picture_fileuuid : map_picture_fileuuid,
-                            	map_picture_name : input_name,
-                            	map_picture_description : input_description,
-                            	map_picture_link : input_link
-                        },
-                        on: {
-                            	success: function() {
-                            		var result = this.get('responseData');
-                            		if(isNaN(result)){
-                            			alert('Falsche Eingabe: ' + result);
-                            		} else {
-                            			
-                            			A.DialogMask.hide();
-                     
-                            			A.one('#<portlet:namespace />dialog_add_picture').hide();
-                            			Liferay.Portlet.refresh('#p_p_id<portlet:namespace />');
-                            			
-                            		}
-                            	}
-                        }
-                    });
-     });
+      method: 'POST',
+        dataType: 'json',
+        data: {
+          <portlet:namespace/>action: 'addPicture',
+          <portlet:namespace/>map_picture_width : map_picture_width,
+          <portlet:namespace/>map_picture_height : map_picture_height,
+          <portlet:namespace/>map_picture_xpos : map_picture_ypos,
+          <portlet:namespace/>map_picture_ypos : map_picture_xpos,
+          <portlet:namespace/>map_picture_resolution : 5.5,
+          <portlet:namespace/>map_picture_rotation : map_picture_rotation,
+          <portlet:namespace/>map_picture_opacity : map_picture_opacity,
+          <portlet:namespace/>map_picture_fileuuid : map_picture_fileuuid,
+          <portlet:namespace/>map_picture_name : input_name,
+          <portlet:namespace/>map_picture_description : input_description,
+          <portlet:namespace/>map_picture_link : input_link
+        },
+        on: {
+          success: function() {
+            var result = this.get('responseData');
+            if(isNaN(result)){
+              alert('Falsche Eingabe: ' + result);
+            } else {
+              A.DialogMask.hide();
+              A.one('#<portlet:namespace />dialog_add_picture').hide();
+              Liferay.Portlet.refresh('#p_p_id<portlet:namespace />');
+            }
+          }
+        }
+      });
+   });
 </aui:script>
 
 

@@ -26,7 +26,7 @@
 </aui:form>
 
 
-<aui:script use="aui-io-request-deprecate">
+<aui:script use="aui-io-request-deprecated">
 	A.one('#<portlet:namespace />button_add_marker').on('click',function(){
 	
 		var input_lon =A.one('#<portlet:namespace />form_input_lon').get('value');
