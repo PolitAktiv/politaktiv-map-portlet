@@ -43,7 +43,7 @@
 								}
 							}).plug(A.Plugin.IO,{autoLoad: false}).render();
 						popUpWindow.show();
-						popUpWindow.titleNode.html("Hilfe für Karte");
+						popUpWindow.titleNode.html("Hilfe f&uuml;r Karte");
 						popUpWindow.io.set('uri','<%= manualRenderURL %>');
 						popUpWindow.io.start();
 					}
