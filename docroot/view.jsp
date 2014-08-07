@@ -34,12 +34,12 @@
 						var popUpWindow=Liferay.Util.Window.getWindow(
 							{
 								dialog: {
-								width: document.documentElement.clientWidth/2.5,
-								height: document.documentElement.clientHeight/2,
-								centered: true,
-								draggable: true,
-								resizable: true,
-								modal: false
+								  width: document.documentElement.clientWidth/2.5,
+								  height: document.documentElement.clientHeight/2,
+								  centered: true,
+								  draggable: true,
+								  resizable: true,
+								  modal: false
 								}
 							}).plug(A.Plugin.IO,{autoLoad: false}).render();
 						popUpWindow.show();
@@ -153,30 +153,33 @@
 <aui:button name="button_fix_marker" value="fixieren"
 	style="width: 80px;" />
 </div>
-<aui:script use="aui-dialog,liferay-portlet-url">
+<aui:script use="aui-base,liferay-portlet-url,aui-io-plugin-deprecated,liferay-util-window">
 	var button = A.one('#<portlet:namespace />button_fix_marker');
 	button.on('click', function() {
-	
-	var portletURL = new Liferay.PortletURL('RENDER_PHASE');
-	portletURL.setPortletId('<%=portletDisplay.getId()%>');
-	portletURL.setPortletMode('VIEW');
-	portletURL.setSecure(window.location.protocol == 'https:');
-	portletURL.setWindowState('<%=LiferayWindowState.EXCLUSIVE.toString()%>');
-	portletURL.setParameter('jspPage','/jsp/addMarker.jsp');
-	portletURL.setParameter('lon',marker_add_lon);
-	portletURL.setParameter('lat',marker_add_lat);
-	
-	var dialog = new A.Dialog({
-			id: '<portlet:namespace />dialog_add_marker',
-            title: 'Marker hinzufügen',
-            width: 500,
-            centered: true,
-            draggable: true,
-            resizable: false,
-            modal: false
-        }).plug(A.Plugin.IO, {uri: portletURL.toString()}).render();
-        dialog.show();
-	});
+		var portletURL = new Liferay.PortletURL('RENDER_PHASE');
+		portletURL.setPortletId('<%=portletDisplay.getId()%>');
+		portletURL.setPortletMode('VIEW');
+		portletURL.setSecure(window.location.protocol == 'https:');
+		portletURL.setWindowState('<%=LiferayWindowState.EXCLUSIVE.toString()%>');
+		portletURL.setParameter('jspPage','/jsp/addMarker.jsp');
+		portletURL.setParameter('lon',marker_add_lon);
+		portletURL.setParameter('lat',marker_add_lat);
+	        
+    var popUpWindow=Liferay.Util.Window.getWindow({
+        dialog: {          
+          width: 500,
+          centered: true,
+          draggable: true,
+          resizable: true,
+          modal: false
+        },
+        id: '<portlet:namespace />dialog_add_marker',
+        title: 'Marker hinzuf&uuml;gen'
+      }).plug(A.Plugin.IO, {autoLoad: false}).render();
+	    popUpWindow.show();	    
+	    popUpWindow.io.set('uri', portletURL.toString());
+	    popUpWindow.io.start();
+  });
 </aui:script>
 
 <!-------------------------------------- BUTTON delete MARKER ----------------------------->
