@@ -357,8 +357,10 @@
 	<aui:button name="fixPicture" value="fix-overlay" />
 
 	<aui:script use="aui-oi-request">
-	A.one('#<portlet:namespace />fixPicture').on('click',function(){
-		var portletURL = new Liferay.PortletURL('RENDER_PHASE');
+     
+     A.one('#<portlet:namespace />fixPicture').on('click', function(event){
+     
+     	var portletURL = new Liferay.PortletURL('RENDER_PHASE');
 		portletURL.setPortletId('<%=portletDisplay.getId()%>');
 		portletURL.setPortletMode('VIEW');
 		portletURL.setSecure(window.location.protocol == 'https:');
@@ -372,18 +374,23 @@
 		portletURL.setParameter('map_picture_rotation',theRotation);
 		portletURL.setParameter('map_picture_opacity',theOpacity);
 		portletURL.setParameter('map_picture_fileuuid',thePictureFileUuid);
-			
-		var dialog = new A.Dialog({
-					id: '<portlet:namespace />dialog_add_picture',
-		            title: 'Bild hinzufügen',
-		            width: 500,
+		
+		var popUpWindow=Liferay.Util.Window.getWindow(
+			{
+				dialog: {
+					width: 500,
 		            centered: true,
 		            draggable: true,
 		            resizable: false,
 		            modal: false
-		        }).plug(A.Plugin.IO, {uri: portletURL.toString()}).render();
-		        dialog.show();
-     });
+				},
+				id: '<portlet:namespace />dialog_add_picture',
+				title: 'Bild hinzuf&uuml;gen'
+			}).plug(A.Plugin.IO,{autoLoad: false}).render();
+		popUpWindow.show();
+		popUpWindow.io.set('uri',portletURL.toString());
+		popUpWindow.io.start();
+	});
      
 	
 	</aui:script>
@@ -445,29 +452,35 @@
 
 <script>
 	function showPictureDetailPopupWithContent(name,userName,description,link){
-		AUI().use('aui-dialog','liferay-portlet-url', function(A){
-			var portletURL = new Liferay.PortletURL('RENDER_PHASE');
-			portletURL.setPortletId('<%=portletDisplay.getId()%>');
-			portletURL.setPortletMode('VIEW');
-			portletURL.setSecure(window.location.protocol == 'https:');
-			portletURL.setWindowState('<%=LiferayWindowState.EXCLUSIVE.toString()%>');
-							portletURL.setParameter('jspPage',
-									'/jsp/pictureDetailsPopup.jsp');
-							portletURL.setParameter('userName', userName);
-							portletURL.setParameter('description', description);
-							portletURL.setParameter('link', link);
 
-							var dialog = new A.Dialog({
-								title : name,
-								centered : true,
-								modal : false,
-								width : 200,
-								height : 200
-							}).plug(A.Plugin.IO, {
-								uri : portletURL.toString()
-							}).render();
-							dialog.show();
-						});
+		
+		AUI().use('aui-base','aui-io-plugin-deprecated','liferay-util-window',
+				function(A) {
+						
+						var portletURL = new Liferay.PortletURL('RENDER_PHASE');
+						portletURL.setPortletId('<%=portletDisplay.getId()%>');
+						portletURL.setPortletMode('VIEW');
+						portletURL.setSecure(window.location.protocol == 'https:');
+						portletURL.setWindowState('<%=LiferayWindowState.EXCLUSIVE.toString()%>');
+						portletURL.setParameter('jspPage', '/jsp/pictureDetailsPopup.jsp');
+						portletURL.setParameter('userName', userName);
+						portletURL.setParameter('description', description);
+						portletURL.setParameter('link', link);
+						var popUpWindow=Liferay.Util.Window.getWindow(
+								{
+									dialog: {
+										centered : true,
+										modal : false,
+										width : 200,
+										height : 200
+									}
+								}).plug(A.Plugin.IO,{autoLoad: false}).render();
+							popUpWindow.show();
+							popUpWindow.titleNode.html(name);
+							popUpWindow.io.set('uri',portletURL.toString());
+							popUpWindow.io.start();
+						}
+			);
 	}
 </script>
 

@@ -70,7 +70,6 @@
             if(isNaN(result)){
               alert('Falsche Eingabe: ' + result);
             } else {
-              A.DialogMask.hide();
               A.one('#<portlet:namespace />dialog_add_picture').hide();
               Liferay.Portlet.refresh('#p_p_id<portlet:namespace />');
             }
