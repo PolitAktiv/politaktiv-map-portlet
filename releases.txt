@@ -1,5 +1,11 @@
 ReleaseNotes:
 
+6.2.1.4 - 08.08.2014
+----------------------
+* Overlay works
+* CSS adaptations
+
+
 6.2.1.3 - 07.08.2014 
 --------------------
 * Migration to Liferay 6.2

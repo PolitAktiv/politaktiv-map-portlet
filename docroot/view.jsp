@@ -26,7 +26,7 @@
 
 <%if(permission_to_add_picture || permission_to_add_marker){%>
 	<aui:button name="button_show_map_manual" value="help"
-		style="width: 80px;" />
+		style="width: 90px; float: left;" />
 	<aui:script>
 		AUI().use('aui-base','aui-io-plugin-deprecated','liferay-util-window',
 			function(A) {
@@ -85,9 +85,8 @@
 </script>
 
 <!-------------------------------------- BUTTON DO MARKER ----------------------------->
-<div id="<portlet:namespace />button-do-marker"
-	style="display: inline-block;">
-	<aui:button name="button_do_marker" value="Marker" style="width: 80px;" />
+<div id="<portlet:namespace />button-do-marker" style="float: left;">
+	<aui:button name="button_do_marker" value="Marker" style="width: 90px;" />
 </div>
 <aui:script use="aui-button">
 	var button = A.one('#<portlet:namespace />button_do_marker');
@@ -103,9 +102,8 @@
 </aui:script>
 
 <!-------------------------------------- BUTTON DO IMAGE --------------------------------->
-<div id="<portlet:namespace />button-do-image"
-	style="display: inline-block;">
-	<aui:button name="button_do_image" value="Overlay" style="width: 80px;" />
+<div id="<portlet:namespace />button-do-image">
+	<aui:button name="button_do_image" value="Overlay" style="width: 90px; float:left;" />
 </div>
 <aui:script use="aui-button">
 	var button = A.one('#<portlet:namespace />button_do_image');
@@ -122,10 +120,11 @@
 
 <!-------------------------------------- BUTTON set MARKER ----------------------------->
 <br />
+<br />
 <div id="<portlet:namespace />marker-controls-set"
 	style="display: inline-block;" />
 <!-- TODO: internationalize -->
-<aui:button name="button_set_marker" value="setzen" style="width: 80px;" />
+<aui:button name="button_set_marker" value="setzen" style="width: 90px; float: left;" />
 </div>
 <aui:script use="aui-button">
 	var button = A.one('#<portlet:namespace />button_set_marker');
@@ -148,10 +147,10 @@
 
 <!-------------------------------------- BUTTON fix MARKER ----------------------------->
 <div id="<portlet:namespace />marker-controls-fix"
-	style="display: inline-block;" />
+	style="display: inline-block; float:left;" />
 <!-- TODO: internationalize -->
 <aui:button name="button_fix_marker" value="fixieren"
-	style="width: 80px;" />
+	style="width: 90px;" />
 </div>
 <aui:script use="aui-base,liferay-portlet-url,aui-io-plugin-deprecated,liferay-util-window">
 	var button = A.one('#<portlet:namespace />button_fix_marker');
@@ -186,7 +185,7 @@
 <div id="<portlet:namespace />marker-controls-delete"
 	style="display: inline-block;">
 	<aui:button name="button_delete_marker" value="löschen"
-		style="width: 80px;" />
+		style="width: 90px; float:left" />
 </div>
 <aui:script use="aui-io-request-deprecated">	
 	var button = A.one('#<portlet:namespace />button_delete_marker');	
@@ -215,8 +214,7 @@
 <!-------------------------------------- BUTTON END for MARKER ----------------------------->
 <div id="<portlet:namespace />marker-controls-end"
 	style="display: inline-block;">
-	<aui:button name="button_end_marker" value="&lt;&lt; zur&uuml;ck"
-		style="width: 80px;" />
+	<aui:button name="button_end_marker" value="&lt;&lt; zur&uuml;ck" style="width: 90px;" />
 </div>
 <aui:script use="aui-button">
 	
@@ -240,9 +238,10 @@
 
 <div id="<portlet:namespace />picture-controls">
 
+
+
 	<!-------------------------------------- BUTTON END for PICTURE ----------------------------->
-	<aui:button name="button_end_picture" value="&lt;&lt; zur&uuml;ck"
-		style="width: 80px;" />
+	<aui:button name="button_end_picture" value="&lt;&lt; zur&uuml;ck" style="width: 90px;" />
 	<aui:script use="aui-button">
 	
 	var button = A.one('#<portlet:namespace />button_end_picture');
@@ -256,165 +255,182 @@
      });
 </aui:script>
 	<br />
-	<!-------------------------------------- FILE upload ----------------------------->
-	1.
-	<%=LanguageUtil.get(pageContext, "upload-picture-drawing")%>:
-	<aui:form name="fm" action="<%=fileUploadURLString%>" method="post"
-		enctype="multipart/form-data">
-		<aui:input type="file" name="form_file" label="" size="40" />
-		<aui:button type="submit" name="form_upload_button" value="Hochladen" />
-	</aui:form>
-
-	<aui:script use="aui-io-request-deprecated">
-	A.one('#<portlet:namespace />form_upload_button').on('click',function(){
+	<br />
+		
+	<div id="left-picture-controls">
+		<!-------------------------------------- FILE upload ----------------------------->
+		<span  class="boldInstructions">
+			1.
+			<%=LanguageUtil.get(pageContext, "upload-picture-drawing")%>:
+		</span>
+		<aui:form name="fm" action="<%=fileUploadURLString%>" method="post"
+			enctype="multipart/form-data">
+			<aui:input type="file" name="form_file" label="" size="40" />
+			<aui:button type="submit" name="form_upload_button" value="Hochladen" />
+		</aui:form>
 	
-		var file_path =A.one('#<portlet:namespace />form_file_path').get('value');
-		A.io.request('<%=fileUploadURL%>', {
-			method: 'POST',
-			dataType:'json',
-	      contentType:'multipart/form-data',
-	      data: {
-	       <portlet:namespace/>file: form_file,
-	      },
-	      on: {
-	       	success: function() {
-	       		alert('upload successful');
-	       	}
-	      }
-	  });
-  });     
-</aui:script>
-
-
-	2.
-	<%=LanguageUtil.get(pageContext, "choose-picture-drawing")%>:
-	<aui:form>
-		<aui:select name="pictureSelect" label=""
-			onchange="javascript:setPicture(this.value)">
-
-			<aui:option value='none'>
-					&minus;bitte Ausw&auml;hlen&minus;
-	</aui:option>
-
+		<aui:script use="aui-io-request-deprecated">
+			A.one('#<portlet:namespace />form_upload_button').on('click',function(){
+				
+					var file_path =A.one('#<portlet:namespace />form_file_path').get('value');
+					A.io.request('<%=fileUploadURL%>', {
+						method: 'POST',
+						dataType:'json',
+				      contentType:'multipart/form-data',
+				      data: {
+				       <portlet:namespace/>file: form_file,
+				      },
+				      on: {
+				       	success: function() {
+				       		alert('upload successful');
+				       	}
+				      }
+				  });
+			  });     
+		</aui:script>
+	
+		<span  class="boldInstructions">
+			2.
+			<%=LanguageUtil.get(pageContext, "choose-picture-drawing")%>:
+		</span>
+		<aui:form>
+			<aui:select name="pictureSelect" label=""
+				onchange="javascript:setPicture(this.value)">
+	
+				<aui:option value='none'>
+						&minus;bitte Ausw&auml;hlen&minus;
+		</aui:option>
+	
+				<%
+				    for(FileEntry entry: portletFolderFiles){
+				%>
+				<aui:option value='<%=entry.getUuid()%>'>
+					<%=entry.getTitle()%>
+				</aui:option>
+				<%
+				    }
+				%>
+			</aui:select>
+		</aui:form>
+	</div>
+	<div id="right-picture-controls">
+	
+		<span class="boldInstructions">
+			3.
+			<%=LanguageUtil.get(pageContext, "align-overlay")%>:
+		</span>
+		<table>
+			<tr>
+	
+				<td><%=LanguageUtil.get(pageContext, "width")%>:</td>
+				<td><aui:button name="increasePictureWithBig" value="++"
+						onClick="increasePictureWith(10)" style="width: 30px;" /> <aui:button
+						name="increasePictureWith" value="+"
+						onClick="increasePictureWith(1)" style="width: 30px;" /> <aui:button
+						name="decreasePictureWith" value="-"
+						onClick="decreasePictureWith(1)" style="width: 30px;" /> <aui:button
+						name="decreasePictureWithBig" value="--"
+						onClick="decreasePictureWith(10)" style="width: 30px;" />
+			</tr>
+			<tr>
+				<td><%=LanguageUtil.get(pageContext, "height")%>:</td>
+				<td><aui:button name="increasePictureHeightBig" value="++"
+						onClick="increasePictureHeight(10)" style="width: 30px;" /> <aui:button
+						name="increasePictureHeight" value="+"
+						onClick="increasePictureHeight(1)" style="width: 30px;" /> <aui:button
+						name="decreasePictureHeight" value="-"
+						onClick="decreasePictureHeight(1)" style="width: 30px;" /> <aui:button
+						name="decreasePictureHeightBig" value="--"
+						onClick="decreasePictureHeight(10)" style="width: 30px;" /></td>
+			</tr>
+			<tr>
+				<td><%=LanguageUtil.get(pageContext, "angle")%>:</td>
+				<td><aui:button name="rotatePictureLeftBig" value="&lt;&lt;"
+						onClick="rotatePictureToLeft(10)" style="width: 30px;" /> <aui:button
+						name="rotatePictureLeft" value="&lt;"
+						onClick="rotatePictureToLeft(1)" style="width: 30px;" /> <aui:button
+						name="rotateLictureRight" value="&gt;"
+						onClick="rotatePictureToRight(1)" style="width: 30px;" /> <aui:button
+						name="rotateLictureRightBig" value="&gt;&gt;"
+						onClick="rotatePictureToRight(10)" style="width: 30px;" /></td>
+			</tr>
+			<tr>
+				<td><%=LanguageUtil.get(pageContext, "transparency")%>:</td>
+				<td><aui:button name="decreaseOpacity" value="+"
+						onClick="decreaseOpacity()" style="width: 30px;" /> <aui:button
+						name="increaseOpacity" value="-" onClick="increaseOpacity()"
+						style="width: 30px;" /></td>
+		</table>
+		<span class="boldInstructions">
+			4.
+			<%=LanguageUtil.get(pageContext, "position")%>:
+		</span>
+		<aui:button name="fixPicture" value="fix-overlay" />
+	
+		<aui:script use="aui-oi-request">
+	     
+	     A.one('#<portlet:namespace />fixPicture').on('click', function(event){
+	     
+	     	var portletURL = new Liferay.PortletURL('RENDER_PHASE');
+			portletURL.setPortletId('<%=portletDisplay.getId()%>');
+			portletURL.setPortletMode('VIEW');
+			portletURL.setSecure(window.location.protocol == 'https:');
+			portletURL.setWindowState('<%=LiferayWindowState.EXCLUSIVE.toString()%>');
+			portletURL.setParameter('jspPage','/jsp/addPicture.jsp');
+			portletURL.setParameter('map_picture_width',theWidth);
+			portletURL.setParameter('map_picture_height',theHeight);
+			portletURL.setParameter('map_picture_xpos',pictureAddVectorLayer.features[0].geometry.x);
+			portletURL.setParameter('map_picture_ypos',pictureAddVectorLayer.features[0].geometry.y);
+			portletURL.setParameter('map_picture_resolution', map.getResolution());
+			portletURL.setParameter('map_picture_rotation',theRotation);
+			portletURL.setParameter('map_picture_opacity',theOpacity);
+			portletURL.setParameter('map_picture_fileuuid',thePictureFileUuid);
+			
+			var popUpWindow=Liferay.Util.Window.getWindow(
+				{
+					dialog: {
+						width: 500,
+			            centered: true,
+			            draggable: true,
+			            resizable: false,
+			            modal: false
+					},
+					id: '<portlet:namespace />dialog_add_picture',
+					title: 'Bild hinzuf&uuml;gen'
+				}).plug(A.Plugin.IO,{autoLoad: false}).render();
+			popUpWindow.show();
+			popUpWindow.io.set('uri',portletURL.toString());
+			popUpWindow.io.start();
+		});
+	     
+		
+		</aui:script>
+	</div>
+	<br />
+	<br/>
+	<span class="boldInstructions">
+		<%=LanguageUtil.get(pageContext, "remove-overlay")%>:
+	</span> <br />
+	<div id="remove-picture-container">
+		<aui:select name="remove_picture" label="" onchange="" >
 			<%
-			    for(FileEntry entry: portletFolderFiles){
+			    for(Picture picture: backgroundPictureList){
 			%>
-			<aui:option value='<%=entry.getUuid()%>'>
-				<%=entry.getTitle()%>
+			<%
+			    if(picture.getUserId() == themeDisplay.getUserId()
+						|| is_moderator_or_admin) {
+			%>
+			<aui:option value='<%=picture.getPictureId()%>'>
+				<%=picture.getName()%>
 			</aui:option>
 			<%
 			    }
 			%>
+			<%
+			    }
+			%>
 		</aui:select>
-	</aui:form>
-
-	3.
-	<%=LanguageUtil.get(pageContext, "align-overlay")%>:
-	<table>
-		<tr>
-
-			<td><%=LanguageUtil.get(pageContext, "width")%>:</td>
-			<td><aui:button name="increasePictureWithBig" value="++"
-					onClick="increasePictureWith(10)" style="width: 30px;" /> <aui:button
-					name="increasePictureWith" value="+"
-					onClick="increasePictureWith(1)" style="width: 30px;" /> <aui:button
-					name="decreasePictureWith" value="-"
-					onClick="decreasePictureWith(1)" style="width: 30px;" /> <aui:button
-					name="decreasePictureWithBig" value="--"
-					onClick="decreasePictureWith(10)" style="width: 30px;" />
-		</tr>
-		<tr>
-			<td><%=LanguageUtil.get(pageContext, "height")%>:</td>
-			<td><aui:button name="increasePictureHeightBig" value="++"
-					onClick="increasePictureHeight(10)" style="width: 30px;" /> <aui:button
-					name="increasePictureHeight" value="+"
-					onClick="increasePictureHeight(1)" style="width: 30px;" /> <aui:button
-					name="decreasePictureHeight" value="-"
-					onClick="decreasePictureHeight(1)" style="width: 30px;" /> <aui:button
-					name="decreasePictureHeightBig" value="--"
-					onClick="decreasePictureHeight(10)" style="width: 30px;" /></td>
-		</tr>
-		<tr>
-			<td><%=LanguageUtil.get(pageContext, "angle")%>:</td>
-			<td><aui:button name="rotatePictureLeftBig" value="&lt;&lt;"
-					onClick="rotatePictureToLeft(10)" style="width: 30px;" /> <aui:button
-					name="rotatePictureLeft" value="&lt;"
-					onClick="rotatePictureToLeft(1)" style="width: 30px;" /> <aui:button
-					name="rotateLictureRight" value="&gt;"
-					onClick="rotatePictureToRight(1)" style="width: 30px;" /> <aui:button
-					name="rotateLictureRightBig" value="&gt;&gt;"
-					onClick="rotatePictureToRight(10)" style="width: 30px;" /></td>
-		</tr>
-		<tr>
-			<td><%=LanguageUtil.get(pageContext, "transparency")%>:</td>
-			<td><aui:button name="decreaseOpacity" value="+"
-					onClick="decreaseOpacity()" style="width: 30px;" /> <aui:button
-					name="increaseOpacity" value="-" onClick="increaseOpacity()"
-					style="width: 30px;" /></td>
-	</table>
-	4.
-	<%=LanguageUtil.get(pageContext, "position")%>:
-	<aui:button name="fixPicture" value="fix-overlay" />
-
-	<aui:script use="aui-oi-request">
-     
-     A.one('#<portlet:namespace />fixPicture').on('click', function(event){
-     
-     	var portletURL = new Liferay.PortletURL('RENDER_PHASE');
-		portletURL.setPortletId('<%=portletDisplay.getId()%>');
-		portletURL.setPortletMode('VIEW');
-		portletURL.setSecure(window.location.protocol == 'https:');
-		portletURL.setWindowState('<%=LiferayWindowState.EXCLUSIVE.toString()%>');
-		portletURL.setParameter('jspPage','/jsp/addPicture.jsp');
-		portletURL.setParameter('map_picture_width',theWidth);
-		portletURL.setParameter('map_picture_height',theHeight);
-		portletURL.setParameter('map_picture_xpos',pictureAddVectorLayer.features[0].geometry.x);
-		portletURL.setParameter('map_picture_ypos',pictureAddVectorLayer.features[0].geometry.y);
-		portletURL.setParameter('map_picture_resolution', map.getResolution());
-		portletURL.setParameter('map_picture_rotation',theRotation);
-		portletURL.setParameter('map_picture_opacity',theOpacity);
-		portletURL.setParameter('map_picture_fileuuid',thePictureFileUuid);
-		
-		var popUpWindow=Liferay.Util.Window.getWindow(
-			{
-				dialog: {
-					width: 500,
-		            centered: true,
-		            draggable: true,
-		            resizable: false,
-		            modal: false
-				},
-				id: '<portlet:namespace />dialog_add_picture',
-				title: 'Bild hinzuf&uuml;gen'
-			}).plug(A.Plugin.IO,{autoLoad: false}).render();
-		popUpWindow.show();
-		popUpWindow.io.set('uri',portletURL.toString());
-		popUpWindow.io.start();
-	});
-     
-	
-	</aui:script>
-
-	<br />
-	<%=LanguageUtil.get(pageContext, "remove-overlay")%>: <br />
-	<aui:select name="remove_picture" label="" onchange="">
-		<%
-		    for(Picture picture: backgroundPictureList){
-		%>
-		<%
-		    if(picture.getUserId() == themeDisplay.getUserId()
-					|| is_moderator_or_admin) {
-		%>
-		<aui:option value='<%=picture.getPictureId()%>'>
-			<%=picture.getName()%>
-		</aui:option>
-		<%
-		    }
-		%>
-		<%
-		    }
-		%>
-	</aui:select>
+	</div>
 
 	<aui:button type="submit" name="button_remove_picture" value="remove" />
 
@@ -448,11 +464,11 @@
 	});
      
 </aui:script>
+
 </div>
 
 <script>
 	function showPictureDetailPopupWithContent(name,userName,description,link){
-
 		
 		AUI().use('aui-base','aui-io-plugin-deprecated','liferay-util-window',
 				function(A) {
@@ -489,6 +505,7 @@
 %>
 
 <br />
+<br />
 <%=LanguageUtil.get(pageContext, "show-overlay")%>:<%
     for (Picture picture : backgroundPictureList) {
 %>
@@ -507,7 +524,8 @@
 <%
     }
 %>
-
+</br>
+</br>
 <div id="viewMap" style="width: 100%; height: 600px;"></div>
 <aui:script use="aui-base">
 

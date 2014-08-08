@@ -7,3 +7,16 @@ div.olMapViewport {
 img.olTileImage {
 	max-width: 1000%;
 }
+
+#remove-picture-container{
+	float: left;
+}
+
+.boldInstructions{
+	font-weight: bold;
+}
+
+#left-picture-controls{
+	float: left; 
+	margin-right: 50px;
+}
