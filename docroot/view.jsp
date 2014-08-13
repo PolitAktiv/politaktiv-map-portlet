@@ -149,6 +149,8 @@
 <div id="<portlet:namespace />marker-controls-fix"
 	style="display: inline-block; float:left;" />
 <!-- TODO: internationalize -->
+<!-- TODO (Review 13.08.2014/mje): Selbst bei einem dirty hack hättest du hier über css klassen und externe styles nachdenken können - oder?
+Ich sag nur:copy - past "style=width: 90px;" -->
 <aui:button name="button_fix_marker" value="fixieren"
 	style="width: 90px;" />
 </div>
@@ -467,6 +469,7 @@
 
 </div>
 
+<!-- TODO (Review 13.08.2014/mje): Warum nutzt du hier aui-io-plugin-deprecated und weiter oben aui-io-plugin? Bitte vereinheitlichen -->
 <script>
 	function showPictureDetailPopupWithContent(name,userName,description,link){
 		
@@ -492,6 +495,7 @@
 									}
 								}).plug(A.Plugin.IO,{autoLoad: false}).render();
 							popUpWindow.show();
+							// TODO (Review 13.08.2014/mje): Warum setzt du den Titel hier anders (vgl. oben)?
 							popUpWindow.titleNode.html(name);
 							popUpWindow.io.set('uri',portletURL.toString());
 							popUpWindow.io.start();
