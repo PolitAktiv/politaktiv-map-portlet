@@ -151,6 +151,15 @@
 <!-- TODO: internationalize -->
 <!-- TODO (Review 13.08.2014/mje): Selbst bei einem dirty hack hättest du hier über css klassen und externe styles nachdenken können - oder?
 Ich sag nur:copy - past "style=width: 90px;" -->
+<!-- TODO Antwort auf review (sct): wontfix oder extra Forschungstask dafür; Grund:
+CSS nicht so einfach oder nicht effektiv abänderbar; Grund:
+- Element Selektor hat zu wenig gewicht
+- Class Selektor wurde schon vergeben (.aui.btn) -> wenn man die Klasse verändert, ändert man alle Aui-Buttons
+- ID Selektor: Auch eine ID haben die Buttons bereits, diese enthält aber die Portlet Instanz (nicht über externes CSS anfassbar) und ist 
+	nicht hard-code-bar
+- Bleibt nur inline übrig
+Siehe auch: https://www.liferay.com/de/community/forums/-/message_boards/message/12697470  -->
+
 <aui:button name="button_fix_marker" value="fixieren"
 	style="width: 90px;" />
 </div>
@@ -174,10 +183,10 @@ Ich sag nur:copy - past "style=width: 90px;" -->
           resizable: true,
           modal: false
         },
-        id: '<portlet:namespace />dialog_add_marker',
-        title: 'Marker hinzuf&uuml;gen'
+        id: '<portlet:namespace />dialog_add_marker'
       }).plug(A.Plugin.IO, {autoLoad: false}).render();
-	    popUpWindow.show();	    
+	    popUpWindow.show();	 
+	    popUpWindow.titleNode.html('Marker hinzuf&uuml;gen');   
 	    popUpWindow.io.set('uri', portletURL.toString());
 	    popUpWindow.io.start();
   });
@@ -397,10 +406,10 @@ Ich sag nur:copy - past "style=width: 90px;" -->
 			            resizable: false,
 			            modal: false
 					},
-					id: '<portlet:namespace />dialog_add_picture',
-					title: 'Bild hinzuf&uuml;gen'
+					id: '<portlet:namespace />dialog_add_picture'
 				}).plug(A.Plugin.IO,{autoLoad: false}).render();
 			popUpWindow.show();
+			popUpWindow.titleNode.html('Bild hinzuf&uuml;gen');
 			popUpWindow.io.set('uri',portletURL.toString());
 			popUpWindow.io.start();
 		});
@@ -469,7 +478,6 @@ Ich sag nur:copy - past "style=width: 90px;" -->
 
 </div>
 
-<!-- TODO (Review 13.08.2014/mje): Warum nutzt du hier aui-io-plugin-deprecated und weiter oben aui-io-plugin? Bitte vereinheitlichen -->
 <script>
 	function showPictureDetailPopupWithContent(name,userName,description,link){
 		
@@ -495,7 +503,6 @@ Ich sag nur:copy - past "style=width: 90px;" -->
 									}
 								}).plug(A.Plugin.IO,{autoLoad: false}).render();
 							popUpWindow.show();
-							// TODO (Review 13.08.2014/mje): Warum setzt du den Titel hier anders (vgl. oben)?
 							popUpWindow.titleNode.html(name);
 							popUpWindow.io.set('uri',portletURL.toString());
 							popUpWindow.io.start();
