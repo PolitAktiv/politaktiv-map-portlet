@@ -51,7 +51,7 @@
  			});
 	</aui:script>
 
-<div id="editMap" style="width: 100%; height: 600px;"></div>
+<div id="editMap"></div>
 <aui:script>
 	initMap('<portlet:namespace />', 'edit');
 </aui:script>

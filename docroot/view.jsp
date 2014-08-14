@@ -26,7 +26,7 @@
 
 <%if(permission_to_add_picture || permission_to_add_marker){%>
 	<aui:button name="button_show_map_manual" value="help"
-		style="width: 90px; float: left;" />
+		/>
 	<aui:script>
 		AUI().use('aui-base','aui-io-plugin-deprecated','liferay-util-window',
 			function(A) {
@@ -85,8 +85,8 @@
 </script>
 
 <!-------------------------------------- BUTTON DO MARKER ----------------------------->
-<div id="<portlet:namespace />button-do-marker" style="float: left;">
-	<aui:button name="button_do_marker" value="Marker" style="width: 90px;" />
+<div id="<portlet:namespace />button-do-marker">
+	<aui:button name="button_do_marker" value="Marker" />
 </div>
 <aui:script use="aui-button">
 	var button = A.one('#<portlet:namespace />button_do_marker');
@@ -103,7 +103,7 @@
 
 <!-------------------------------------- BUTTON DO IMAGE --------------------------------->
 <div id="<portlet:namespace />button-do-image">
-	<aui:button name="button_do_image" value="Overlay" style="width: 90px; float:left;" />
+	<aui:button name="button_do_image" value="Overlay" />
 </div>
 <aui:script use="aui-button">
 	var button = A.one('#<portlet:namespace />button_do_image');
@@ -121,10 +121,9 @@
 <!-------------------------------------- BUTTON set MARKER ----------------------------->
 <br />
 <br />
-<div id="<portlet:namespace />marker-controls-set"
-	style="display: inline-block;" />
+<div id="<portlet:namespace />marker-controls-set"/>
 <!-- TODO: internationalize -->
-<aui:button name="button_set_marker" value="setzen" style="width: 90px; float: left;" />
+<aui:button name="button_set_marker" value="setzen"  />
 </div>
 <aui:script use="aui-button">
 	var button = A.one('#<portlet:namespace />button_set_marker');
@@ -146,22 +145,10 @@
 </aui:script>
 
 <!-------------------------------------- BUTTON fix MARKER ----------------------------->
-<div id="<portlet:namespace />marker-controls-fix"
-	style="display: inline-block; float:left;" />
+<div id="<portlet:namespace />marker-controls-fix"/>
 <!-- TODO: internationalize -->
-<!-- TODO (Review 13.08.2014/mje): Selbst bei einem dirty hack hättest du hier über css klassen und externe styles nachdenken können - oder?
-Ich sag nur:copy - past "style=width: 90px;" -->
-<!-- TODO Antwort auf review (sct): wontfix oder extra Forschungstask dafür; Grund:
-CSS nicht so einfach oder nicht effektiv abänderbar; Grund:
-- Element Selektor hat zu wenig gewicht
-- Class Selektor wurde schon vergeben (.aui.btn) -> wenn man die Klasse verändert, ändert man alle Aui-Buttons
-- ID Selektor: Auch eine ID haben die Buttons bereits, diese enthält aber die Portlet Instanz (nicht über externes CSS anfassbar) und ist 
-	nicht hard-code-bar
-- Bleibt nur inline übrig
-Siehe auch: https://www.liferay.com/de/community/forums/-/message_boards/message/12697470  -->
 
-<aui:button name="button_fix_marker" value="fixieren"
-	style="width: 90px;" />
+<aui:button name="button_fix_marker" value="fixieren" />
 </div>
 <aui:script use="aui-base,liferay-portlet-url,aui-io-plugin-deprecated,liferay-util-window">
 	var button = A.one('#<portlet:namespace />button_fix_marker');
@@ -193,10 +180,8 @@ Siehe auch: https://www.liferay.com/de/community/forums/-/message_boards/message
 </aui:script>
 
 <!-------------------------------------- BUTTON delete MARKER ----------------------------->
-<div id="<portlet:namespace />marker-controls-delete"
-	style="display: inline-block;">
-	<aui:button name="button_delete_marker" value="löschen"
-		style="width: 90px; float:left" />
+<div id="<portlet:namespace />marker-controls-delete">
+	<aui:button name="button_delete_marker" value="löschen"/>
 </div>
 <aui:script use="aui-io-request-deprecated">	
 	var button = A.one('#<portlet:namespace />button_delete_marker');	
@@ -223,9 +208,8 @@ Siehe auch: https://www.liferay.com/de/community/forums/-/message_boards/message
 </aui:script>
 
 <!-------------------------------------- BUTTON END for MARKER ----------------------------->
-<div id="<portlet:namespace />marker-controls-end"
-	style="display: inline-block;">
-	<aui:button name="button_end_marker" value="&lt;&lt; zur&uuml;ck" style="width: 90px;" />
+<div id="<portlet:namespace />marker-controls-end">
+	<aui:button name="button_end_marker" value="&lt;&lt; zur&uuml;ck"/>
 </div>
 <aui:script use="aui-button">
 	
@@ -252,7 +236,7 @@ Siehe auch: https://www.liferay.com/de/community/forums/-/message_boards/message
 
 
 	<!-------------------------------------- BUTTON END for PICTURE ----------------------------->
-	<aui:button name="button_end_picture" value="&lt;&lt; zur&uuml;ck" style="width: 90px;" />
+	<aui:button name="button_end_picture" value="&lt;&lt; zur&uuml;ck" />
 	<aui:script use="aui-button">
 	
 	var button = A.one('#<portlet:namespace />button_end_picture');
@@ -335,43 +319,44 @@ Siehe auch: https://www.liferay.com/de/community/forums/-/message_boards/message
 	
 				<td><%=LanguageUtil.get(pageContext, "width")%>:</td>
 				<td><aui:button name="increasePictureWithBig" value="++"
-						onClick="increasePictureWith(10)" style="width: 30px;" /> <aui:button
+						onClick="increasePictureWith(10)" /> <aui:button
 						name="increasePictureWith" value="+"
-						onClick="increasePictureWith(1)" style="width: 30px;" /> <aui:button
+						onClick="increasePictureWith(1)" /> <aui:button
 						name="decreasePictureWith" value="-"
-						onClick="decreasePictureWith(1)" style="width: 30px;" /> <aui:button
+						onClick="decreasePictureWith(1)"/> <aui:button
 						name="decreasePictureWithBig" value="--"
-						onClick="decreasePictureWith(10)" style="width: 30px;" />
+						onClick="decreasePictureWith(10)"/>
 			</tr>
 			<tr>
 				<td><%=LanguageUtil.get(pageContext, "height")%>:</td>
 				<td><aui:button name="increasePictureHeightBig" value="++"
-						onClick="increasePictureHeight(10)" style="width: 30px;" /> <aui:button
+						onClick="increasePictureHeight(10)"/> <aui:button
 						name="increasePictureHeight" value="+"
-						onClick="increasePictureHeight(1)" style="width: 30px;" /> <aui:button
+						onClick="increasePictureHeight(1)"/> <aui:button
 						name="decreasePictureHeight" value="-"
-						onClick="decreasePictureHeight(1)" style="width: 30px;" /> <aui:button
+						onClick="decreasePictureHeight(1)"/> <aui:button
 						name="decreasePictureHeightBig" value="--"
-						onClick="decreasePictureHeight(10)" style="width: 30px;" /></td>
+						onClick="decreasePictureHeight(10)"/></td>
 			</tr>
 			<tr>
 				<td><%=LanguageUtil.get(pageContext, "angle")%>:</td>
 				<td><aui:button name="rotatePictureLeftBig" value="&lt;&lt;"
-						onClick="rotatePictureToLeft(10)" style="width: 30px;" /> <aui:button
+						onClick="rotatePictureToLeft(10)" /> <aui:button
 						name="rotatePictureLeft" value="&lt;"
-						onClick="rotatePictureToLeft(1)" style="width: 30px;" /> <aui:button
+						onClick="rotatePictureToLeft(1)"  /> <aui:button
 						name="rotateLictureRight" value="&gt;"
-						onClick="rotatePictureToRight(1)" style="width: 30px;" /> <aui:button
+						onClick="rotatePictureToRight(1)" /> <aui:button
 						name="rotateLictureRightBig" value="&gt;&gt;"
-						onClick="rotatePictureToRight(10)" style="width: 30px;" /></td>
+						onClick="rotatePictureToRight(10)" /></td>
 			</tr>
 			<tr>
 				<td><%=LanguageUtil.get(pageContext, "transparency")%>:</td>
 				<td><aui:button name="decreaseOpacity" value="+"
-						onClick="decreaseOpacity()" style="width: 30px;" /> <aui:button
-						name="increaseOpacity" value="-" onClick="increaseOpacity()"
-						style="width: 30px;" /></td>
+						onClick="decreaseOpacity()" /> <aui:button
+						name="increaseOpacity" value="-" onClick="increaseOpacity()"/>
+				</td>
 		</table>
+		</br>
 		<span class="boldInstructions">
 			4.
 			<%=LanguageUtil.get(pageContext, "position")%>:
@@ -521,7 +506,6 @@ Siehe auch: https://www.liferay.com/de/community/forums/-/message_boards/message
     for (Picture picture : backgroundPictureList) {
 %>
 <input
-	style="margin-left: 15px; background-color: #aaa; width: 20px; border: 6px solid #ddd; display: inline-block;"
 	type="checkbox" checked="checked" name="<%=picture.getName()%>"
 	id="<%=picture.getName()%>"
 	onClick="map.getLayersByName('<%=picture.getName()%>')[0].setVisibility(this.checked);">

@@ -1,4 +1,8 @@
-aui-field-input-text.markeroutput {background-color:#777777;}
+/* ---------------- Map --------------- */
+
+aui-field-input-text.markeroutput {
+	background-color:#777777;
+}
 
 div.olMapViewport {
   z-index: 0;
@@ -8,15 +12,69 @@ img.olTileImage {
 	max-width: 1000%;
 }
 
+div #editMap{
+	width: 100%; 
+	height: 600px;
+}
+
+/* ---------------- Container-Floating --------------- */
+
 #remove-picture-container{
 	float: left;
 }
 
-.boldInstructions{
-	font-weight: bold;
-}
 
 #left-picture-controls{
 	float: left; 
 	margin-right: 50px;
+}
+
+div[id$="marker-controls-fix"]{
+	float: left;
+}
+
+/* ---------------- Styles --------------- */
+.boldInstructions{
+	font-weight: bold;
+}
+
+/* ---------------- Buttons --------------- */
+
+/* Explanation: The ID of a button starts with the portlet namespace and ends with its name
+The $, * and ^ in the attribute selector works as regular expressions. 
+$ = "Chose all buttons who's IDs end with ****** " 
+^ = "Chose all buttons who's IDs start with ****** "
+* = "Chose all buttons who's IDs contain ****** "*/
+
+.aui .btn[id$="button_show_map_manual"] , 
+.aui .btn[id$="button_do_marker"],
+.aui .btn[id$="button_do_image"] , 
+.aui .btn[id$="button_set_marker"],
+.aui .btn[id$="button_fix_marker"],
+.aui .btn[id$="button_delete_marker"]  {
+	width: 90px;
+	float: left;
+}
+
+
+.aui .btn[id$="button_end_marker"],  
+.aui .btn[id$="button_end_picture"]{
+	width: 90px; 
+}
+
+.aui .btn[id*="increasePicture"],
+.aui .btn[id*="decreasePicture"],
+.aui .btn[id*="rotatePicture"],
+.aui .btn[id*="creaseOpacity"] /*in-/decrease*/{
+	width: 30px;
+}
+
+
+/* ---------------- Checkboxes --------------- */
+input [type="checkbox"] {
+	margin-left: 15px; 
+	background-color: #aaa; 
+	width: 20px; 
+	border: 6px solid #ddd; 
+	display: inline-block;
 }
