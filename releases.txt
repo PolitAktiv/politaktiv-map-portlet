@@ -1,5 +1,9 @@
 ReleaseNotes:
 
+6.2.1.6 - 29.08.2014
+--------------------
+* portletURL.setSecure(window.location.protocol == 'https:'); - calls removed
+
 6.2.1.5 - 19.08.2014
 ----------------------
 * put inline styles into CSS file
