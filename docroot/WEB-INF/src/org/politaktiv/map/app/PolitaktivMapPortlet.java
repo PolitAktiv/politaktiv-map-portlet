@@ -339,7 +339,9 @@ public class PolitaktivMapPortlet extends MVCPortlet {
 	// ////////////////////VALIDATION MAP OBJECT INPUT
 	// DATATYPES
 	String name = PaParamUtil.getNotEmptyString(request, "name");
+	System.err.println("Vor Parameterprüfung");
 	String description = PaParamUtil.getNotEmptyString(request, "description");
+	System.err.println("Description danach: " + description);
 	String link = PaParamUtil.getNotEmptyString(request, "link");
 	// //////////////////////END VALIDATION
 	// MODEL validation in Repository

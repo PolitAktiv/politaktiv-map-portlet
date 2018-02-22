@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.service.UserLocalServiceUtil;
 
@@ -34,9 +35,10 @@ import com.liferay.portal.service.UserLocalServiceUtil;
  * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link org.politaktiv.map.infrastructure.model.Marker} interface.
  * </p>
  *
- * @author eichi
+ * @author eichi, nott
  */
 public class MarkerImpl extends MarkerBaseImpl {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -64,7 +66,7 @@ private void validateReferenceUrl() throws ValidatorException{
 	
 private void validateDescription() throws ValidatorException{
 		
-		if(!this.getDescription().matches("[a-zA-Z0-9\u00E4\u00F6\u00FC\u00C4\u00D6\u00DC\u00DF ]+")){
+		if( this.getDescription().trim() == "" ){
 			_log.info("marker description invalide");
 			throw new ValidatorException("description",null);
 		}
@@ -72,7 +74,7 @@ private void validateDescription() throws ValidatorException{
 	
 	private void validateName() throws ValidatorException{
 		
-		if(!this.getName().matches("[a-zA-Z0-9\u00E4\u00F6\u00FC\u00C4\u00D6\u00DC\u00DF ]+")){
+		if( this.getName().trim() == "" ){
 			_log.info("marker title invalide");
 			throw new ValidatorException("title",null);
 		}
@@ -102,9 +104,9 @@ private void validateDescription() throws ValidatorException{
 		
 		//TODO: internationalize
 		String html= "";
-		html += "Von " + UserLocalServiceUtil.getUserById(this.getUserId()).getFullName() + "<br />";
-		html += "<h2>" + this.getName() + "</h2>";
-		html += this.getDescription() + "<br />";
+		html += "Von " + HtmlUtil.escape(UserLocalServiceUtil.getUserById(this.getUserId()).getFullName()) + "<br />";
+		html += "<h2>" + HtmlUtil.escape(this.getName()) + "</h2>";
+		html +=		HtmlUtil.escape( this.getDescription()) + "<br />";
 		
 		//only if a link is set, otherwise don't show
 		if(this.getReferenceUrl() != "http://" &&
