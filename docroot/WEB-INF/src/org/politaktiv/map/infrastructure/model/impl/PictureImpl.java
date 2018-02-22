@@ -77,7 +77,7 @@ private void validateReferenceUrl() throws ValidatorException{
 	
 private void validateDescription() throws ValidatorException{
 		
-		if(!this.getDescription().matches("[a-zA-Z0-9\u00E4\u00F6\u00FC\u00C4\u00D6\u00DC\u00DF ]+")){
+		if( this.getDescription().trim() == "" ){
 			_log.info("picture description invalide");
 			throw new ValidatorException("description",null);
 		}
@@ -85,7 +85,7 @@ private void validateDescription() throws ValidatorException{
 	
 	private void validateName() throws ValidatorException, SystemException{
 		
-		if(!this.getName().matches("[a-zA-Z0-9\u00E4\u00F6\u00FC\u00C4\u00D6\u00DC\u00DF ]+")){
+		if(this.getName().trim() == ""){
 			_log.info("picture title invalide");
 			throw new ValidatorException("title",null);
 		}
