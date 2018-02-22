@@ -72,7 +72,7 @@ function viewSpezifiedPostInit(){
 	   pointFeature.attributes.render = "drawAlways";
 	   pictureAddVectorLayer.addFeatures([pointFeature]);
 	   pictureAddVectorLayer.setOpacity(theOpacity);
-	   pictureAddVectorLayer.setVisibility(false);
+	   pictureAddVectorLayer.setVisibility(false); 
 	   
 	   ctrlDragFeature = new OpenLayers.Control.DragFeature(pictureAddVectorLayer);
 	   map.addControl(ctrlDragFeature);
