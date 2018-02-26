@@ -111,7 +111,7 @@
 		hideAllActionControls();
 		A.one('#<portlet:namespace />button-do-image').show();
 		A.one('#<portlet:namespace />picture-controls').show();
-<!-- 		show layer only if one files exists -->  e
+// 		show layer only if one files exists   
 		if(firstFolderFileUuid != "0"){
 			pictureAddVectorLayer.setVisibility(true);
 		}
@@ -135,7 +135,7 @@
 			addMarkersView.setVisibility(true);
 			button.set('value','stop');
 		
-		} else { <!-- if button is stop -->
+		} else { // if button is stop 
 		setButton("button_fix_marker", "disable", namespace);
 			addMarkersView.setVisibility(false);
 			button.set('value','setzen');
